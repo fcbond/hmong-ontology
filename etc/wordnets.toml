@@ -1,0 +1,11 @@
+# Source wordnets for the Hmong Wordnet lookup.
+#
+# English is always required: Cygnet uses it as the interlingual backbone, so a
+# Hmong synset is reachable from an English word through the shared ILI.
+en = ["https://en-word.net/static/english-wordnet-2025.xml.gz"]
+
+# White Hmong (Hmoob Dawb) and Green Mong (Hmoob Ntsuab), both generated from
+# this repository by hmong2lmf.py. The URLs are where the releases will live; the
+# build reads the pre-staged XML from bin/raw_wns/ before trying to fetch them.
+mww = ["https://github.com/fcbond/hmong-ontology/releases/latest/download/hmnont.xml.gz"]
+hnj = ["https://github.com/fcbond/hmong-ontology/releases/latest/download/hmnont-gm.xml.gz"]

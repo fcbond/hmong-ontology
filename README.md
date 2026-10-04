@@ -356,6 +356,48 @@ through the shared ILI. Cygnet is expected as a sibling checkout (`../cygnet`).
 ./run.sh            # serve docs/ and open it in a browser
 ```
 
+### Hosting the lookup locally
+
+**The two databases are not in the repository.** They are 35 MB together, so
+`docs/*.db.gz` is in `.gitignore` and a fresh clone has `docs/index.html` and no
+data. There are two ways to get them, and the first is much shorter.
+
+**Download them.** The lookup is a single HTML file plus two SQLite databases, all
+of it client-side, so any static file server will do:
+
+```sh
+git clone https://github.com/fcbond/hmong-ontology
+cd hmong-ontology
+gh release download --pattern '*.db.gz' --dir docs    # or fetch them by hand
+./run.sh                                              # http://localhost:8801/
+```
+
+`run.sh` uses Cygnet's own server if `../cygnet` is there, and falls back to
+`python3 -m http.server` if it is not; set `PORT` to change the port. Nothing else
+is needed — no Python environment, no wordnets, no Cygnet.
+
+**Or build them**, which reproduces the databases from the data in this repository
+and needs four things beside it:
+
+| | |
+|---|---|
+| `uv` | runs the scripts; the PEP 723 headers declare their own dependencies |
+| `../cygnet` | the lookup generator, and the source of the WN-LMF files below |
+| `../cldf2wn/data/concepticon-ili.tsv` | the Concepticon-to-ILI bridge |
+| `../wold/cldf` | `git clone --depth 1 https://github.com/lexibank/wold.git ../wold` |
+
+```sh
+uv run load_pivots.py --from ../cygnet/bin/raw_wns   # ~29 wordnets into .wn_data
+./build.sh
+./run.sh
+```
+
+`build.sh` degrades rather than failing when something is missing: without the
+Concepticon file, without loaded wordnets, or without the CLDF wordlist it builds
+the lexicons anyway and says on stderr what each absence costs in interlingual
+concepts. The one thing it cannot do without is English WordNet, because every
+linking route goes through it — `load_pivots.py` is what puts it in `.wn_data`.
+
 Cygnet renders the part of speech `x` as **NREF**, non-referential, so the
 classifiers display correctly with no extra work. `docs/relations.json` is
 Cygnet's own file with `classifies` and `classified_by` added, since upstream has
@@ -372,8 +414,9 @@ branch".
 Kinship is where this lexicon most needs *concepts* rather than links. English does
 not lexicalise most of the distinctions Hmong obligatorily makes, so English
 WordNet has no lemma for them: there is no `maternal uncle`, no `paternal uncle
-older than father`, no `brother of a female`. Measured against English WordNet, 21
-of the 37 kinship senses in `kinship.tsv` would have to be proposed from scratch.
+older than father`, no `brother of a female`. Measured against English WordNet, 23
+of the 37 kinship senses in `kinship.tsv` have no English lemma at all: 21 need a
+hypernym proposed, 2 a new concept. The `ILI_STATUS` column records which.
 
 They do not have to be. [KinDiv](https://github.com/kinship-diversity/KinDiv) is a
 database of lexical diversity in the kinship domain — 198 concepts as Murdock kin

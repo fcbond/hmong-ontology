@@ -1,0 +1,34 @@
+{
+  "title": "Hmong Wordnet",
+  "name": "HmongWN",
+  "tagline": "White Hmong and Green Mong, linked to the Interlingual Index",
+  "icon": "🌾",
+  "databases": {
+    "main": {
+      "filename": "hmong.db.gz",
+      "url": "https://github.com/fcbond/hmong-ontology/releases/latest/download/hmong.db.gz",
+      "description": "Main lexical database: White Hmong, Green Mong and English."
+    },
+    "provenance": {
+      "filename": "hmong-provenance.db.gz",
+      "url": "https://github.com/fcbond/hmong-ontology/releases/latest/download/hmong-provenance.db.gz",
+      "description": "Per-row source attribution: which source each entry came from."
+    }
+  },
+  "displayLanguage": "mww",
+  "logo": null,
+  "about": {
+    "intro": "<p>A wordnet for <b>White Hmong</b> (Hmoob Dawb, <code>mww</code>) and <b>Green Mong</b> (Hmoob Ntsuab, <code>hnj</code>), built from a Hmong semantic ontology and five further sources, and linked to the Collaborative Interlingual Index so that an English, Chinese or Thai word and a Hmong word can be looked up through the same concept. <b>2,094 of 3,095</b> White Hmong senses are linked, over <b>1,592</b> concepts.</p><p><b>Green Mong is barely present.</b> 96 lemmas and 15 concepts is a token presence rather than a lexicon, and almost all of it is classifiers and kinship terms. The Green Mong vocabulary is the largest single gap in this resource.</p><p>The lexicon includes the <b>numeral classifier</b> inventory, 235 forms. Classifiers are not referential, so they carry the part of speech <code>x</code> and are attached to the concept <i>classifier</i> by <b>exemplifies</b> rather than by hypernymy; the nouns each one may quantify are given as <b>classifies</b> relations, with <b>classified by</b> in the other direction. Each classifier is labelled in the five-way scheme of Bond and Paik (2000), in White's own subclasses, and in Bisang's, which follows T'sou (1976), so that any of the three analyses can be recovered.</p><p>Every link records the evidence it rests on: 1,710 senses rest on a hand-made concept-set identifier, two independent glosses intersecting, or several languages' wordnets agreeing, and 384 on a single monosemous gloss, which is weaker and is labelled as such. A further 1,001 senses are here unlinked, with their glosses and their semantic category, and 134 of those are staged as annotation sheets in the repository. <b>No fluent speaker has yet checked any of the links.</b></p>",
+    "citation": "If you use this resource, please cite the hmong-ontology repository and White (2021) for the ontology and the classifier, kinship and underspecified-noun data, and Bisang (1993) for the measure words and class nouns.",
+    "languageData": "The lexical data comes from the hmong-ontology repository (Nathan M. White, Language and Culture Research Centre, James Cook University), released under Creative Commons Attribution 4.0 International. The classifier inventory, the kinship paradigm and the classifier-specified compounds are from White (2021), chapter 7 and Tables 29 and 39&ndash;41, which is the base analysis; Bisang (1993), Appendices I and II, supplies the measure words White excludes and the class nouns, with a few further forms from the repository's own stopword list and from studyhmong.com. Vocabulary and Concepticon concept-set identifiers come from the World Loanword Database's White Hmong list (Ratliff), CC BY 4.0. Sense-anchored translations and the translations of the same senses into 25 other languages come from Wiktionary through DBnary, CC BY-SA. Kinship concepts English does not lexicalise are identified by KinDiv, CC BY-SA 3.0."
+  },
+  "publications": [
+    "White, Nathan M. (2021). <em>The Hmong language of North Queensland</em>. PhD thesis, James Cook University. doi:10.25903/f5rd-s089.",
+    "Bisang, Walter (1993). Classifiers, quantifiers and class nouns in Hmong. <em>Studies in Language</em> 17(1): 1&ndash;51.",
+    "Bond, Francis and Kyonghee Paik (2000). Reusing an ontology to generate numeral classifiers. In <em>COLING 2000</em>, 90&ndash;96.",
+    "Morgado da Costa, Lu&iacute;s and Francis Bond (2016). Wow! What a useful extension! Introducing non-referential concepts to Wordnet. In <em>LREC 2016</em>, 4207&ndash;4214.",
+    "Haspelmath, Martin and Uri Tadmor, eds. (2009). <em>World Loanword Database</em>. Max Planck Digital Library.",
+    "S&eacute;rasset, Gilles (2015). DBnary: Wiktionary as a Lemon-based multilingual lexical resource in RDF. <em>Semantic Web</em> 6(4): 355&ndash;361.",
+    "Khishigsuren, Temuulen et al. (2022). Using linguistic typology to enrich multilingual lexicons. In <em>LREC 2022</em>, 4132&ndash;4141."
+  ]
+}

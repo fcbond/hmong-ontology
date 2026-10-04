@@ -1,0 +1,83 @@
+# Hmong kinship terms mapped to KinDiv concepts.
+#
+# KinDiv <https://github.com/.../KinDiv> is a database of lexical diversity in the
+# kinship domain: 198 concepts as Murdock kin types, 1,904 words in 168 languages,
+# 37,370 recorded lexical gaps. It has **no Hmong at all**, so this mapping is a
+# contribution in both directions -- it gives our kinship terms a cross-lingually
+# comparable identifier, and it gives KinDiv a language it lacks.
+#
+# Why this matters more than it looks. English does not lexicalise most of the
+# distinctions Hmong makes here, so English WordNet has no lemma for them and the
+# interlingual index has no concept: 21 of our 37 kinship senses would otherwise
+# have to be proposed from scratch. KinDiv already has the concept, with a stable
+# identifier (`dc:identifier="KinDiv:Fa;El;Br"`) that holds across languages even
+# where CILI does not reach, and for 37 of its concepts an ILI as well.
+#
+# COLUMNS
+#   WH, GM        the Hmong forms, from White (2021) Table 29, p. 288.
+#   GLOSS         White's gloss.
+#   KINDIV        the Murdock kin-type code, exactly as KinDiv's `concepts` writes
+#                 it. `x;` prefixes a male-speaking concept, `o;` female-speaking,
+#                 `El;` elder, `Yn;` younger.
+#   KINDIV_LABEL  KinDiv's own label for that concept, for readability.
+#   RELATION      how the Hmong sense stands to the KinDiv concept, on the same
+#                 three-way scheme the Concepticon bridge uses:
+#                   exact    the two pick out the same set
+#                   broader  the KinDiv concept is broader than the Hmong sense
+#                   narrower the KinDiv concept is narrower than the Hmong sense
+#                   proposed the concept does not yet exist in KinDiv and we have
+#                            proposed it; see kindiv-proposals.tsv
+#                 Only `exact` rows should become a link without review.
+#   NOTE          why, where the relation is not exact.
+#
+# The four `proposed` rows are the interesting ones. Hmong `nus`, `muam`, `tij laug`
+# and `kwv` cover the child of a father's sibling regardless of whether that sibling
+# is a brother or a sister, while distinguishing the speaker's sex and, for the last
+# two, relative age. KinDiv has `Fa;Sb;So` and `Fa;Sb;Da` in its relations graph as
+# bridging nodes but does not declare them as concepts, and has no speaker-sex or
+# age-marked variants of them at all. So these are not mapping failures: they are
+# concepts KinDiv should have, and Hmong is the evidence that a language
+# lexicalises them. See `kindiv-proposals.tsv`.
+#
+# CHECK: Nathan -- confirm the Hmong terms really are indifferent to whether the
+# father's sibling is a brother or a sister.
+#
+# KinDiv's `wn/extra-concepts.tsv` has since added parents, children, spouses and
+# in-laws, which brought eight more Hmong terms into scope: `niam` 'mother', `txiv`
+# 'father' and 'husband', `tub` 'son', `ntxhais` 'daughter', `poj niam` 'wife',
+# `nyab` 'daughter-in-law', `vauv` 'son-in-law'.
+#
+# Still unmapped, and still needing a concept from somewhere: `yawg koob` 'ancestor',
+# and the coordinate compounds `kwv tij` 'brothers, patrilineal relatives' and `neej
+# tsa` 'in-laws, matrilineal relatives'. Those last two are the genuinely novel
+# concepts in the set -- a set of relatives defined by descent line rather than by a
+# path from ego -- and no kinship resource we have looked at has them.
+WH	GM	GLOSS	KINDIV	KINDIV_LABEL	RELATION	NOTE
+pog	puj	paternal grandmother	Fa;Mo	paternal grandmother	exact	
+yawg	yawm	paternal grandfather	Fa;Fa	paternal grandfather	exact	
+phauj	puj nyaaj	paternal aunt	Fa;Ss	paternal aunt	exact	
+txiv hlob	txiv hlub	paternal uncle older than father	Fa;El;Br	father's elder brother	exact	
+txiv ntxawm		paternal uncle younger than father	Fa;Yn;Br	father's younger brother	exact	
+niam tais	nam tais	maternal grandmother	Mo;Mo	maternal grandmother	exact	
+niam tais	nam tais	maternal aunt	Mo;Ss	maternal aunt	exact	White gives one form for both this and the preceding sense
+yawm txiv		maternal grandfather	Mo;Fa	maternal grandfather	exact	
+dab laug	dlaab laug	maternal uncle	Mo;Br	maternal uncle	exact	
+nus	nug	brother of a female	o;Br	brother (female speaking)	exact	
+nus	nug	paternal male cousin of a female	o;Fa;Sb;So	son of father's sibling (female speaking)	proposed	proposed to KinDiv; Fa;Sb;So exists in its relations graph but is not a declared concept
+muam		sister of a male	x;Ss	sister (male speaking)	exact	
+muam		paternal female cousin of a male	x;Fa;Sb;Da	daughter of father's sibling (male speaking)	proposed	proposed to KinDiv; Fa;Sb;Da exists in its relations graph but is not a declared concept
+tij laug		older brother of a male	x;El;Br	elder brother (male speaking)	exact	
+tij laug		older paternal male cousin of a male	x;El;Fa;Sb;So	elder son of father's sibling (male speaking)	proposed	proposed to KinDiv
+kwv		younger brother of a male	x;Yn;Br	younger brother (male speaking)	exact	
+kwv		younger paternal male cousin of a male	x;Yn;Fa;Sb;So	younger son of father's sibling (male speaking)	proposed	proposed to KinDiv
+npawg		maternal male cousin	Mo;Sb;So	son of mother's sibling	exact	
+muam npaws	muam npawg	maternal female cousin	Mo;Sb;Da	daughter of mother's sibling	exact	
+xeeb ntxwv		grandchild	Gr;Ch	grandchild	exact	
+niam	nam	mother	Mo	mother	exact	
+txiv		father	Fa	father	exact	
+tub		son	So	son	exact	
+ntxhais		daughter	Da	daughter	exact	
+poj niam	quas puj	wife	Wi	wife	exact	
+txiv		husband	Hu	husband	exact	
+nyab	nyaab	daughter-in-law	So;Wi	daughter-in-law	exact	
+vauv		son-in-law	Da;Hu	son-in-law	exact	

@@ -1,0 +1,34 @@
+# Wordnet releases triangulation is pinned to, written by load_pivots.py.
+# Taken from /home/bond/git/cygnet/wordnets.toml, which is also what the online lookup builds from.
+# hmong2lmf.py refuses to triangulate against any other version.
+#
+# lexicon	version
+oewn	2025+
+omw-arb	2.0
+omw-bg	2.0
+omw-ca	2.0
+omw-cmn	2.0
+omw-da	2.0
+omw-el	2.0
+omw-es	2.0
+omw-eu	2.0
+omw-fi	2.0
+omw-fr	2.0
+omw-gl	2.0
+omw-he	2.0
+omw-hr	2.0
+omw-id	2.0
+omw-is	2.0
+omw-it	2.0
+omw-ja	2.0
+omw-lt	2.0
+omw-nb	2.0
+omw-nl	2.0
+omw-nn	2.0
+omw-pl	2.0
+omw-ro	2.0
+omw-sk	2.0
+omw-sq	2.0
+omw-sv	2.0
+omw-th	2.0
+omw-zsm	2.0

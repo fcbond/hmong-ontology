@@ -1,0 +1,15 @@
+build/
+docs/*.db.gz
+__pycache__/
+# working notes, never repository content (the file itself was deleted 2026-10-04)
+NEXT-SESSION.md
+external/
+.wn_data/
+
+# Emacs
+*~
+\#*\#
+.\#*
+TAGS
+.dir-locals-2.el
+auto-save-list/

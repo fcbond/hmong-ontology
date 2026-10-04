@@ -1,0 +1,528 @@
+{
+  "class_nouns": {
+    "heads": 28,
+    "members": 121,
+    "new": 98
+  },
+  "classifiers": {
+    "added": 223,
+    "already_lemmas": 60,
+    "bisang_only": 55,
+    "both": 45,
+    "by_class": {
+      "event": 21,
+      "group": 22,
+      "mensural": 152,
+      "sortal": 34,
+      "taxonomic": 6
+    },
+    "gm": 84,
+    "omitted": 6,
+    "rows": 235,
+    "stopword_only": 17,
+    "variants": 6,
+    "wh": 151,
+    "white_only": 118,
+    "with_examples": 143
+  },
+  "concepticon": {
+    "exact": 1185,
+    "exact_absent_but_current_in_cili": 1,
+    "exact_absent_concept_renumbered": 1,
+    "exact_absent_detail": [
+      {
+        "cili_definition": "cleanse the entire body",
+        "cili_status": "1",
+        "gloss": "",
+        "ili": "i21944",
+        "in_cili": true,
+        "same_definition_as": "i21956",
+        "superseded_by": ""
+      }
+    ],
+    "exact_absent_from_english": 1,
+    "exact_absent_pct": 0.1,
+    "inexact": 140,
+    "rows": 4165,
+    "unresolved": 2840
+  },
+  "concepticon_vs_triangulation": {
+    "agree": 162,
+    "both_reached": 190,
+    "disagreements": [
+      {
+        "concepticon": "i81481",
+        "form": "cai",
+        "gloss": "custom",
+        "triangulated": "i37573"
+      },
+      {
+        "concepticon": "i81481",
+        "form": "cai",
+        "gloss": "rule",
+        "triangulated": "i67597"
+      },
+      {
+        "concepticon": "i29513",
+        "form": "cais",
+        "gloss": "separate",
+        "triangulated": "i34058"
+      },
+      {
+        "concepticon": "i21944",
+        "form": "da dej",
+        "gloss": "bathe",
+        "triangulated": "i21956"
+      },
+      {
+        "concepticon": "i86808",
+        "form": "dab",
+        "gloss": "spirit",
+        "triangulated": "i86825"
+      },
+      {
+        "concepticon": "i18771",
+        "form": "deb",
+        "gloss": "far",
+        "triangulated": "i2492"
+      },
+      {
+        "concepticon": "i79021",
+        "form": "dej",
+        "gloss": "water",
+        "triangulated": "i115069"
+      },
+      {
+        "concepticon": "i85806",
+        "form": "hli",
+        "gloss": "moon",
+        "triangulated": "i85805"
+      },
+      {
+        "concepticon": "i21795",
+        "form": "hnoos",
+        "gloss": "cough",
+        "triangulated": "i112455"
+      },
+      {
+        "concepticon": "i86240",
+        "form": "hnub qub",
+        "gloss": "star",
+        "triangulated": "i86239"
+      },
+      {
+        "concepticon": "i25642",
+        "form": "hu",
+        "gloss": "call",
+        "triangulated": "i26178"
+      },
+      {
+        "concepticon": "i56021",
+        "form": "khw",
+        "gloss": "market",
+        "triangulated": "i41147"
+      },
+      {
+        "concepticon": "i110874",
+        "form": "mob",
+        "gloss": "disease",
+        "triangulated": "i110826"
+      },
+      {
+        "concepticon": "i105062",
+        "form": "nceb",
+        "gloss": "mushroom",
+        "triangulated": "i105056"
+      },
+      {
+        "concepticon": "i98741",
+        "form": "noob",
+        "gloss": "seed",
+        "triangulated": "i105678"
+      },
+      {
+        "concepticon": "i106591",
+        "form": "nqi",
+        "gloss": "price",
+        "triangulated": "i64022"
+      },
+      {
+        "concepticon": "i4410",
+        "form": "ntse",
+        "gloss": "sharp",
+        "triangulated": "i2474"
+      },
+      {
+        "concepticon": "i48238",
+        "form": "nyuj",
+        "gloss": "cow",
+        "triangulated": "i48233"
+      },
+      {
+        "concepticon": "i98673",
+        "form": "paj",
+        "gloss": "flower",
+        "triangulated": "i98675"
+      },
+      {
+        "concepticon": "i54499",
+        "form": "phom",
+        "gloss": "gun",
+        "triangulated": "i57352"
+      },
+      {
+        "concepticon": "i109982",
+        "form": "pob",
+        "gloss": "ball",
+        "triangulated": "i50388"
+      },
+      {
+        "concepticon": "i114153",
+        "form": "thee",
+        "gloss": "charcoal",
+        "triangulated": "i51783"
+      },
+      {
+        "concepticon": "i79199",
+        "form": "tsev neeg",
+        "gloss": "family",
+        "triangulated": "i79671"
+      },
+      {
+        "concepticon": "i27293",
+        "form": "tua",
+        "gloss": "kill",
+        "triangulated": "i28306"
+      },
+      {
+        "concepticon": "i21819",
+        "form": "ua",
+        "gloss": "do",
+        "triangulated": "i30309"
+      },
+      {
+        "concepticon": "i100987",
+        "form": "xyoob",
+        "gloss": "bamboo",
+        "triangulated": "i100986"
+      },
+      {
+        "concepticon": "i76470",
+        "form": "zaub mov",
+        "gloss": "food",
+        "triangulated": "i35570"
+      },
+      {
+        "concepticon": "i20949",
+        "form": "ze",
+        "gloss": "near",
+        "triangulated": "i2502"
+      }
+    ],
+    "pct": 85.3
+  },
+  "contribution": {
+    "by_source": {
+      "DBnary": {
+        "ilis": 11,
+        "new": 10
+      },
+      "WOLD": {
+        "ilis": 1019,
+        "new": 845
+      },
+      "triangulated": {
+        "ilis": 344,
+        "new": 313
+      }
+    },
+    "ontology_ilis": 494
+  },
+  "coverage": {
+    "english_only": {
+      "ilis": 497,
+      "linkable": 1545,
+      "linked": 540,
+      "methods": {
+        "ambiguous": 195,
+        "ambiguous+category": 390,
+        "intersection": 12,
+        "intersection+category": 25,
+        "monosemous": 224,
+        "monosemous+category": 279,
+        "no-ili": 3,
+        "no-intersection": 54,
+        "no-intersection+category": 157,
+        "nomatch": 206
+      },
+      "pct": 35.0
+    },
+    "everything": {
+      "ilis": 1592,
+      "linkable": 3095,
+      "linked": 2094,
+      "methods": {
+        "ambiguous": 209,
+        "ambiguous+category": 207,
+        "concepticon": 147,
+        "concepticon-id": 1149,
+        "dbnary-sense": 11,
+        "intersection": 11,
+        "intersection+category": 19,
+        "monosemous": 181,
+        "monosemous+category": 192,
+        "no-ili": 2,
+        "no-intersection": 49,
+        "no-intersection+category": 80,
+        "nomatch": 454,
+        "triangulated-10": 17,
+        "triangulated-11": 27,
+        "triangulated-12": 13,
+        "triangulated-13": 38,
+        "triangulated-14": 25,
+        "triangulated-15": 19,
+        "triangulated-16": 14,
+        "triangulated-17": 13,
+        "triangulated-18": 17,
+        "triangulated-19": 20,
+        "triangulated-2": 12,
+        "triangulated-20": 17,
+        "triangulated-21": 32,
+        "triangulated-22": 23,
+        "triangulated-23": 18,
+        "triangulated-24": 7,
+        "triangulated-25": 1,
+        "triangulated-3": 6,
+        "triangulated-4": 4,
+        "triangulated-5": 8,
+        "triangulated-6": 11,
+        "triangulated-7": 16,
+        "triangulated-8": 13,
+        "triangulated-9": 13
+      },
+      "pct": 67.7
+    },
+    "plus_concepticon": {
+      "ilis": 748,
+      "linkable": 1543,
+      "linked": 854,
+      "methods": {
+        "ambiguous": 147,
+        "ambiguous+category": 207,
+        "concepticon": 315,
+        "intersection": 12,
+        "intersection+category": 25,
+        "monosemous": 224,
+        "monosemous+category": 278,
+        "no-ili": 2,
+        "no-intersection": 49,
+        "no-intersection+category": 80,
+        "nomatch": 204
+      },
+      "pct": 55.3
+    },
+    "plus_triangulation": {
+      "ilis": 1582,
+      "linkable": 3084,
+      "linked": 2083,
+      "methods": {
+        "ambiguous": 209,
+        "ambiguous+category": 207,
+        "concepticon": 147,
+        "concepticon-id": 1149,
+        "intersection": 11,
+        "intersection+category": 19,
+        "monosemous": 181,
+        "monosemous+category": 192,
+        "no-ili": 2,
+        "no-intersection": 49,
+        "no-intersection+category": 80,
+        "nomatch": 454,
+        "triangulated-10": 17,
+        "triangulated-11": 27,
+        "triangulated-12": 13,
+        "triangulated-13": 38,
+        "triangulated-14": 25,
+        "triangulated-15": 19,
+        "triangulated-16": 14,
+        "triangulated-17": 13,
+        "triangulated-18": 17,
+        "triangulated-19": 20,
+        "triangulated-2": 12,
+        "triangulated-20": 17,
+        "triangulated-21": 32,
+        "triangulated-22": 23,
+        "triangulated-23": 18,
+        "triangulated-24": 7,
+        "triangulated-25": 1,
+        "triangulated-3": 6,
+        "triangulated-4": 4,
+        "triangulated-5": 8,
+        "triangulated-6": 11,
+        "triangulated-7": 16,
+        "triangulated-8": 13,
+        "triangulated-9": 13
+      },
+      "pct": 67.5
+    },
+    "plus_wordlist": {
+      "ilis": 1358,
+      "linkable": 2736,
+      "linked": 1735,
+      "methods": {
+        "ambiguous": 209,
+        "ambiguous+category": 207,
+        "concepticon": 155,
+        "concepticon-id": 1149,
+        "intersection": 11,
+        "intersection+category": 19,
+        "monosemous": 190,
+        "monosemous+category": 211,
+        "no-ili": 2,
+        "no-intersection": 49,
+        "no-intersection+category": 80,
+        "nomatch": 454
+      },
+      "pct": 63.4
+    }
+  },
+  "dbnary": {
+    "hnj": 29,
+    "mww": 732,
+    "sense_anchored": 761
+  },
+  "gm": {
+    "concepts": 15,
+    "lemmas": 116,
+    "linkable": 37,
+    "linked": 25,
+    "ontology_lemmas": 96,
+    "senses": 119
+  },
+  "kinship": {
+    "ili_status": {
+      "lemma": 11,
+      "lemma-inflected": 3,
+      "propose": 2,
+      "propose-hypernym": 21
+    },
+    "kindiv_exact": 24,
+    "kindiv_mapped": 28,
+    "kindiv_proposed": 4,
+    "no_english_lemma": 23,
+    "senses": 37,
+    "with_gm": 16
+  },
+  "ontology": {
+    "after": {
+      "gm": 96,
+      "lemmas": 1565,
+      "senses": 1785
+    },
+    "before": {
+      "gm": 0,
+      "lemmas": 1263,
+      "senses": 1404
+    },
+    "lemma_growth_pct": 23.9
+  },
+  "pivots": {
+    "groups": 743,
+    "languages": 25,
+    "median_languages_per_group": 24,
+    "rows": 29301
+  },
+  "queue": {
+    "coverage_after_stage1_pct": 72.3,
+    "open": 1001,
+    "review_rows": 134,
+    "review_sheets": {
+      "conflicts": 28,
+      "triangulation_splits": 71,
+      "wiktionary_declined": 35
+    },
+    "stage1_ambiguous": 416,
+    "stage1_binary": 145,
+    "stage1_single_gloss": 406,
+    "stage2_triangulation_splits": 71,
+    "stage4_multiword": 238,
+    "stage4_no_english_lemma": 454
+  },
+  "relations": {
+    "classified_by": 380,
+    "classifier_synsets": 141,
+    "classifies": 380,
+    "exemplifies": 141,
+    "total": 901
+  },
+  "settings": {
+    "category_filter": true,
+    "cldf": "/tmp/claude-1000/-home-bond-git-guizhou/3cd64083-cc84-4aa4-afe0-a054a9fee0a1/scratchpad/wold/cldf:WhiteHmong:WOLD:WH",
+    "concepticon": "../cldf2wn/data/concepticon-ili.tsv",
+    "english": "oewn:2025+",
+    "morphy": true,
+    "ontology": "hmong_ontology.xml",
+    "pin_file": "/home/bond/git/hmong-ontology/etc/pivots.lock",
+    "pivot_lexicons": [
+      "omw-bg:2.0",
+      "omw-ca:2.0",
+      "omw-cmn:2.0",
+      "omw-da:2.0",
+      "omw-el:2.0",
+      "omw-es:2.0",
+      "omw-eu:2.0",
+      "omw-fi:2.0",
+      "omw-fr:2.0",
+      "omw-gl:2.0",
+      "omw-he:2.0",
+      "omw-id:2.0",
+      "omw-is:2.0",
+      "omw-it:2.0",
+      "omw-ja:2.0",
+      "omw-lt:2.0",
+      "omw-nb:2.0",
+      "omw-nl:2.0",
+      "omw-nn:2.0",
+      "omw-pl:2.0",
+      "omw-ro:2.0",
+      "omw-sk:2.0",
+      "omw-sq:2.0",
+      "omw-sv:2.0",
+      "omw-th:2.0"
+    ],
+    "stative_adjective": true
+  },
+  "sources": {
+    "bisang_classifiers": 100,
+    "kindiv_proposal_concepts": 6,
+    "kindiv_proposal_relations": 6,
+    "kindiv_proposal_words": 5,
+    "ontology_categories": 53,
+    "ontology_categories_now": 61,
+    "stopword_forms": 82,
+    "white_classifiers": 163,
+    "wold_forms": 1469,
+    "wold_senses_read": 1474
+  },
+  "supersense": {
+    "senses_lost": 5,
+    "senses_rescued": 159
+  },
+  "tiers": {
+    "classifier (no ILI by design)": 141,
+    "concept-set or gloss intersection": 1326,
+    "linked, stronger evidence": 1710,
+    "single gloss, monosemous": 384,
+    "triangulated, 2-3 languages": 18,
+    "triangulated, 4+ languages": 366,
+    "unlinked": 1001
+  },
+  "triangulation": {
+    "senses": 660,
+    "undecided": 71
+  },
+  "underspecified": {
+    "nouns": 3,
+    "rows": 14
+  }
+}

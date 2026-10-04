@@ -1,0 +1,181 @@
+# Hmong class nouns and their members, from Bisang (1993) Appendix II (pp. 42-45)
+# and section 3.2.2 (pp. 20-24).
+#
+# A class noun is an ordinary noun that heads a compound and fixes its semantic
+# class: ntoo 'tree' heads ntoo ciab 'larch'. Bisang keeps class nouns strictly
+# apart from classifiers -- a class noun is referential and part of the noun
+# phrase, a classifier is not -- while showing that several forms do both jobs
+# (zaj, phau, lo, pob, qhov; pp. 20-24). Those forms therefore appear both here
+# and in classifiers.tsv.
+#
+# CLASS_NOUN is the heading noun, empty where the source lists a member with no
+#   class noun (the four birds on p. 43, the agent nouns formed with tus).
+# MEMBER is the compound, written as the source writes it, with spaces; the
+#   converter joins them with underscores to match the ontology's own convention
+#   for multi-word forms (cf. the existing yas_taw 'ankle', headword yas).
+# GLOSS is the English gloss the source gives, lightly normalised to a bare noun
+#   phrase: "yellow thrush, oriole" is recorded as "yellow thrush", and "slave,
+#   servant" as "servant", so that the gloss can be looked up as a lemma.
+# CLASSIFIER is the numeral classifier the source says the compound takes, where
+#   it says so.
+# CATEGORY is the ontology category the member belongs in, using the terms
+#   already in hmong_ontology.xml's category_set; empty where no existing term
+#   fits and one should not be invented.
+# DIALECT is WH throughout: Bisang describes White Hmong (p. 45 n. 1).
+# SOURCE: B:<page> = Bisang, Walter. 1993. Classifiers, quantifiers and class
+#   nouns in Hmong. Studies in Language 17(1): 1-51.
+#
+# Rows whose MEMBER is empty record the class noun itself rather than one of its
+# members: its own gloss and its own CATEGORY, which the converter needs if the
+# form is not already a lemma in the ontology. Thirteen class nouns have only such
+# a row, because Bisang names them without listing their members.
+CLASS_NOUN	CLASS_NOUN_GLOSS	DIALECT	MEMBER	GLOSS	CLASSIFIER	CATEGORY	SOURCE
+ntoo	tree	WH	ntoo ciab	larch	tsob	plant	B:42
+ntoo	tree	WH	ntoo moog	species of chestnut tree	tsob	plant	B:42
+ntoo	tree	WH	ntoo nceb moog	species of chestnut tree	tsob	plant	B:42
+ntoo	tree	WH	ntoo ntseej	species of chestnut tree	tsob	plant	B:42
+ntoo	tree	WH	ntoo qhib	species of chestnut tree	tsob	plant	B:42
+ntoo	tree	WH	ntoo toov laj	a type of palm with long fronds	tsob	plant	B:42
+ntoo	tree	WH	ntoo peeb lab	areca palm	tsob	plant	B:42
+ntoo	tree	WH	ntoo txiv roj	a tree whose fruit produces oil	tsob	plant	B:42
+txiv	fruit	WH	txiv kab ntxwv	orange	lub	plant_part	B:42
+txiv	fruit	WH	txiv khawb	plum	lub	plant_part	B:42
+txiv	fruit	WH	txiv laum huab xeeb	peanut	lub	plant_part	B:42
+txiv	fruit	WH	txiv lom hiab	grapefruit	lub	plant_part	B:42
+txiv	fruit	WH	txiv lws suav	tomato	lub	plant_part	B:42
+txiv	fruit	WH	txiv txhais	mango	lub	plant_part	B:42
+txiv	fruit	WH	txiv duaj	peach	lub	plant_part	B:42
+txiv	fruit	WH	txiv lws qaub	lemon	lub	plant_part	B:42
+txiv	fruit	WH	txiv puv luj	pineapple	lub	plant_part	B:42
+txiv	fruit	WH	txiv taub ntoos	papaya	lub	plant_part	B:42
+txiv	fruit	WH	txiv zuaj	apple	lub	plant_part	B:42
+txiv	fruit	WH	txiv tsawb	banana	lub	plant_part	B:42
+noog	bird	WH	noog daj	yellow thrush	tus	wild_animal	B:42
+noog	bird	WH	noog dab laug	jay	tus	wild_animal	B:42
+noog	bird	WH	noog ncaws nplej	hoopoe	tus	wild_animal	B:42
+noog	bird	WH	noog ntshaub	sparrow	tus	wild_animal	B:42
+noog	bird	WH	noog ntshiv txaij	blackbird	tus	wild_animal	B:42
+noog	bird	WH	noog ras	magpie	tus	wild_animal	B:42
+	bird (no class noun)	WH	dav	eagle	tus	wild_animal	B:43
+	bird (no class noun)	WH	kos	woodpecker	tus	wild_animal	B:43
+	bird (no class noun)	WH	luv	swallow	tus	wild_animal	B:43
+	bird (no class noun)	WH	nquab	pigeon	tus	wild_animal	B:43
+ntses	fish	WH	ntses nab	eel	tus	wild_animal	B:43
+ntses	fish	WH	ntses choo	ray	tus	wild_animal	B:43
+ntses	fish	WH	ntses liaj	fish that lives in rice fields	tus	wild_animal	B:43
+kws	expert	WH	kws hlau	blacksmith	tus	social_role	B:43
+kws	expert	WH	kws ntoo	carpenter	tus	social_role	B:43
+kws	expert	WH	kws nyiaj	silversmith	tus	social_role	B:43
+kws	expert	WH	kws tshuaj	physician	tus	social_role	B:43
+kws	expert	WH	kws qeej	maker of the Hmong musical pipe	tus	social_role	B:43
+kws	expert	WH	kws raj	maker of the flute	tus	social_role	B:43
+kws	expert	WH	kws phom	armourer	tus	social_role	B:43
+kws	expert	WH	kws ntawv	professor	tus	social_role	B:43
+kws	expert	WH	kws txuj ci	technician	tus	social_role	B:43
+tub	son	WH	tub qhe	servant	tus	social_role	B:43
+tub	son	WH	tub rog	soldier	tus	social_role	B:43
+tub	son	WH	tub luam	merchant	tus	social_role	B:43
+tub	son	WH	tub kawm ntawv	student	tus	social_role	B:43
+tub	son	WH	tub sab	thief	tus	social_role	B:43
+tub	son	WH	tub nkeeg	lazybones	tus	social_role	B:43
+tub	son	WH	tub txib	messenger	tus	social_role	B:43
+tub	son	WH	tub puav ntses	fisherman	tus	social_role	B:43
+tus	classifier for animates	WH	tus ntaus ntawv	secretary	tus	social_role	B:43
+tus	classifier for animates	WH	tus kho mob	nurse	tus	social_role	B:43
+tus	classifier for animates	WH	tus kav xwm	master of ceremonies	tus	social_role	B:43
+tus	classifier for animates	WH	tus pab	assistant	tus	social_role	B:43
+sab	side, direction	WH	sab hnub tuaj	east	sab	direction	B:44
+sab	side, direction	WH	sab hnub poob	west	sab	direction	B:44
+sab	side, direction	WH	sab hauv qab	lower part	sab	direction	B:44
+yav	period of time	WH	yav laus	old age		time	B:44
+yav	period of time	WH	yav hluas	youth		time	B:44
+yav	period of time	WH	yav tom ntej	future		time	B:44
+yav	period of time	WH	yav tom qab	past		time	B:44
+chaw	place, region	WH	chaw thaiv dej	dam	lub	three_dimensional_space	B:44
+chaw	place, region	WH	chaw teev ntuj	chapel	lub	three_dimensional_space	B:44
+chaw	place, region	WH	chaw cog zaub	kitchen garden	lub	three_dimensional_space	B:44
+chaw	place, region	WH	chaw pw	sleeping place	lub	three_dimensional_space	B:44
+chaw	place, region	WH	chaw chim	cause for hatred	lub	three_dimensional_space	B:44
+lus	word, speech	WH	lus kheev	permission	lo	communication	B:44
+lus	word, speech	WH	lus qhuab	admonition	lo	communication	B:44
+lus	word, speech	WH	lus cuav qaub	lies	lo	communication	B:44
+kev	way	WH	kev pluag	poverty	txoj	abstraction	B:44-45
+kev	way	WH	kev txom nyem	misery	txoj	abstraction	B:44-45
+kev	way	WH	kev ua neeg zoo	good behaviour	txoj	abstraction	B:44-45
+kev	way	WH	kev noj kev haus	livelihood	txoj	abstraction	B:44-45
+kev	way	WH	kev tsov kev rog	war	txoj	abstraction	B:44-45
+kev	way	WH	kev tu npua	pig-breeding	txoj	abstraction	B:44-45
+kev	way	WH	kev kawm ntawv	studies	txoj	abstraction	B:44-45
+kev	way	WH	kev thaj yeem	peace	txoj	abstraction	B:44-45
+qhov	place; thing; hole	WH	qhov zoo	goodness	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov phem	evil	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov ntev	length	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov loj	size	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov dav	breadth	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov siab	height	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov hnyav	weight	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov sov	warmth	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov no	coldness	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov txias	freshness	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov zoo nkauj	beauty	qhov	attribute	B:22-23
+qhov	place; thing; hole	WH	qhov pom kev	light	qhov	attribute	B:22-23
+qhov	hole	WH	qhov ncauj	mouth	lub	body	B:23
+qhov	hole	WH	qhov rooj	door	lub	artifact	B:23
+qhov	hole	WH	qhov vais	window	lub	artifact	B:23
+qhov	hole	WH	qhov muag	eye	lub	body	B:23
+qhov	hole	WH	qhov ntswg	nose	lub	body	B:23
+qhov	hole	WH	qhov tso	armpit	lub	body	B:23
+qhov	hole	WH	qhov quav	anus	lub	body	B:23
+qhov	hole	WH	qhov dej	spring of water	lub	place	B:23
+qhov	hole	WH	qhov tsua	cave in solid rock	lub	place	B:23
+qhov	hole	WH	qhov saus	place where water disappears into the ground	lub	place	B:23
+pob	round or lump-like object	WH	pob txha	bone	lub	body	B:22
+pob	round or lump-like object	WH	pob qij txha	bone joint	lub	body	B:22
+pob	round or lump-like object	WH	pob caus	knot	lub	object	B:22
+pob	round or lump-like object	WH	pob hauv caug	knee	lub	body	B:22
+pob	round or lump-like object	WH	pob luj tshib	elbow	lub	body	B:22
+pob	round or lump-like object	WH	pob teg	wrist	lub	body	B:22
+pob	round or lump-like object	WH	pob luj taws	heel	lub	body	B:22
+pob	round or lump-like object	WH	pob ntsag	coccyx	lub	body	B:22
+pob	round or lump-like object	WH	pob yeeb	Adam's apple	lub	body	B:22
+pob	round or lump-like object	WH	pob qa	pharynx	lub	body	B:22
+pob	round or lump-like object	WH	pob ntseg	ear	lub	body	B:22
+pob	round or lump-like object	WH	pob kab tsib	knot on a sugar cane	lub	plant_part	B:22
+pob	round or lump-like object	WH	pob av	clod of earth	lub	substance	B:22
+pob	round or lump-like object	WH	pob kws	ear of maize	lub	plant_part	B:22
+pob	round or lump-like object	WH	pob zeb	stone	lub	object	B:22
+pob	round or lump-like object	WH	pob ntoos	stump of a fallen tree	lub	plant_part	B:22
+pob	round or lump-like object	WH	pob txwv	frame	lub	object	B:22
+pob	round or lump-like object	WH	pob av luaj	anthill	lub	object	B:22
+zaj	story, song	WH	zaj dab neeg	legend	zaj	communication	B:20-21
+zaj	story, song	WH	zaj teev ntuj	prayer	zaj	communication	B:20-21
+zaj	story, song	WH	zaj tshoob	wedding song	zaj	communication	B:20-21
+zaj	story, song	WH	zaj hu nkauj	song	zaj	communication	B:20-21
+kab	insect	WH				wild_animal	B:43
+nab	snake	WH				wild_animal	B:43
+nas	rat	WH				wild_animal	B:43
+nceb	mushroom	WH				plant	B:43
+xyoob	bamboo	WH				plant	B:43
+mov	cooked rice	WH				food	B:43
+nplej	unhulled rice	WH				plant	B:43
+nroj	grass	WH				plant	B:43
+paj	flower	WH				plant	B:43
+zaub	green leafy vegetable	WH				food	B:43
+kua	liquid	WH				substance	B:44
+tshuaj	medicine	WH				substance	B:44
+ntaub	cloth	WH				substance	B:44
+ntoo	tree	WH				plant	B:42
+txiv	fruit	WH				plant_part	B:42
+noog	bird	WH				wild_animal	B:42
+ntses	fish	WH				wild_animal	B:43
+kws	expert	WH				social_role	B:43
+tub	son	WH				consanguineal_relation	B:43
+sab	side	WH				direction	B:44
+yav	period of time	WH				time	B:44
+chaw	place	WH				three_dimensional_space	B:44
+lus	speech	WH				communication	B:44
+kev	way	WH				abstraction	B:44
+qhov	hole	WH				three_dimensional_space	B:22
+pob	lump	WH				object	B:22
+zaj	story	WH				communication	B:20
+tus	classifier for animates	WH					B:43

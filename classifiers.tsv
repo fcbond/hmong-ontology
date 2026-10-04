@@ -1,0 +1,387 @@
+# Hmong numeral classifiers and quantifiers, for addition to the ontology.
+#
+# TWO SOURCES, both read from their own description rather than from a wordlist.
+# White is the base analysis and Bisang fleshes it out: White's is the later and
+# fuller treatment, it covers Green Mong as well as White Hmong, and it states its
+# disagreements with Bisang explicitly, so it is the one whose categories this file
+# follows. Bisang then supplies what White leaves out -- measure words, class
+# nouns, the finer [+-exact]/[+-entity] distinctions -- and the forms White's
+# chapter does not reach.
+#   W:<page>  White, Nathan M. 2021. The Hmong language of North Queensland.
+#             PhD thesis, James Cook University. DOI 10.25903/f5rd-s089.
+#             Chapter 7 "Classifiers", pp. 299-383. Extracted separately into
+#             classifiers-white2021.tsv, whose own header records its
+#             uncertainties; this file is the merge.
+#   B:<page>  Bisang, Walter. 1993. Classifiers, quantifiers and class nouns in
+#             Hmong. Studies in Language 17(1): 1-51. Appendix I is the
+#             classifier and quantifier inventory (pp. 31-41), Appendix II the
+#             class nouns (pp. 42-45). Use the 51-page published article: the
+#             25-page draft has neither appendix.
+#   S         studyhmong.com/noun-classifier-hmong/
+#   L         this repository's stopwords_classifiers.txt, which gives a form
+#             and a class but no definition. It turns out to be an index into
+#             White's chapter 7: its headings "locational classifiers" and
+#             "verb classifiers" are his categories, and Bisang has no
+#             category answering to either.
+#
+# CLASS follows the five-way taxonomy of Bond and Paik (2000), as used by
+# Morgado da Costa and Bond (2016) when adding classifiers to wordnet:
+#   sortal     classify the kind of the noun phrase they quantify
+#   event      quantify events
+#   mensural   measure an amount of some property
+#   group      refer to a collection of members
+#   taxonomic  force a generic-kind reading
+#
+# WHITE_CATEGORY and BISANG_CATEGORY record the two sources' own analyses, in that
+# order, so that the mapping onto Bond and Paik stays inspectable and reversible in
+# both directions. Either may be empty: the source in question does not treat that
+# form.
+#   White's own subclasses, which CLASS follows where they are given:
+#     sortal, subordinate_sortal, locational, possessed -> sortal;
+#     mensural, container, time -> mensural;
+#     collective, non_singular -> group;  kind -> taxonomic;
+#     verbal_action -> event.
+#   Bisang, where White has no category for the form, follows T'sou (1976) on the
+#   features [+-exact] and [+-entity]:
+#     classifier [+ex,+ent] -> sortal;  measure [+ex(extr),-ent] -> mensural;
+#     intrinsic_quantifier [+ex(intr),-ent] -> mensural;
+#     collective [-ex,+ent] -> group;   kind [-ex,-ent] -> taxonomic.
+#
+# WHAT BISANG ADDS TO WHITE, AND WHERE THEY DISAGREE. The NOTE column flags every
+# form whose class differs between them. Taking White as the base, Bisang's
+# contribution is of three kinds, and the first two are the reason this file is a
+# merge rather than a copy of chapter 7:
+#   1. Measure words, which White excludes and Bisang counts. White (p. 366)
+#      states they are "not part of the system of noun categorization"; Bisang's
+#      Appendix I section 2.1 treats them as measures, which is why this file has
+#      ntiv, mev, lav, dos, tshim, xib, taus and the rest. Ten such rows are
+#      flagged in NOTE. This is the single biggest addition Bisang makes, and the
+#      single biggest difference between the two inventories.
+#   2. Class nouns, which White rejects outright -- see item 5 below.
+#   3. Finer categories inside White's mensural class. White collapses measures,
+#      intrinsic quantifiers, collectives and kinds into one mensural category
+#      (pp. 301-302); Bisang keeps them as separate categories, the intrinsic
+#      quantifiers being a middle region where the measuring norm comes from the
+#      quantified object's own shape rather than from outside it. White's collapse
+#      is a deliberate revision of Bisang, not an oversight, so CLASS follows
+#      White and BISANG_CATEGORY preserves the finer distinction.
+#   4. Where White has a category and Bisang has none, the row rests on White
+#      alone: this is all of his locational and verbal action classifiers (his
+#      7.3 and 7.6.2), for which Bisang has no category at all.
+#   5. Class nouns. White rejects Bisang's class-noun analysis of phau, lo and
+#      the rest outright: Bisang "does not provide evidence that would support
+#      this class noun analysis" (p. 359), it "would obscure otherwise clear
+#      grammatical distinctions" (p. 361), and Bisang's pre-/post-adjective
+#      ordering test does not hold up (pp. 359-361). Since class_nouns.tsv is
+#      built on Bisang's Appendix II, this is a live disagreement about the
+#      whole file and not merely about a category label.
+#   6. cov. Four analyses of one form. Bisang calls it the plural marker (p. 8).
+#      White makes it a classifier: "Hmong has two non-singular classifiers: cov
+#      'CL:PA' and tej 'CL:SOME'" (p. 354), polyfunctional between classifier and
+#      quantifier (p. 362), historically 'bunch, group'. Colvin (Rutgers, in
+#      external/) argues it is a plural classifier generating a cover, a set of
+#      sets. The stopword list files it as mensural, agreeing with none of them.
+#      The CLASS given here follows White; the NOTE records the rest.
+#   7. The taxonomic class rests on contested ground. Its three rows are Bisang's
+#      Class IV, hom and yam. An undated 2016 working note in external/ reports
+#      that Heimbach and Mottin list these as classifiers while Jay Xiong and
+#      Yuepheng Xiong call them nouns, and is itself undecided: yam usually
+#      appears with no noun to classify, and in frames like ib yam li it behaves
+#      more like an adverb. Kept as taxonomic because both Bisang and White treat
+#      it as a category, but a reader should know the word class is disputed.
+#   8. Tone-melody alternation. White (Sec. 2.3.1) shows that daig, riag,
+#      nploog, ntsug, ce and tug are alternants of daim, riam, nplooj, ntsuj,
+#      cev and tus, not separate classifiers. The stopword list lists them as if
+#      they were. Flagged in NOTE; kept as rows so the alternation is recorded.
+#
+# WHAT WHITE'S SECTION 1.5.2.1 DOES AND DOES NOT DO. It is a descriptive precis
+# of Bisang (pp. 25-27) -- the four operations, the [+-exact]/[+-entity]
+# parameters, the five-way split, the Noun > Class Noun > Quantifier > Intrinsic
+# Quantifier > Classifier cline -- and passes no judgement. His verdict is in
+# chapter 7, as items 1-5 above.
+#
+# FUNCTION records Bisang's classifier / quantifier / class noun distinction,
+# which White does not draw: it is one of the things Bisang adds.
+#
+# Several forms do more than one job: he shows zaj and qhov doing two or three at
+# once (pp. 20-24).
+#
+# DIALECT: WH = White Hmong (Hmoob Dawb, mww), GM = Green Mong (Hmoob Ntsuab,
+# hnj) -- the tags this repository and White both use. White covers both varieties,
+# which is a second reason to take him as the base; Bisang describes White Hmong
+# throughout (p. 45 n. 1), so every Green Mong row rests on White. Where White
+# gives one form for both varieties it appears here as two rows, one per dialect.
+#
+# DEFINITION follows the template of Morgado da Costa and Bond (2016):
+# "a ... classifier used ...". Rows with an empty DEFINITION are attested in the
+# stopword list and described by neither source; they are deliberately left for
+# completion rather than invented.
+#
+# EXAMPLES are Hmong noun + English gloss pairs taken from the source, with the
+# classifier stripped, so lub thoob 'bucket' appears as thoob (bucket). They are
+# what the converter turns into `classifies` relations. For verbal_action rows
+# the items are the co-occurring verbs, not nouns.
+#
+# NOTE carries per-row disagreements and caveats. Empty means neither source
+# said anything that needed flagging.
+#
+# DISPOSITION says what the converter should do with a row that is not a plain
+# classifier. Empty means add it normally.
+#   variant-of:<form>  the row is a tone-melody alternant of <form> (White,
+#                      Sec. 2.3.1: <j>,<s>,<m> -> <g>; <v> -> bare; bare -> <s>),
+#                      so it becomes a <variant> of that lemma rather than a lemma
+#                      of its own. Six rows: daig of daim, riag of riam, nploog of
+#                      nplooj, ntsug of ntsuj, ce of cev, and tug of tus. The last
+#                      needs care: tug is ALSO the Green Mong cognate of tus, and
+#                      that row stands separately as a Green Mong lemma, so the
+#                      form alone does not identify the dialect.
+#                      ce attaches to the ontology's existing noun cev 'body',
+#                      not to a classifier, because cev is not a classifier.
+#   omit               the stopword list has the form but no source supports it as
+#                      a classifier, so it is not added. Six rows: txog and txug
+#                      (only the verb 'arrive'), cev (only the noun 'body'), dlus
+#                      (a measure word, which White excludes from the classifier
+#                      system), npaug (glossed CL:TIMES only in an appendix text,
+#                      p. 675, not in chapter 7), and khaw (White has khawv
+#                      'CL:BITE' at p. 337, a form occurring once and never
+#                      discussed, so its tone-bearing final could not be checked).
+#                      The rows are kept rather than deleted so the evidence for
+#                      omitting them is on the record.
+#                      CHECK: Nathan -- especially cev, and whether khaw/khawv is
+#                      one form or two.
+FORM	DIALECT	CLASS	WHITE_CATEGORY	BISANG_CATEGORY	FUNCTION	DEFINITION	EXAMPLES	SOURCE	NOTE	DISPOSITION
+lub	WH	sortal	sortal	classifier	classifier	a sortal classifier used with hollow or round three-dimensional objects, round body parts, vehicles, machines, garments, places, buildings and a wide range of abstracts	thoob (bucket); qhov rooj (door); paj (flower); taub hau (head); qhov muag (eye); plawv (heart); tsheb (car); dav hlau (airplane); nkoj (boat); tsho (shirt); zos (village); tsev (house); npe (name); lis piam (week); neej (life)	B:31-32; W:305-308		
+tus	WH	sortal	sortal	classifier	classifier	a sortal classifier used with living beings, with things closely connected to them, and with predominantly long objects	neeg (person); dab (spirit); tub (son); tsiaj (animal); noog (bird); plig (soul); mob (illness); nplaig (tongue); hniav (tooth); tw (tail); choj (bridge); mem (pen); yuam sij (key); ntaiv (ladder); nqe (price)	B:32; W:309-316		
+leej	WH	sortal	subordinate_sortal	classifier	classifier	a sortal classifier used only with humans, more explicit than tus, and often used with no following noun	neeg (person); txiv (father); niam (mother)	B:33; W:329-331		
+rab	WH	sortal	sortal	classifier	classifier	a sortal classifier used with man-made objects such as tools, instruments and weapons, and with things that have a handle	riam (knife); diav (spoon); hmuv (spear); koob (needle); txiab (scissors); teev (balance); phom (gun); hneev (crossbow); rauj (hammer); taus (axe); kaw (saw); liag (sickle)	B:34; W:324-325		
+txoj	WH	sortal	sortal	classifier	classifier	a sortal classifier used with long one-dimensional objects, with kev 'way', and with abstracts derived from it	xov (thread); hlua (rope); hmab (vine); phuam (head-cloth); kev (way); hauj lwm (work); sia (life); hmoov (fortune); cai (law)	B:34; W:316-319		
+daim	WH	sortal	sortal	classifier	classifier	a sortal classifier used with flat, leaf-like or plate-like two-dimensional objects	ntawv (sheet of paper); nplooj (leaf); txiag (board); teb (field); liaj (rice field); ntaub (cloth); tiab (gown); sev (apron); pam (cover)	B:34; W:319-321, 329		
+txhais	WH	sortal	sortal	classifier	classifier	a sortal classifier used with one of a pair of objects that occur together	tes (hand); teg (leg); ncej puab (thigh); ko taw (foot); npab (arm)	B:34-35; W:322-323		
+thooj	WH	mensural	mensural	intrinsic_quantifier	classifier;quantifier	a mensural classifier used with sections of a log and with objects in the shape of balls, lumps or clods; also a marginal classifier with siab 'liver'	xov paj (ball of thread); ntaub (bale of cloth); mov (packet of rice); av (clod of earth); nqaij (piece of meat); siab (liver)	B:10,37; W:333, 337, 356		
+qhov	WH	sortal	sortal	classifier	classifier;quantifier;class_noun	a sortal classifier used with chaw 'place', where it alternates with lub; also a class noun forming abstracts from adjectives, and a quantifier meaning 'holeful'	chaw (place); zoo (goodness); phem (evil); ntev (length); loj (size); siab (height); hnyav (weight); txias (freshness); pom kev (light)	B:10,20,22-23; W:325-328		
+zaj	WH	event	mensural	classifier	classifier;class_noun	an event classifier used with verbal performances, attested as a classifier with kwv txhiaj 'ballad' and npau suav 'dream'; elsewhere the class noun of stories, songs and prayers	kwv txhiaj (ballad); npau suav (dream); dab neeg (legend); teev ntuj (prayer); tshoob (wedding song); hu nkauj (song)	B:10,20-21; W:333, 337, 382	class disagreement: Bisang's classifier gives event, White's mensural gives mensural	
+tsab	WH	sortal	mensural	classifier	classifier	a sortal classifier used with nouns denoting messages	ntawv (letter); xov (news)	B:10; W:333, 337, 381	class disagreement: Bisang's classifier gives sortal, White's mensural gives mensural	
+ntiv	WH	mensural		measure	quantifier	a mensural classifier of length: the width of a finger		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+xib	WH	mensural		measure	quantifier	a mensural classifier of length: the width of the palm of the hand		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+taus	WH	mensural		measure	quantifier	a mensural classifier of length: the width of one fist		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+noos	WH	mensural		measure	quantifier	a mensural classifier of length: the distance between the end of the thumb and the end of the extended first finger		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+dos	WH	mensural		measure	quantifier	a mensural classifier of length: the distance between the thumb and the extended middle finger		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+tshim	WH	mensural		measure	quantifier	a mensural classifier of length: one cubit, the distance between elbow and fingertip		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+daj	WH	mensural		measure	quantifier	a mensural classifier of length: the distance from fingertip to fingertip with the arms outstretched		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+pas	WH	mensural	mensural	measure	quantifier	a mensural classifier of length: the length of a measuring rod	dej (water)	B:35; W:334, 337		
+ncua hneev	WH	mensural		measure	quantifier	a mensural classifier of length: the approximate range of a crossbow, about 50 metres		B:35		
+ncua phom	WH	mensural		measure	quantifier	a mensural classifier of length: the approximate range of a gun, about 250 metres		B:35		
+teev kev	WH	mensural		measure	quantifier	a mensural classifier of length: one hour's walk		B:35		
+hnub ke	WH	mensural		measure	quantifier	a mensural classifier of length: one day's walk		B:35		
+xi xi	WH	mensural		measure	quantifier	a mensural classifier of length: one centimetre		B:35		
+mev	WH	mensural		measure	quantifier	a mensural classifier of length: one metre		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+lav	WH	mensural		measure	quantifier	a mensural classifier of length: one kilometre		B:35	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	
+nqas	WH	mensural		measure	quantifier	a mensural classifier of weight: one gram		B:35		
+khis	WH	mensural		measure	quantifier	a mensural classifier of weight: one hundred grams		B:35		
+kis laus	WH	mensural		measure	quantifier	a mensural classifier of weight: one kilogram		B:35		
+meem	WH	mensural		measure	quantifier	a mensural classifier of weight: twelve kilograms		B:35		
+tab	WH	mensural		measure	quantifier	a mensural classifier of weight: one hundred and twenty kilograms		B:35		
+flab	WH	mensural		measure	quantifier	a mensural classifier of weight used for opium and other powders: about 0.38 grams		B:35		
+txiaj	WH	mensural		measure	quantifier	a mensural classifier of weight used for opium and other powders: about 3.8 grams		B:35		
+las	WH	mensural		measure	quantifier	a mensural classifier of weight used for opium and other powders: about 38 grams		B:35		
+choj	WH	mensural		measure	quantifier	a mensural classifier of weight used for opium and other powders: about 380 grams		B:35		
+hwj	WH	mensural		measure	quantifier	a mensural classifier of capacity: one bottle		B:35-36		
+thoob	WH	mensural	container	measure	quantifier	a mensural classifier of capacity: one bucket	dej (water)	B:35-36; W:340		
+pib	WH	mensural		measure	quantifier	a mensural classifier of capacity: one bucket		B:35-36		
+tsib	WH	mensural		measure	quantifier	a mensural classifier of capacity: one jug		B:35-36		
+ntim	WH	mensural		measure	quantifier	a mensural classifier of capacity: one small Chinese-style rice bowl		B:35-36		
+phaj	WH	mensural		measure	quantifier	a mensural classifier of capacity: one plate		B:35-36		
+txawm	WH	mensural		measure	quantifier	a mensural classifier of capacity: one batch or brew of liquor		B:35-36		
+txaum	WH	mensural		measure	quantifier	a mensural classifier of capacity: one batch or brew of liquor		B:35-36		
+kab	WH	mensural	mensural	measure	quantifier	a mensural classifier of capacity: one pipeful	yeeb (pipeful of opium)	B:35-36; W:381-382		
+khawv	WH	mensural	mensural	measure	quantifier	a mensural classifier of capacity: one mouthful	mov (mouthful of rice)	B:35-36; W:337		
+lo	WH	mensural	mensural	measure	quantifier;classifier	a mensural classifier of capacity meaning one mouthful, used above all with lus 'speech', where it takes on almost classifier-like force	lus (word); mov (mouthful of rice); dej (mouthful of water)	B:10,22,36; W:334, 337, 382		
+los	WH	mensural		measure	quantifier	a variant of lo: a mensural classifier meaning one mouthful	mov (mouthful of rice); dej (mouthful of water)	B:36		
+plas	WH	mensural	mensural	measure	quantifier	a mensural classifier for a wide expanse of ground	toj (mountain slope); teb (large field)	B:36; W:337		
+thaj	WH	mensural	mensural	measure	quantifier	a mensural classifier for a patch or grove of vegetation, and for a field	chaw (piece of land); av (field of earth); nplej (field of rice); yeeb (poppy field); pob kws (field of maize); nceb (field of mushrooms)	B:36; W:333, 337		
+pliag	WH	mensural		measure	quantifier	a mensural classifier of time: one second		B:36		
+fiab	WH	mensural		measure	quantifier	a mensural classifier of time: one minute		B:36		
+sij hawm	WH	mensural		measure	quantifier	a mensural classifier of time: one moment		B:36		
+me ntsis	WH	mensural		measure	quantifier	a mensural classifier of time: one moment		B:36		
+tees	WH	mensural		measure	quantifier	a mensural classifier of time: one hour		B:36		
+tees tsoob	WH	mensural		measure	quantifier	a mensural classifier of time: one hour		B:36		
+chim	WH	mensural		measure	quantifier	a mensural classifier of time: a while, up to one hour		B:36		
+tsam	WH	mensural		measure	quantifier	a mensural classifier of time: a while, more than one hour		B:36		
+hnub	WH	mensural	time	measure	quantifier	a mensural classifier of time: one day	hauj lwm (work); kev (road, hence a day's travel)	B:36; W:345-349		
+hmos	WH	mensural		measure	quantifier	a mensural classifier of time: one night		B:36		
+lis piam	WH	mensural		measure	quantifier	a mensural classifier of time: one week		B:36		
+hlis	WH	mensural		measure	quantifier	a mensural classifier of time: one month		B:36		
+ntus	WH	mensural		measure	quantifier	a mensural classifier of time: a period of two to three months		B:36		
+xyoo	WH	mensural	time	measure	quantifier	a mensural classifier of time: one year		B:36; W:345-346		
+tsob	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with bush-like plants, whose parts form one visible unit	ntoo (bush-like tree); nplej (rice plant); xyooj (bamboo plant); nroj (tuft of grass); pos (briar)	B:13,37; W:333, 337		
+phau	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with piled-up or accumulated objects; with ntawv 'paper' it yields 'book' and behaves almost like a classifier	ntawv (book); ris tsho (pile of garments); nyiaj (bundle of bank notes)	B:22,37; W:333-337		
+tawb	WH	mensural	container	intrinsic_quantifier	quantifier	a mensural classifier used with excrement	quav (passing of faeces); zis (passing of urine); qaub ncauj (ejection of spittle)	B:37; W:339-340		
+qais	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with strands and skeins	plaub hau (lock of hair); tw nees (hairs from a horse's tail)	B:13,37; W:334-336		
+kauj	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with coils and rings	xov (coil of wire); hlua (coil of rope)	B:13,38; W:334, 337		
+qhoo	WH	mensural		intrinsic_quantifier	quantifier	a mensural classifier used with bundled or packed-up objects	kab tsib (bundle of sugar-cane); xyoob (truss of bamboo)	B:38		
+nthwv	WH	mensural		intrinsic_quantifier	quantifier	a mensural classifier used with gusts of wind and with journeys	cua (gust of wind); rog (assault by soldiers); luam (business trip)	B:38		
+vuag	WH	mensural		intrinsic_quantifier	quantifier	a mensural classifier used with temporary climatic phenomena such as wind or rain	nag (cloud-burst); cua (gust of wind)	B:38		
+kob	WH	mensural		intrinsic_quantifier	quantifier	a mensural classifier used only with rain, denoting showers	nag (shower of rain)	B:38		
+tauv	WH	mensural		intrinsic_quantifier	quantifier	a mensural classifier used with clouds and clusters of fruit, and more generally with things seen as one unit but internally complex, conveying abundance	ntoo (group of trees); huab (cloud); plaub hau (tuft of hair); nroj (lot of grass); nceb (lot of mushrooms)	B:38		
+tw	WH	mensural		intrinsic_quantifier	quantifier	a mensural classifier similar to tauv but used in part with different nouns	dej (whirlwind); nag (shower of rain); huab (cloud)	B:38		
+kuam	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with bananas	txiv (hand of bananas)	B:38; W:335, 358		
+thij	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with bananas, like kuam	txiv (hand of bananas)	B:39; W:335		
+re	WH	mensural		intrinsic_quantifier	quantifier	a mensural classifier used with the stems of flowers, leaves or fruit	nplej (cluster of kernels in a head of rice); txiv ntoo (stem of fruit); nplooj (stem of leaves); paj ntoos (stem of flowers)	B:39		
+pob	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with round or lump-like masses; also a class noun for round and lump-like objects	av (clod of earth); mov (lump of rice); ntsev (lump of salt); ntawv (roll of paper); khaub ncaws (pile of garments)	B:20,22; W:331		
+nkawm	WH	group	collective	collective	quantifier	a group classifier used with pairs	khau (pair of shoes); thom khwm (pair of socks); qaib (pair of chickens)	B:39; W:342		
+pab	WH	group	collective	collective	quantifier	a group classifier used with groups of people or animals	neeg (group of people); noog (flight of birds); yaj (flock of sheep); npua npoj (group of wild boars); qaib (brood of chickens)	B:39; W:342		
+yim	WH	group	collective	collective	quantifier	a group classifier carrying the meaning of family or household	Hmoob (Hmong family); neeg (household)	B:39; W:340-342		
+zag	WH	group		collective	quantifier	a group classifier meaning nest, brood or hatch, and a group of people of the same age	qaib (brood of chickens); npua (litter of pigs); hluas (group of young people)	B:11,40		
+xub	WH	group		collective	quantifier	a group classifier uniting insects and small animals into larger groups	nas (nest of rats); ntsaum (nest of ants); muv (colony of bees); tsaug (family of porcupines)	B:40		
+phaum	WH	group	mensural	collective	quantifier	a group classifier used with people or things born or come into being in the same year or season	me tub (boys of the same age group); txiv ntoo (fruits of the same season); mob (epidemic disease)	B:40; W:335, 337	class disagreement: Bisang's collective gives group, White's mensural gives mensural	
+ntwg	WH	group		collective	quantifier	a group classifier used with objects carried on a string	ntses (portion of fish carried on bamboo or rattan); nqaij (portion of meat carried on a string)	B:40		
+phiaj	WH	group		collective	quantifier	a group classifier used with a set of objects carried on a string	xauv (set of neck rings)	B:40		
+hom	WH	taxonomic	kind	kind	quantifier	a taxonomic classifier forcing a kind or species reading	txiv ntoo (kind of fruit); noog (species of bird); neeg (race of people); tsiaj txhu (species of animal); hauj lwm (kind of work); lus (the same thing said)	B:40-41; W:343-344		
+yam	WH	taxonomic	kind	kind	quantifier	a taxonomic classifier forcing a kind or species reading, borrowed from Chinese yang, also used as a general classifier for 'something'	nroj (species of vegetation); tsiaj txhu (species of animals); xov (kind of news); zoo (something good); tshiab (something new)	B:11,41; W:343-344		
+txog	WH	sortal			classifier			L	not a classifier for White: only the verb 'arrive, until'	omit
+txug	GM	sortal			classifier			L	not a classifier for White: only the verb 'arrive'	omit
+daig	WH	sortal			classifier			L	not a separate classifier: White (p. 174) shows this is the tone-melody alternant of daim	variant-of:daim
+sab	WH	sortal	locational		classifier	a sortal classifier used with sides and directions; also the class noun of sides and directions	teb chaws (country); tes (hand); tis (wing); ntuj (sky); roob (mountain); pas dej (lake); Thaib Teb (Thailand)	L; W:350-353		
+saab	GM	sortal	locational		classifier	a sortal classifier used with sides and directions	teb chaws (country); teg (hand); tis (wing); ntuj (sky); roob (mountain)	L; W:350-353		
+nta	WH	sortal	locational		classifier	a White Hmong variant of ntav, a locational classifier referring to the middle portion or midpoint of an entity	roob (mountain)	L; W:350-353		
+ntaa	GM	sortal	locational		classifier	a Green Mong variant of ntaav, a locational classifier referring to the middle portion or midpoint of an entity	roob (mountain)	L; W:352-353		
+ntaav	GM	sortal	locational		classifier	a locational classifier referring to the middle portion or midpoint of an entity, limited to numeral and noun classifier functions	roob (mountain); toj (hill); ntuj (sky); ntoo (tree)	L; W:350-353		
+tog	WH	sortal	locational		classifier	a locational classifier referring to the halfway point of an extended entity, limited to numeral and noun classifier functions; with lus it yields 'side of the story'	kev (road, way); xyoo (year); lus (side of the story)	L; W:350-353, 382		
+nqe	WH	mensural	mensural		classifier	a mensural classifier characterizing discourse and written material, individuating a section or paragraph as part of a whole	lus (words, speech); lus nug (question)	L; W:333-337, 382		
+nqai	GM	mensural	mensural		classifier	a mensural classifier characterizing discourse and written material, individuating a section or paragraph as part of a whole	lug (words, speech)	L; W:333, 337, 382		
+pluas	WH	mensural			classifier	a mensural classifier used with single meals and single doses		L		
+pluag	WH	mensural	mensural		classifier	a mensural classifier used with single meals and single doses	tshais (breakfast)	L; W:334, 337		
+chav	WH	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
+chaav	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
+cev	WH	mensural			classifier			L	not a classifier for White: only the noun 'body' (p. 132)	omit
+ce	WH	mensural			classifier			L	not a classifier for White: the tone-melody alternant of cev 'body' (p. 681)	variant-of:cev
+khaw	WH	mensural			classifier			L	White gives the form as khawv 'CL:BITE' (p. 337), which occurs once and is never discussed in prose, so the final consonant and hence the tone could not be cross-checked	omit
+npaug	WH	mensural			classifier			L	White glosses this CL:TIMES only in an appendix text (p. 675), not in chapter 7	omit
+nploog	WH	mensural			classifier			L	not a separate classifier: White (p. 381) shows this is the tone-melody alternant of nplooj CL:FLAT.PIECE	variant-of:nplooj
+ntsug	WH	mensural			classifier			L	not a separate classifier: White (pp. 333, 337) shows this is the tone-melody alternant of ntsuj CL:TRACT	variant-of:ntsuj
+cov	WH	group	non_singular		classifier	a non-singular classifier whose older and more concrete value is 'bunch, group' and whose usual modern value is an abstract non-singular with implications of definiteness; it unitizes mass nouns and has grammaticalized into the quantifier NS	me nyuam (child); khob (cup); ntaub ntawv (document); kwv tij (consanguineal relatives); dej (water); ntoo (tree); qe (egg); cwj mem (pen)	L; W:354-357, 362-365	class disagreement: Bisang calls cov the plural marker (p. 8); White (pp. 354, 362) makes it one of two non-singular classifiers, polyfunctional between classifier and quantifier	
+pawg	WH	group	collective		classifier	a group classifier used with clusters and heaps	neeg (human beings); tib neeg (human beings); Hmoob (Hmong); kwv tij (brothers, consanguineal relatives); xuab zeb (sand)	L; W:340-342, 371-372		
+pab pawg	WH	group			classifier	a group classifier used with groups and clusters		L		
+tiam	WH	group	collective		classifier	a group classifier used with generations	neeg (human being)	L; W:342		
+zaus	WH	event			classifier	an event classifier used to count occasions		L		
+zaug	WH	event			classifier	an event classifier used to count occasions		L		
+zaum	WH	event	time		classifier	an event classifier used to count occasions		L; W:345, 409	class disagreement: Bisang's category gives event, White's time gives mensural	
+tam sim	WH	event			classifier	an event classifier used to count moments		L		
+taam sim	GM	event			classifier	an event classifier used to count moments		L		
+riam	WH	event	verbal_action		classifier	a verbal action classifier counting chops or strikes with a knife, derived from the noun riam 'knife', and able to surface with the verb omitted	xa (send); xuas (use)	L; W:369-371, 402		
+riag	WH	event			classifier			L	not a separate classifier: White (p. 369-371, 402) shows this is the tone-melody alternant of riam	variant-of:riam
+phom	WH	event	verbal_action		classifier	a verbal action classifier counting gunshots, derived from the noun phom 'gun', and able to surface with the verb omitted	tua (shoot)	L; W:370-371		
+ncig	WH	event	verbal_action		classifier	an event classifier used to count rounds or circuits	xam (look)	L; W:370		
+lwm	WH	event	verbal_action		classifier	a verbal action classifier counting circular actions, a repeater-like form matching the verb lwm 'encircle'	mus (go); lwm (encircle)	L; W:368, 370		
+plhaw	WH	event	verbal_action		classifier	a verbal action classifier counting jumps or startled starts	ceeb (jump in surprise)	L; W:370		
+dlus	GM	mensural			classifier			L	White (p. 366) excludes measure words from the classifier system; Bisang counts them as quantifiers	omit
+tug	GM	sortal	sortal	classifier	classifier	a sortal classifier used with living beings, with things closely connected to them, and with predominantly long objects	neeg (person); dab (spirit); tub (son); tsiaj (animal); noog (bird); plig (soul); mob (illness); nplaig (tongue); hniav (tooth); tw (tail); choj (bridge); mem (pen); yuam sij (key); ntaiv (ladder); nqe (price)	L; White Hmong cognate tus B:32; W:309-316	Green Mong cognate of White Hmong tus; White (p. 354) separately shows tug is also the tone-melody alternant of tus after ib- and ob-, so the form alone does not identify the dialect	
+raab	GM	sortal	sortal	classifier	classifier	a sortal classifier used with man-made objects such as tools, instruments and weapons, and with things that have a handle	riam (knife); diav (spoon); hmuv (spear); koob (needle); txiab (scissors); teev (balance); phom (gun); hneev (crossbow); rauj (hammer); taus (axe); kaw (saw); liag (sickle)	L; White Hmong cognate rab B:34; W:324-325		
+txuj	GM	sortal	sortal	classifier	classifier	a sortal classifier used with long one-dimensional objects, with kev 'way', and with abstracts derived from it	xov (thread); hlua (rope); hmab (vine); phuam (head-cloth); kev (way); hauj lwm (work); sia (life); hmoov (fortune); cai (law)	L; White Hmong cognate txoj B:34; W:316-319		
+dlaim	GM	sortal	sortal	classifier	classifier	a sortal classifier used with flat, leaf-like or plate-like two-dimensional objects	ntawv (sheet of paper); nplooj (leaf); txiag (board); teb (field); liaj (rice field); ntaub (cloth); tiab (gown); sev (apron); pam (cover)	L; White Hmong cognate daim B:34; W:319-321		
+zaaj	GM	event	mensural	classifier	classifier;class_noun	an event classifier used with verbal performances, attested as a classifier with kwv txhiaj 'ballad' and npau suav 'dream'; elsewhere the class noun of stories, songs and prayers	kwv txhiaj (ballad); npau suav (dream); dab neeg (legend); teev ntuj (prayer); tshoob (wedding song); hu nkauj (song)	L; White Hmong cognate zaj B:10,20-21; W:333, 337	class disagreement: Bisang's classifier gives event, White's mensural gives mensural	
+zaag	GM	event		classifier	classifier;class_noun	an event classifier used with verbal performances, attested as a classifier with kwv txhiaj 'ballad' and npau suav 'dream'; elsewhere the class noun of stories, songs and prayers	kwv txhiaj (ballad); npau suav (dream); dab neeg (legend); teev ntuj (prayer); tshoob (wedding song); hu nkauj (song)	L; White Hmong cognate zaj B:10,20-21		
+kaab	GM	mensural	mensural	measure	quantifier	a mensural classifier of capacity: one pipeful	yeeb (pipeful of opium)	L; White Hmong cognate kab B:35-36; W:381-382		
+lu	GM	mensural	mensural	measure	quantifier;classifier	a mensural classifier of capacity meaning one mouthful, used above all with lus 'speech', where it takes on almost classifier-like force	lus (word); mov (mouthful of rice); dej (mouthful of water)	L; White Hmong cognate lo B:10,22,36; W:334, 337		
+paas	GM	mensural	mensural	measure	quantifier	a mensural classifier of length: the length of a measuring rod	dlej (water)	L; White Hmong cognate pas B:35; W:334, 337		
+phoo	GM	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with piled-up or accumulated objects; with ntawv 'paper' it yields 'book' and behaves almost like a classifier	ntawv (book); ris tsho (pile of garments); nyiaj (bundle of bank notes)	L; White Hmong cognate phau B:22,37; W:337		
+tsaab	GM	sortal	mensural	classifier	classifier	a sortal classifier used with nouns denoting messages	ntawv (letter); xov (news)	L; White Hmong cognate tsab B:10; W:333, 337	class disagreement: Bisang's classifier gives sortal, White's mensural gives mensural	
+yaam	GM	taxonomic	kind	kind	quantifier	a taxonomic classifier forcing a kind or species reading, borrowed from Chinese yang, also used as a general classifier for 'something'	nroj (species of vegetation); tsiaj txhu (species of animals); xov (kind of news); zoo (something good); tshiab (something new)	L; White Hmong cognate yam B:11,41; W:343-344		
+as thiv	GM	mensural	time		classifier	a time classifier for a week, borrowed from Lao		W:345		
+cov	GM	group	non_singular		classifier	a non-singular classifier whose older and more concrete value is 'bunch, group' and whose usual modern value is an abstract non-singular with implications of definiteness; it unitizes mass nouns and has grammaticalized into the quantifier NS	me nyuam (child); khob (cup); ntaub ntawv (document); kwv tij (consanguineal relatives); dej (water); ntoo (tree); qe (egg); cwj mem (pen)	W:354-357, 362-365	class disagreement: Bisang calls cov the plural marker (p. 8); White (pp. 354, 362) makes it one of two non-singular classifiers	
+family	GM	group	collective		classifier	an English borrowing used in diaspora Hmong as a collective classifier for a family, treated as a built-in classifier plus noun sequence so that it cannot co-occur with a Hmong head noun	Hmoob (Hmong)	W:342-343		
+family	WH	group	collective		classifier	an English borrowing used in diaspora Hmong as a collective classifier for a family, treated as a built-in classifier plus noun sequence so that it cannot co-occur with a Hmong head noun	Hmoob (Hmong)	W:342-343		
+fos nais	GM	mensural	time		classifier	a time classifier for a fortnight, borrowed from English in the Australian diaspora		W:128, 345		
+fos nais	WH	mensural	time		classifier	a time classifier for a fortnight, borrowed from English in the Australian diaspora		W:128, 345		
+fwj	GM	mensural	container		classifier	a container classifier of arrangement, for a bottle of liquid	tshuaj (medicine); cawv (alcoholic drink); mis nyuj (milk)	W:340		
+fwj	WH	mensural	container		classifier	a container classifier of arrangement, for a bottle of liquid	tshuaj (medicine); cawv (alcoholic drink); mis nyuj (milk)	W:340		
+hli	GM	mensural	time		classifier	a time classifier for a month		W:345		
+hli	WH	mensural	time		classifier	a time classifier for a month		W:345		
+hmo	WH	mensural	time		classifier	a time classifier for a night or evening, also glossed CL:EVENING		W:345-347		
+hnab	WH	mensural	container		classifier	a container classifier of arrangement, for a bagful, derived from the noun hnab 'bag'	txiv (fruit); txhuv (uncooked rice)	W:338-340		
+hnoob	WH	mensural	time		classifier	a White Hmong variant of hnub, a time classifier for a day		W:345		
+hom	GM	taxonomic	kind		classifier	a kind classifier of quanta in Allan's instance-classifier sense, indicating a kind or type of thing; the older of the two general kind classifiers		W:343-344		
+kauj	GM	mensural	mensural		classifier	a mensural classifier of arrangement, for something wound into a coil or spool	hlua (rope); xov (thread)	W:334, 337		
+khob	GM	mensural	container		classifier	a container classifier of arrangement, for a cupful of liquid	dej (water); cawv (alcoholic drink)	W:340		
+khob	WH	mensural	container		classifier	a container classifier of arrangement, for a cupful of liquid	dej (water); cawv (alcoholic drink)	W:340		
+khw	GM	mensural	time		classifier	a time classifier for a week		W:345		
+khw	WH	mensural	time		classifier	a time classifier for a week		W:345		
+kuam	GM	mensural	mensural		classifier	a mensural classifier of quanta and arrangement, a dedicated classifier for a half hand of bananas, a set understood as half of a larger set	txiv tsawb (banana)	W:335, 358		
+le	GM	sortal	possessed		classifier	the default possessed classifier, used optionally in possessive constructions regardless of the semantics of the possessed noun; it cannot co-occur with quantifiers or demonstratives and serves only the possessed classifier function		W:365-366		
+leej	GM	sortal	subordinate_sortal		classifier	a subordinate sortal classifier for human referents, semantically a more specific version of tus/tug CL:ANIM, often used with a number word alone to count individuals and in the apportioning construction	tib neeg (human being); tub sab (thief); niam (mother); tub (son)	W:329-331		
+li	WH	sortal	possessed		classifier	the default possessed classifier, used optionally in possessive constructions regardless of the semantics of the possessed noun; it cannot co-occur with quantifiers or demonstratives and serves only the possessed classifier function	kwv tij (brother, consanguineal relative)	W:365-366		
+lis piam	GM	mensural	time		classifier	a time classifier for a week, borrowed from Chinese		W:345		
+lis tiam	WH	mensural	time		classifier	a time classifier for a week, borrowed from Chinese		W:345		
+lub	GM	sortal	sortal		classifier	a sortal classifier used with round or ball-shaped and three-dimensional objects, extended to holes and to figurative and wholly abstract nouns	txiv (fruit); qe (egg); tsho (shirt); tsev (house); thawv (box); ntsiab lus (meaning); tuam txhab (company); koom haum (association); sij hawm (time); qhov ntsej (earhole)	W:305-308		
+lwm	GM	event	verbal_action		classifier	a verbal action classifier counting circular actions, a repeater-like form matching the verb lwm 'encircle'	mus (go); lwm (encircle)	W:368, 370		
+mo	GM	mensural	time		classifier	a time classifier for a night or evening		W:345		
+moo	GM	mensural	time		classifier	a time classifier for an hour, borrowed from Lao		W:345		
+moo	WH	mensural	time		classifier	a time classifier for an hour, borrowed from Lao		W:345		
+naab	GM	mensural	container		classifier	a container classifier of arrangement, for a bagful, derived from the noun naab 'bag'	txiv (fruit); ntsab (uncooked rice)	W:338-340		
+nas this	GM	mensural	time		classifier	a time classifier for a minute, borrowed from Lao		W:345		
+nas this	WH	mensural	time		classifier	a time classifier for a minute, borrowed from Lao		W:345		
+ncig	GM	event	verbal_action		classifier	a verbal action classifier counting circular actions	xam (look)	W:370		
+nkawm	GM	group	collective		classifier	a collective classifier of quanta, for a natural pair	khau (shoes)	W:342		
+nplooj	GM	mensural	mensural		classifier	a classifier for a flat piece, which with ntawv 'paper' yields 'piece of paper'	ntawv (piece of paper)	W:381		
+nplooj	WH	mensural	mensural		classifier	a classifier for a flat piece, which with ntawv 'paper' yields 'piece of paper'	ntawv (piece of paper)	W:381		
+ntav	WH	sortal	locational		classifier	a locational classifier referring to the middle portion or midpoint of an entity, limited to numeral and noun classifier functions	roob (mountain); toj (hill); ntuj (sky); ntoo (tree)	W:350-353		
+ntsuj	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of land, for a tract of ground or forest	av (land); zoov (jungle)	W:333, 337		
+ntsuj	WH	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of land, for a tract of ground or forest	av (land); zoov (jungle)	W:333, 337		
+ntu	GM	mensural	mensural		classifier	a mensural classifier individuating a segment or stretch of an extended entity, especially a road; also glossed CL:DISTANCE	kev (road, way)	W:334-337		
+ntu	WH	mensural	mensural		classifier	a mensural classifier individuating a segment or stretch of an extended entity, especially a road; also glossed CL:DISTANCE	kev (road, way)	W:334-337		
+nub	GM	mensural	time		classifier	a time classifier for a day		W:345		
+paab	GM	group	collective		classifier	a collective classifier of quanta combined with animateness, for a group or herd of animates	tsuv (tigers); maa (wild canids); Moob (Hmong)	W:342, 409		
+pawg	GM	group	collective		classifier	a collective classifier of quanta, for a group of people or things; with mass nouns it instead means 'pile' and is glossed CL:PILE	neeg (human beings); tib neeg (human beings); Hmoob (Hmong); kwv tij (brothers, consanguineal relatives); xuab zeb (sand)	W:340-342, 371-372		
+phau	GM	mensural	mensural		classifier	a mensural classifier characterizing written material as a bound volume	ntawv (paper, hence book); Vaj lus kub (Christian Bible); duab (photograph, hence photo album)	W:333-337		
+phaum	GM	mensural	mensural		classifier	a mensural classifier of quanta for a season in which a group of things comes into being, used of people born at the same time and extended to seasons of illness	khaub thuas (cold, influenza); neeg (human being)	W:335, 337		
+phom	GM	event	verbal_action		classifier	a verbal action classifier counting gunshots, derived from the noun phom 'gun', and able to surface with the verb omitted	tua (shoot)	W:370-371		
+plaag	GM	mensural	mensural		classifier	a mensural classifier for a tract of land or forest	teb (field); haav zoov (jungle)	W:337		
+plhaw	GM	event	verbal_action		classifier	a verbal action classifier counting jumps or startled starts	ceeb (jump in surprise)	W:370		
+pluag	GM	mensural	mensural		classifier	a mensural classifier of arrangement, for a serving of food	tshais (breakfast)	W:334, 337		
+qais	GM	mensural	mensural		classifier	a mensural classifier of arrangement, for a small spool or skein of thread	xov (thread)	W:334-336		
+qhov	GM	sortal	sortal		classifier	the default sortal classifier, used with nouns that do not fit the semantics of the other sortal classifiers, with semantically vague and abstract nouns including recent English borrowings, with unspecified referents, and in nominalizations	teeb meem (problem); khoom (thing); chaw (place); meeting (meeting); presentation (presentation); mov (portion of rice); dej (water); tseeb (truth)	W:325-328		
+rag	GM	event	verbal_action		classifier	a verbal action classifier counting chops or strikes with a knife	xaa (send); xuas (use)	W:370		
+rev	GM	mensural	mensural		classifier	a mensural classifier combining quanta and arrangement, for a bunch, used especially of flowers	paj (flower)	W:334-335		
+rev	WH	mensural	mensural		classifier	a mensural classifier combining quanta and arrangement, for a bunch, used especially of flowers	paj (flower)	W:334-335		
+rooj	GM	mensural	container		classifier	a container classifier of arrangement, for a tableful of something	mov (cooked rice); plaub (litigation, lawsuit)	W:340		
+rooj	WH	mensural	container		classifier	a container classifier of arrangement, for a tableful of something	mov (cooked rice); plaub (litigation, lawsuit)	W:340		
+sim	GM	mensural	time		classifier	a time classifier for a lifetime, the one time classifier attested in all four classifier functions with an overt head noun	neej (human life); niam txiv (parents, couple)	W:348-349		
+sim	WH	mensural	time		classifier	a time classifier for a lifetime, the one time classifier attested in all four classifier functions with an overt head noun	neej (human life); niam txiv (parents, couple)	W:348-349		
+sob	GM	mensural	mensural		classifier	a classifier for a paragraph of speech	lus (paragraph)	W:382		
+sob	WH	mensural	mensural		classifier	a classifier for a paragraph of speech	lus (paragraph)	W:382		
+suab	GM	event	verbal_action		classifier	a verbal action classifier counting vocal actions, cries or sounds	quaj (cry, yell); nyooj (roar)	W:369-372		
+suab	WH	event	verbal_action		classifier	a verbal action classifier counting vocal actions, cries or sounds	quaj (cry, yell); nyooj (roar)	W:369-372		
+taag kis	GM	mensural	time		classifier	a time classifier for a morning		W:345		
+taav su	GM	mensural	time		classifier	a time classifier for midday		W:345		
+tag kis	WH	mensural	time		classifier	a time classifier for a morning		W:345-347, 376		
+taig	GM	mensural	container		classifier	a container classifier of arrangement, for a bowlful of food	fawm (rice noodles)	W:340		
+tais	WH	mensural	container		classifier	a container classifier of arrangement, for a bowlful of food	fawm (rice noodles)	W:340		
+tam	GM	group	collective		classifier	a collective classifier of quanta, for a generation of people	neeg (human being)	W:342		
+tav su	WH	mensural	time		classifier	a time classifier for midday		W:345		
+tawb	GM	mensural	container		classifier	a container classifier of arrangement, for a basketful of something	txiv (fruit); zaub (vegetables)	W:339-340		
+teev	GM	mensural	time		classifier	a time classifier for an hour, borrowed from Chinese		W:345		
+teev	WH	mensural	time		classifier	a time classifier for an hour, borrowed from Chinese		W:345		
+tej	GM	group	non_singular		classifier	a non-singular classifier meaning 'some', referencing a part of a larger group or an amount of a substance in a part-whole relationship; unlike cov it cannot serve as a numeral classifier	cooj qaib (chicken coop); tsiaj qus (wild animal); dej (water)	W:357-365		
+tej	WH	group	non_singular		classifier	a non-singular classifier meaning 'some', referencing a part of a larger group or an amount of a substance in a part-whole relationship; unlike cov it cannot serve as a numeral classifier	cooj qaib (chicken coop); tsiaj qus (wild animal); dej (water)	W:357-365		
+thaaj	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of land, for a field or delimited area of ground and what grows on it	aav (land); xuas zeb (sand); teb (field)	W:333, 337		
+thij	GM	mensural	mensural		classifier	a mensural classifier of quanta and arrangement, a dedicated classifier for a hand of bananas	txiv tsawb (banana)	W:335		
+thoob	GM	mensural	container		classifier	a container classifier of arrangement, for a bucketful of liquid	dej (water)	W:340		
+thooj	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of physical materials, individuating a chunk or lump of a substance	ntaub (cloth); hlau (iron); txhua (lead); ntoo (wood); nyiaj (silver); tooj (copper); nqaij (meat); kub (gold); av (dirt)	W:333, 337, 356		
+tog	GM	sortal	locational		classifier	a locational classifier referring to the halfway point of an extended entity, limited to numeral and noun classifier functions; with lus it yields 'side of the story'	kev (road, way); xyoo (year); lus (side of the story)	W:350-353, 382		
+tsaav	GM	taxonomic	kind		classifier	a non-canonical kind classifier of extremely limited distribution, preferred only with human reference, indicating a kind of people such as a race or nationality	neeg (human being, person)	W:344		
+tsav	WH	taxonomic	kind		classifier	a non-canonical kind classifier of extremely limited distribution, preferred only with human reference, indicating a kind of people such as a race or nationality	tib neeg (human being, person)	W:344		
+tsev	GM	mensural	container		classifier	a container classifier of arrangement, for a houseful of people, hence a family or household	neeg (human being); tuab neeg (human being)	W:339-340		
+tsev	WH	mensural	container		classifier	a container classifier of arrangement, for a houseful of people, hence a family or household	neeg (human being); tuab neeg (human being)	W:339-340		
+tsob	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of plants, taking the whole plant as the unit	ntoo (tree); tsawb (banana plant); xyoob (bamboo); nplej (rice); hmab (vine); pob kws (corn); nroj (grass); zaub (vegetables); txiv (fruit); dib (melon, gourd)	W:333, 337		
+txhais	GM	sortal	sortal		classifier	a sortal classifier that individuates one member of a naturally occurring pair, typically limbs and things worn on them, where the pair serves a joint physical function	ceg (leg); tes (hand); khau (shoe)	W:322-323		
+txhis	GM	mensural	time		classifier	a syntactically deficient time classifier occurring only with the number word ib 'one' and never with a head noun, giving ib txhis 'forever'		W:349		
+txhis	WH	mensural	time		classifier	a syntactically deficient time classifier occurring only with the number word ib 'one' and never with a head noun, giving ib txhis 'forever'		W:349		
+vas thiv	WH	mensural	time		classifier	a time classifier for a week, borrowed from Lao		W:345		
+xyoo	GM	mensural	time		classifier	a time classifier for a year		W:345-346		
+yawg	GM	sortal	subordinate_sortal		classifier	a subordinate sortal classifier for adult male human referents, adapted from the noun yawg 'paternal grandfather', and unavailable in the possessed classifier function	Hmoob Tsab (Chang clan man)	W:329-332		
+yawg	WH	sortal	subordinate_sortal		classifier	a subordinate sortal classifier for adult male human referents, adapted from the noun yawg 'paternal grandfather', and unavailable in the possessed classifier function	Hmoob Tsab (Chang clan man)	W:329-332		
+yim	GM	group	collective		classifier	a collective classifier of quanta combined with animateness, for a family or household	neeg (human being); tuab neeg (human being); kwv tij (consanguineal relatives); Hmoob (Hmong); Co (Mien); Pub Thawj (Khmu)	W:340-342		
+zaus	GM	mensural	time		classifier	a time classifier counting occasions or repetitions of an event		W:409		
+zog	GM	mensural	container		classifier	a container classifier of arrangement, for a villageful of people	Moob (Hmong)	W:340		
+zos	WH	mensural	container		classifier	a container classifier of arrangement, for a villageful of people	Hmoob (Hmong); Pub Thawj (Khmu)	W:340		
+tug	WH	sortal	sortal		classifier			W:354	White Hmong tone-melody alternant of tus after ib- and ob- (White p. 354); not to be confused with the Green Mong cognate tug	variant-of:tus

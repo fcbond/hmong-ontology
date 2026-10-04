@@ -1,0 +1,221 @@
+# Numeral / nominal classifier inventory of Hmong (White Hmong and Green Mong)
+# extracted by careful reading from:
+#   White, Nathan M. (2021). The Hmong language of North Queensland.
+#   PhD thesis, James Cook University, Townsville. DOI: 10.25903/f5rd-s089.
+# Source chapter: ch. 7 "Classifiers" (printed pp. 299-383), with supporting
+# material from Sec. 4.1.3 "Classifiers" (printed pp. 126-128), Sec. 1.5.2.1
+# "Bisang (1993)" (printed pp. 25-27) and Sec. 8.2.1.8 (printed p. 409).
+#
+# PAGE OFFSET CONVENTION: the PDF has 742 pages and a 37-page front matter
+# offset, so printed page + 37 = PDF page (printed 303 = PDF 340). All page
+# numbers in the PAGE column are PRINTED page numbers as in the thesis.
+#
+# COLUMNS
+#   FORM            classifier form in the Romanized Popular Alphabet (RPA),
+#                   exactly as the thesis spells it; spaces separate syllables
+#                   of multi-word forms (e.g. "lis tiam", "nas this").
+#   DIALECT         WH = White Hmong, GM = Green Mong, both = the thesis gives
+#                   a single form for both varieties. Where White gives a
+#                   WH/GM pair (e.g. "WH li/GM le") there are two rows.
+#   WHITE_CATEGORY  White's own subclass, lowercased with underscores:
+#                   sortal (7.1), subordinate_sortal (7.1.9), mensural (7.2),
+#                   container (7.2.1), collective (7.2.2), kind (7.2.3),
+#                   time (7.2.4), locational (7.3), non_singular (7.4),
+#                   possessed (7.5), verbal_action (7.6.2).
+#   CLASS           mapping onto the five classes of Bond & Paik (2000) used
+#                   by wordnet: sortal, event, mensural, group, taxonomic.
+#                   Mapping applied: sortal / subordinate_sortal / locational /
+#                   possessed -> sortal; mensural / container / time ->
+#                   mensural; collective / non_singular -> group; kind ->
+#                   taxonomic; verbal_action -> event.
+#   DEFINITION      one clause built from White's own description.
+#   EXAMPLES        semicolon-separated "hmong noun (english gloss)" pairs from
+#                   his examples, with the classifier STRIPPED (from "lub
+#                   thoob" 'bucket' -> "thoob (bucket)"). Empty if he gives
+#                   none. EXCEPTION: for verbal_action rows the items are the
+#                   co-occurring VERBS he lists (Table 38, p. 370), not nouns,
+#                   because verbal action classifiers classify events.
+#   PAGE            printed page(s) where the form is described.
+#
+# WHERE THE BOND & PAIK MAPPING IS A POOR FIT (flagged here, not in a column)
+#   - li / le (possessed): mapped to sortal, but White states it "lacks a clear
+#     semantic parameter by which to classify" (p. 302) and is a pure default
+#     possessive linker. It classifies nothing; no Bond & Paik class fits.
+#   - sab/saab, ntav/nta/ntaav/ntaa, tog (locational): mapped to sortal, but
+#     White says they combine "inherent arrangement or configuration" with
+#     "partitivity as a kind of quanta" (p. 350), i.e. they behave more like
+#     mensural/partitive classifiers than like sortal ones.
+#   - cov (non_singular): mapped to group, correct for its older 'bunch, group'
+#     sense, but its dominant modern value is abstract non-singular/definite
+#     with no group semantics - effectively a plural marker (pp. 354-357).
+#   - tej (non_singular): mapped to group, but its value is partitive 'some'
+#     (part of a whole), which is closer to mensural than to group.
+#   - qhov (sortal): a DEFAULT classifier with no semantic parameter; White
+#     notes it "adopts mensural-like semantics" with mass nouns (p. 326).
+#   - pawg (collective): group with count nouns, but a mensural 'pile'
+#     classifier with mass nouns (p. 371-372, glossed CL:PILE).
+#   - zaum / zaus (time): counts occasions/repetitions of an event, so `event`
+#     may fit better than `mensural`.
+#   - nplooj, kab/kaab, sob: White presents these only in Sec. 7.8.4 (Tables
+#     39-40, pp. 381-382) without assigning them to a subclass; the
+#     WHITE_CATEGORY `mensural` here is my inference from their semantics
+#     (they unitise paper and speech, like nqe, lo, phau, tsab).
+#
+# UNCERTAINTIES AND JUDGEMENT CALLS
+#   - "WH khawv 'CL:BITE'" (Table 34, p. 337) occurs exactly once in the whole
+#     thesis and is never discussed in prose, so the final <v> (and thus the
+#     tone) could not be cross-checked. The repository stopword list has the
+#     form `khaw`. Recorded as White prints it: khawv. UNCLEAR.
+#   - "WH riam/GM rag 'VCL:CHOP'" (Table 38, p. 370). `rag` is very probably
+#     the tone-melody-alternated (Sec. 2.3.1, p. 62) GM form appearing after
+#     tuab- 'single', i.e. the citation form would be GM *ram; on p. 402 the
+#     same item is printed "WH riam/GM riag 'VCL:STRIKE.WITH.KNIFE'", which is
+#     inconsistent with Table 38. Recorded as printed in Table 38. UNCLEAR.
+#   - Forms produced ONLY by the lexical tone melody alternation of Sec. 2.3.1
+#     (<j>,<s>,<m> -> <g>; <v> -> bare; bare -> <s>) are NOT given rows of
+#     their own, because they are inflected variants, not separate classifiers:
+#     daig (= daim, p. 174), riag (= riam, pp. 369-371, 402), nploog
+#     (= nplooj), ntsug (= ntsuj), teg (= tes), tug (after ib-/ob-), -co
+#     (= cov, p. 354), -zag (= zaj, p. 372), -qho (= qhov, p. 325),
+#     -tse (= tsev, p. 339), -nta/-leeg likewise.
+#   - "family" (pp. 342-343) is an English borrowing that White analyses as a
+#     genuine collective mensural classifier in diaspora Hmong. He does not
+#     label the dialect of examples (596)-(598); recorded as `both`. UNCLEAR.
+#   - zaum: Sec. 7.2.4 (p. 345) lists it unmarked for dialect, but Sec. 8.2.1.8
+#     (p. 409) gives the pair "WH zaum/GM zaus 'CL:TIMES'". Two rows are given
+#     on the authority of p. 409.
+#   - phau: White writes "WH phau/GM phau/phoo", i.e. the same form in both
+#     varieties plus a GM variant. Recorded as one `both` row (phau) plus one
+#     GM row (phoo).
+#   - pob 'CL:BALL / CL:PACK' (p. 331) appears only inside an example of the
+#     apportioning construction and is not assigned to a subclass; recorded as
+#     mensural, from a White Hmong example. UNCLEAR.
+#   - Measure words (Sec. 7.6.1, pp. 366-367: ntiv 'MW:FINGER.WIDTH', mev
+#     'MW:METER', lav 'MW:KILOMETER', WH dos/GM dlus
+#     'MW:MIDDLE.FINGER.TIP.TO.THUMB.TIP', tshim 'MW:CUBIT', xib
+#     'MW:HAND.WIDTH', WH siab/GM sab 'MW:RICE.MEASURE', laij 'MW:600M2') are
+#     DELIBERATELY EXCLUDED: White states they are "not part of the system of
+#     noun categorization" (p. 366) and they fail his mensural-classifier
+#     criteria (Table 43, p. 383).
+#   - Classifiers glossed only in the interlinear appendix texts (e.g. npaug
+#     'CL:TIMES' p. 675, vuag 'CL:TIMES' p. 680, tes 'CL:HANDFUL' pp. 95, 402,
+#     511, feem 'CL:PART' p. 385) are excluded as outside ch. 7.
+#   - No source text was OCRed: the PDF carries an embedded text layer, so RPA
+#     tone-bearing final consonants were read directly and cross-checked
+#     against the surrounding prose wherever prose exists.
+FORM	DIALECT	WHITE_CATEGORY	CLASS	DEFINITION	EXAMPLES	PAGE
+lub	both	sortal	sortal	a sortal classifier used with round or ball-shaped and three-dimensional objects, extended to holes and to figurative and wholly abstract nouns	txiv (fruit); qe (egg); tsho (shirt); tsev (house); thawv (box); ntsiab lus (meaning); tuam txhab (company); koom haum (association); sij hawm (time); qhov ntsej (earhole)	305-308
+tus	WH	sortal	sortal	a sortal classifier used with one-dimensional, rigid and straight objects, extended to animates including humans, kinship terms and social roles, to written symbols, and to rivers	pob txha (bone); ntoo (tree, log); cwj mem (pen); neeg (human being); miv (cat); ntsaum (ant); tsiaj ntawv (letter of the alphabet); zauv (number); dej (river); xib fwb (teacher)	309-316
+tug	GM	sortal	sortal	a sortal classifier used with one-dimensional, rigid and straight objects, extended to animates including humans, kinship terms and social roles, to written symbols, and to rivers	pob txhaa (bone); kaab mob (disease, illness); zauv (number); dlej (river); xib fwb (teacher); thab haam (soldier); nai muas (doctor)	309-316
+txoj	WH	sortal	sortal	a sortal classifier used with one-dimensional but non-rigid, wavy or curved items, especially pathways and spoolable things, extended to metaphorical paths and to kev nominalizations	hlua (rope); kev (road, way); xov hlau (iron wire); hauj lwm (work, job); siav (life); dej num (role, responsibility, duty); cai (law, rule, custom)	316-319
+txuj	GM	sortal	sortal	a sortal classifier used with one-dimensional but non-rigid, wavy or curved items, especially pathways and spoolable things, extended to metaphorical paths and to kev nominalizations	kev txom nyem (poverty); kev hlub (love)	316-319
+daim	WH	sortal	sortal	a sortal classifier used with flat, two-dimensional entities of either orientation, including paper documents and flat areas of land	pam (blanket); duab (picture); tiab (skirt); iav (mirror); teb (dry highland field); duab ntxoo (shadow); ntawv (sheet of paper); nyiaj (silver ingot, banknote); qhov rooj (door); report (report)	319-321, 329
+dlaim	GM	sortal	sortal	a sortal classifier used with flat, two-dimensional entities of either orientation, including paper documents and flat areas of land	ntoo (board)	319-321
+txhais	both	sortal	sortal	a sortal classifier that individuates one member of a naturally occurring pair, typically limbs and things worn on them, where the pair serves a joint physical function	ceg (leg); tes (hand); khau (shoe)	322-323
+rab	WH	sortal	sortal	a sortal classifier used with nouns on the basis of their function as tools, including weapons and musical instruments	diav (spoon); txiab (scissors); txuas (corn knife); phom (gun); qeej (qeng, bamboo mouth organ); qws (club)	324-325
+raab	GM	sortal	sortal	a sortal classifier used with nouns on the basis of their function as tools, including weapons and musical instruments	dlav (spoon); txab (scissors); qeej (qeng, bamboo mouth organ); stapler (stapler)	324-325
+qhov	both	sortal	sortal	the default sortal classifier, used with nouns that do not fit the semantics of the other sortal classifiers, with semantically vague and abstract nouns including recent English borrowings, with unspecified referents, and in nominalizations	teeb meem (problem); khoom (thing); chaw (place); meeting (meeting); presentation (presentation); mov (portion of rice); dej (water); tseeb (truth)	325-328
+leej	both	subordinate_sortal	sortal	a subordinate sortal classifier for human referents, semantically a more specific version of tus/tug CL:ANIM, often used with a number word alone to count individuals and in the apportioning construction	tib neeg (human being); tub sab (thief); niam (mother); tub (son)	329-331
+yawg	both	subordinate_sortal	sortal	a subordinate sortal classifier for adult male human referents, adapted from the noun yawg 'paternal grandfather', and unavailable in the possessed classifier function	Hmoob Tsab (Chang clan man)	329-332
+chav	WH	mensural	mensural	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	333, 337
+chaav	GM	mensural	mensural	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	333, 337
+kauj	both	mensural	mensural	a mensural classifier of arrangement, for something wound into a coil or spool	hlua (rope); xov (thread)	334, 337
+qais	both	mensural	mensural	a mensural classifier of arrangement, for a small spool or skein of thread	xov (thread)	334-336
+khawv	WH	mensural	mensural	a mensural classifier for a bite of food	mov (cooked rice)	337
+lo	WH	mensural	mensural	a mensural classifier of arrangement, for a mouthful of food or speech; with lus it yields 'word'	lus (word); mov (rice)	334, 337, 382
+lu	GM	mensural	mensural	a mensural classifier of arrangement, for a mouthful of food or speech; with lug it yields 'word'	lug (word); mov (rice)	334, 337
+nqe	WH	mensural	mensural	a mensural classifier characterizing discourse and written material, individuating a section or paragraph as part of a whole	lus (words, speech); lus nug (question)	333-337, 382
+nqai	GM	mensural	mensural	a mensural classifier characterizing discourse and written material, individuating a section or paragraph as part of a whole	lug (words, speech)	333, 337, 382
+ntu	both	mensural	mensural	a mensural classifier individuating a segment or stretch of an extended entity, especially a road; also glossed CL:DISTANCE	kev (road, way)	334-337
+ntsuj	both	mensural	mensural	a mensural classifier characterizing the inherent nature of land, for a tract of ground or forest	av (land); zoov (jungle)	333, 337
+pas	WH	mensural	mensural	a mensural classifier of arrangement, for a gulp of liquid	dej (water)	334, 337
+paas	GM	mensural	mensural	a mensural classifier of arrangement, for a gulp of liquid	dlej (water)	334, 337
+phau	both	mensural	mensural	a mensural classifier characterizing written material as a bound volume	ntawv (paper, hence book); Vaj lus kub (Christian Bible); duab (photograph, hence photo album)	333-337
+phoo	GM	mensural	mensural	a Green Mong variant of phau, a mensural classifier characterizing written material as a bound volume	ntawv (paper, hence book)	337
+phaum	both	mensural	mensural	a mensural classifier of quanta for a season in which a group of things comes into being, used of people born at the same time and extended to seasons of illness	khaub thuas (cold, influenza); neeg (human being)	335, 337
+plas	WH	mensural	mensural	a mensural classifier for a tract of land or forest	teb (field); hav zoov (jungle)	337
+plaag	GM	mensural	mensural	a mensural classifier for a tract of land or forest	teb (field); haav zoov (jungle)	337
+pluag	both	mensural	mensural	a mensural classifier of arrangement, for a serving of food	tshais (breakfast)	334, 337
+thaj	WH	mensural	mensural	a mensural classifier characterizing the inherent nature of land, for a field or delimited area of ground and what grows on it	av (land); xuab zeb (sand); teb (field); nplej (rice); yeeb (opium)	333, 337
+thaaj	GM	mensural	mensural	a mensural classifier characterizing the inherent nature of land, for a field or delimited area of ground and what grows on it	aav (land); xuas zeb (sand); teb (field)	333, 337
+thooj	both	mensural	mensural	a mensural classifier characterizing the inherent nature of physical materials, individuating a chunk or lump of a substance	ntaub (cloth); hlau (iron); txhua (lead); ntoo (wood); nyiaj (silver); tooj (copper); nqaij (meat); kub (gold); av (dirt)	333, 337, 356
+tsab	WH	mensural	mensural	a mensural classifier characterizing written material as a whole document; also glossed CL:DOCUMENT	ntawv (paper, hence letter); xov xwm (news, hence newspaper); cai (rule, law, hence policy)	333, 337, 381
+tsaab	GM	mensural	mensural	a mensural classifier characterizing written material as a whole document	ntawv (paper, hence letter)	333, 337
+tsob	both	mensural	mensural	a mensural classifier characterizing the inherent nature of plants, taking the whole plant as the unit	ntoo (tree); tsawb (banana plant); xyoob (bamboo); nplej (rice); hmab (vine); pob kws (corn); nroj (grass); zaub (vegetables); txiv (fruit); dib (melon, gourd)	333, 337
+zaj	WH	mensural	mensural	a mensural classifier characterizing discourse as a unit, for a story, a stretch of history or a recited text	dab neeg (story); keeb kwm (history, origin); lus (discourse, speech)	333, 337, 382
+zaaj	GM	mensural	mensural	a mensural classifier characterizing discourse as a unit, for a story or a stretch of history	dab neeg (story)	333, 337
+rev	both	mensural	mensural	a mensural classifier combining quanta and arrangement, for a bunch, used especially of flowers	paj (flower)	334-335
+thij	both	mensural	mensural	a mensural classifier of quanta and arrangement, a dedicated classifier for a hand of bananas	txiv tsawb (banana)	335
+kuam	both	mensural	mensural	a mensural classifier of quanta and arrangement, a dedicated classifier for a half hand of bananas, a set understood as half of a larger set	txiv tsawb (banana)	335, 358
+pob	WH	mensural	mensural	a mensural classifier for a ball-shaped bundle or pack of something	kua txob (red pepper)	331
+fwj	both	container	mensural	a container classifier of arrangement, for a bottle of liquid	tshuaj (medicine); cawv (alcoholic drink); mis nyuj (milk)	340
+hnab	WH	container	mensural	a container classifier of arrangement, for a bagful, derived from the noun hnab 'bag'	txiv (fruit); txhuv (uncooked rice)	338-340
+naab	GM	container	mensural	a container classifier of arrangement, for a bagful, derived from the noun naab 'bag'	txiv (fruit); ntsab (uncooked rice)	338-340
+khob	both	container	mensural	a container classifier of arrangement, for a cupful of liquid	dej (water); cawv (alcoholic drink)	340
+rooj	both	container	mensural	a container classifier of arrangement, for a tableful of something	mov (cooked rice); plaub (litigation, lawsuit)	340
+tais	WH	container	mensural	a container classifier of arrangement, for a bowlful of food	fawm (rice noodles)	340
+taig	GM	container	mensural	a container classifier of arrangement, for a bowlful of food	fawm (rice noodles)	340
+tawb	both	container	mensural	a container classifier of arrangement, for a basketful of something	txiv (fruit); zaub (vegetables)	339-340
+thoob	both	container	mensural	a container classifier of arrangement, for a bucketful of liquid	dej (water)	340
+tsev	both	container	mensural	a container classifier of arrangement, for a houseful of people, hence a family or household	neeg (human being); tuab neeg (human being)	339-340
+zos	WH	container	mensural	a container classifier of arrangement, for a villageful of people	Hmoob (Hmong); Pub Thawj (Khmu)	340
+zog	GM	container	mensural	a container classifier of arrangement, for a villageful of people	Moob (Hmong)	340
+pab	WH	collective	group	a collective classifier of quanta combined with animateness, for a group or herd of animates	kwv tij (brothers, consanguineal relatives); tub rog (soldiers); nyuj (cattle); tsov (tigers); noog (birds); hma (wild canids)	342
+paab	GM	collective	group	a collective classifier of quanta combined with animateness, for a group or herd of animates	tsuv (tigers); maa (wild canids); Moob (Hmong)	342, 409
+pawg	both	collective	group	a collective classifier of quanta, for a group of people or things; with mass nouns it instead means 'pile' and is glossed CL:PILE	neeg (human beings); tib neeg (human beings); Hmoob (Hmong); kwv tij (brothers, consanguineal relatives); xuab zeb (sand)	340-342, 371-372
+nkawm	both	collective	group	a collective classifier of quanta, for a natural pair	khau (shoes)	342
+tiam	WH	collective	group	a collective classifier of quanta, for a generation of people	neeg (human being)	342
+tam	GM	collective	group	a collective classifier of quanta, for a generation of people	neeg (human being)	342
+yim	both	collective	group	a collective classifier of quanta combined with animateness, for a family or household	neeg (human being); tuab neeg (human being); kwv tij (consanguineal relatives); Hmoob (Hmong); Co (Mien); Pub Thawj (Khmu)	340-342
+family	both	collective	group	an English borrowing used in diaspora Hmong as a collective classifier for a family, treated as a built-in classifier plus noun sequence so that it cannot co-occur with a Hmong head noun	Hmoob (Hmong)	342-343
+hom	both	kind	taxonomic	a kind classifier of quanta in Allan's instance-classifier sense, indicating a kind or type of thing; the older of the two general kind classifiers		343-344
+yam	WH	kind	taxonomic	a kind classifier of quanta in Allan's instance-classifier sense, indicating a kind or type of thing; a relatively recent Chinese borrowing equivalent to hom	qoob loo (crops); khoom (thing); tshuaj (medicine); lus (word)	343-344
+yaam	GM	kind	taxonomic	a kind classifier of quanta in Allan's instance-classifier sense, indicating a kind or type of thing; a relatively recent Chinese borrowing equivalent to hom		343-344
+tsav	WH	kind	taxonomic	a non-canonical kind classifier of extremely limited distribution, preferred only with human reference, indicating a kind of people such as a race or nationality	tib neeg (human being, person)	344
+tsaav	GM	kind	taxonomic	a non-canonical kind classifier of extremely limited distribution, preferred only with human reference, indicating a kind of people such as a race or nationality	neeg (human being, person)	344
+hnub	WH	time	mensural	a time classifier for a day, measuring time on a 'time is space' metaphor and usually occurring without a head noun	hauj lwm (work); kev (road, hence a day's travel)	345-349
+hnoob	WH	time	mensural	a White Hmong variant of hnub, a time classifier for a day		345
+nub	GM	time	mensural	a time classifier for a day		345
+hmo	WH	time	mensural	a time classifier for a night or evening, also glossed CL:EVENING		345-347
+mo	GM	time	mensural	a time classifier for a night or evening		345
+khw	both	time	mensural	a time classifier for a week		345
+lis tiam	WH	time	mensural	a time classifier for a week, borrowed from Chinese		345
+lis piam	GM	time	mensural	a time classifier for a week, borrowed from Chinese		345
+tag kis	WH	time	mensural	a time classifier for a morning		345-347, 376
+taag kis	GM	time	mensural	a time classifier for a morning		345
+tav su	WH	time	mensural	a time classifier for midday		345
+taav su	GM	time	mensural	a time classifier for midday		345
+hli	both	time	mensural	a time classifier for a month		345
+xyoo	both	time	mensural	a time classifier for a year		345-346
+teev	both	time	mensural	a time classifier for an hour, borrowed from Chinese		345
+moo	both	time	mensural	a time classifier for an hour, borrowed from Lao		345
+nas this	both	time	mensural	a time classifier for a minute, borrowed from Lao		345
+vas thiv	WH	time	mensural	a time classifier for a week, borrowed from Lao		345
+as thiv	GM	time	mensural	a time classifier for a week, borrowed from Lao		345
+zaum	WH	time	mensural	a time classifier counting occasions or repetitions of an event		345, 409
+zaus	GM	time	mensural	a time classifier counting occasions or repetitions of an event		409
+fos nais	both	time	mensural	a time classifier for a fortnight, borrowed from English in the Australian diaspora		128, 345
+sim	both	time	mensural	a time classifier for a lifetime, the one time classifier attested in all four classifier functions with an overt head noun	neej (human life); niam txiv (parents, couple)	348-349
+txhis	both	time	mensural	a syntactically deficient time classifier occurring only with the number word ib 'one' and never with a head noun, giving ib txhis 'forever'		349
+sab	WH	locational	sortal	a locational classifier referring to one side of a physical entity, or to one of a pair of components located on each side of it; the only locational classifier attested in all four classifier functions	teb chaws (country); tes (hand); tis (wing); ntuj (sky); roob (mountain); pas dej (lake); Thaib Teb (Thailand)	350-353
+saab	GM	locational	sortal	a locational classifier referring to one side of a physical entity, or to one of a pair of components located on each side of it	teb chaws (country); teg (hand); tis (wing); ntuj (sky); roob (mountain)	350-353
+ntav	WH	locational	sortal	a locational classifier referring to the middle portion or midpoint of an entity, limited to numeral and noun classifier functions	roob (mountain); toj (hill); ntuj (sky); ntoo (tree)	350-353
+nta	WH	locational	sortal	a White Hmong variant of ntav, a locational classifier referring to the middle portion or midpoint of an entity	roob (mountain)	350-353
+ntaav	GM	locational	sortal	a locational classifier referring to the middle portion or midpoint of an entity, limited to numeral and noun classifier functions	roob (mountain); toj (hill); ntuj (sky); ntoo (tree)	350-353
+ntaa	GM	locational	sortal	a Green Mong variant of ntaav, a locational classifier referring to the middle portion or midpoint of an entity	roob (mountain)	352-353
+tog	both	locational	sortal	a locational classifier referring to the halfway point of an extended entity, limited to numeral and noun classifier functions; with lus it yields 'side of the story'	kev (road, way); xyoo (year); lus (side of the story)	350-353, 382
+cov	both	non_singular	group	a non-singular classifier whose older and more concrete value is 'bunch, group' and whose usual modern value is an abstract non-singular with implications of definiteness; it unitizes mass nouns and has grammaticalized into the quantifier NS	me nyuam (child); khob (cup); ntaub ntawv (document); kwv tij (consanguineal relatives); dej (water); ntoo (tree); qe (egg); cwj mem (pen)	354-357, 362-365
+tej	both	non_singular	group	a non-singular classifier meaning 'some', referencing a part of a larger group or an amount of a substance in a part-whole relationship; unlike cov it cannot serve as a numeral classifier	cooj qaib (chicken coop); tsiaj qus (wild animal); dej (water)	357-365
+li	WH	possessed	sortal	the default possessed classifier, used optionally in possessive constructions regardless of the semantics of the possessed noun; it cannot co-occur with quantifiers or demonstratives and serves only the possessed classifier function	kwv tij (brother, consanguineal relative)	365-366
+le	GM	possessed	sortal	the default possessed classifier, used optionally in possessive constructions regardless of the semantics of the possessed noun; it cannot co-occur with quantifiers or demonstratives and serves only the possessed classifier function		365-366
+ncig	both	verbal_action	event	a verbal action classifier counting circular actions	xam (look)	370
+lwm	both	verbal_action	event	a verbal action classifier counting circular actions, a repeater-like form matching the verb lwm 'encircle'	mus (go); lwm (encircle)	368, 370
+phom	both	verbal_action	event	a verbal action classifier counting gunshots, derived from the noun phom 'gun', and able to surface with the verb omitted	tua (shoot)	370-371
+plhaw	both	verbal_action	event	a verbal action classifier counting jumps or startled starts	ceeb (jump in surprise)	370
+riam	WH	verbal_action	event	a verbal action classifier counting chops or strikes with a knife, derived from the noun riam 'knife', and able to surface with the verb omitted	xa (send); xuas (use)	369-371, 402
+rag	GM	verbal_action	event	a verbal action classifier counting chops or strikes with a knife	xaa (send); xuas (use)	370
+suab	both	verbal_action	event	a verbal action classifier counting vocal actions, cries or sounds	quaj (cry, yell); nyooj (roar)	369-372
+nplooj	both	mensural	mensural	a classifier for a flat piece, which with ntawv 'paper' yields 'piece of paper'	ntawv (piece of paper)	381
+kab	WH	mensural	mensural	a classifier for a sentence, one line of writing or speech	ntawv (sentence); lus (sentence)	381-382
+kaab	GM	mensural	mensural	a classifier for a sentence, one line of writing or speech		381-382
+sob	both	mensural	mensural	a classifier for a paragraph of speech	lus (paragraph)	382

@@ -1,0 +1,64 @@
+# Hmong kinship terms, from White (2021) Table 29, printed p. 288, with the
+# coordinate compounds from p. 288 below the table.
+#
+# White notes the list "is likely not exhaustive".
+#
+# Kinship is where this project most needs new concepts rather than links. English
+# does not lexicalise most of these distinctions, so English WordNet has no synset
+# for them: there is no lemma `maternal uncle`, none for `paternal uncle older than
+# father`, and none for `brother of a female`. A Hmong wordnet must either propose
+# the concepts to the interlingual index or lose the distinctions the language
+# obligatorily makes. The ILI_STATUS column says which is which.
+#
+# This table is also the best source of Green Mong content vocabulary we have:
+# White gives a distinct GM form for eleven of these, where the classifier tables
+# gave us almost no GM nouns at all.
+#
+# COLUMNS
+#   WH            the White Hmong form.
+#   GM            the Green Mong form, where White gives a distinct one; empty
+#                 means he gives one form for both.
+#   GLOSS         his gloss, split into one row per sense where he gives two.
+#   RELATION      consanguineal, affinal, or compound (the coordinate compounds).
+#   ILI_STATUS    `lemma` if the gloss is an English WordNet lemma, so an existing
+#                 concept; `propose` if it is not, so a candidate for a new ILI.
+#                 Filled by measurement, not by hand -- see the README.
+#   SOURCE        W:<printed page>.
+WH	GM	GLOSS	RELATION	ILI_STATUS	SOURCE
+niam	nam	mother	consanguineal	lemma	W:288
+txiv		father	consanguineal	lemma	W:288
+txiv		husband	affinal	lemma	W:288
+tub		son	consanguineal	lemma	W:288
+ntxhais		daughter	consanguineal	lemma	W:288
+pog	puj	paternal grandmother	consanguineal	propose-hypernym	W:288
+yawg	yawm	paternal grandfather	consanguineal	propose-hypernym	W:288
+phauj	puj nyaaj	paternal aunt	consanguineal	propose-hypernym	W:288
+txiv hlob	txiv hlub	paternal uncle older than father	consanguineal	propose-hypernym	W:288
+txiv ntxawm		paternal uncle younger than father	consanguineal	propose-hypernym	W:288
+niam tais	nam tais	maternal grandmother	consanguineal	propose-hypernym	W:288
+niam tais	nam tais	maternal aunt	consanguineal	propose-hypernym	W:288
+yawm txiv		maternal grandfather	consanguineal	propose-hypernym	W:288
+dab laug	dlaab laug	maternal uncle	consanguineal	propose-hypernym	W:288
+nus	nug	brother of a female	consanguineal	propose-hypernym	W:288
+nus	nug	paternal male cousin of a female	consanguineal	propose-hypernym	W:288
+muam		sister of a male	consanguineal	propose-hypernym	W:288
+muam		paternal female cousin of a male	consanguineal	propose-hypernym	W:288
+tij laug		older brother of a male	consanguineal	propose-hypernym	W:288
+tij laug		older paternal male cousin of a male	consanguineal	propose-hypernym	W:288
+kwv		younger brother of a male	consanguineal	propose-hypernym	W:288
+kwv		younger paternal male cousin of a male	consanguineal	propose-hypernym	W:288
+npawg		maternal male cousin	consanguineal	propose-hypernym	W:288
+muam npaws	muam npawg	maternal female cousin	consanguineal	propose-hypernym	W:288
+yawg koob		ancestor	consanguineal	lemma	W:288
+xeeb ntxwv		grandchild	consanguineal	lemma	W:288
+poj niam	quas puj	wife	affinal	lemma	W:288
+nyab	nyaab	daughter-in-law	affinal	lemma	W:288
+vauv		son-in-law	affinal	lemma	W:288
+niam txiv	nam txiv	parents	compound	lemma-inflected	W:288
+niam tub	nam tub	mother and child	compound	propose-hypernym	W:288
+txiv tub		father and child	compound	propose-hypernym	W:288
+kwv tij		brothers, patrilineal relatives	compound	propose	W:288
+neej tsa	neej tsaa	in-laws, matrilineal relatives	compound	propose	W:288
+viv ncaus		sisters	compound	lemma-inflected	W:288
+nus muag		siblings	compound	lemma-inflected	W:288
+phooj ywg		friend	compound	lemma	W:288

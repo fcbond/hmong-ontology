@@ -1,0 +1,16 @@
+# Lint settings for the converter and its helpers, so that "ruff clean" means the
+# same thing to anyone who checks out the repository.
+line-length = 96
+
+# Nathan White's original converter, left as he wrote it: reformatting someone
+# else's committed code to our lint settings would bury the real history of the
+# file in whitespace changes.
+exclude = ["hmongnet.py"]
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "RUF"]
+ignore = [
+    # a stoplist written as one space-separated string reads better than
+    # thirty-eight quoted items, which is what the list literal would be
+    "SIM905",
+]

@@ -1,0 +1,68 @@
+# Concepts we propose adding to KinDiv, with Hmong as the motivating evidence.
+#
+# These are in KinDiv's own `wn/extra-concepts.tsv` format, so they can be pasted
+# straight in. The `relations` rows follow, in `wn/extra-relations.tsv` format.
+#
+# Why these four. Hmong `nus`, `muam`, `tij laug` and `kwv` name the child of a
+# father's sibling *regardless of whether that sibling is a brother or a sister*,
+# while distinguishing the sex of the speaker and, for the last two, relative age.
+# Upstream KinDiv uses `Fa;Sb;So` and `Fa;Sb;Da` in `relations` and `gaps` but never
+# listed them in `concepts` (an omission, not a deletion: `concepts` has never had
+# them). It has no speaker-sex or age-marked variants of them at all. So the
+# structure is there and the labels are not, and Hmong is evidence that a language
+# lexicalises exactly these.
+#
+# Two of the six are the base concepts KinDiv uses without declaring; the other
+# four are what Hmong actually needs.
+#
+# STATUS (2026-09-28): all six are in fcbond/KinDiv. `Fa;Sb;So` and `Fa;Sb;Da` were
+# added to `concepts` itself; the four speaker-sex concepts and their relations are
+# in `wn/extra-concepts.tsv` and `wn/extra-relations.tsv`, marked "pending
+# confirmation". The Hmong words, with those of kinship-kindiv.tsv, are in
+# `wn/attested-words.tsv`. The relations also link each concept to its speaker-sex
+# cousin concept (e.g. o;Fa;Sb;So under o;Pa;Sb;So, "male cousin (female speaking)").
+#
+# CHECK: Nathan -- confirm that Hmong `nus`, `muam`, `tij laug` and `kwv` really are
+# indifferent to whether the father's sibling is a brother or a sister. If they are
+# not, these collapse to the existing Fa;Br;* and Fa;Ss;* concepts and no proposal
+# is needed.
+#
+# Why we doubt it. Hmong clans are patrilineal and exogamous, so a father's
+# brother's children belong to ego's clan, but a father's sister's children
+# belong to her husband's. The ethnographic expectation is that they are
+# *npawg*, like the mother's side, and that `nus`/`muam`/`tij laug`/`kwv` extend
+# only to the father's BROTHER's children (Fa;Br;So, Fa;Br;Da). This is an
+# expectation, not something checked against White (2021). If it holds:
+#   - `nus` and `muam` map to the existing o;Fa;Br;So and x;Fa;Br;Da; `tij laug`
+#     and `kwv` would need x;El;Fa;Br;So and x;Yn;Fa;Br;So, which are still new
+#     (KinDiv has El;Fa;Br;So and x;Fa;Br;So, but none marks both relative age and
+#     speaker sex);
+#   - `npawg` and `muam npaws` in kinship-kindiv.tsv are broader than Mo;Sb;So and
+#     Mo;Sb;Da (they would also cover Fa;Ss;So and Fa;Ss;Da), so those rows should
+#     become `narrower`, not `exact`.
+
+### for wn/extra-concepts.tsv
+Subdomain	Concept	Abreviation	Source	Definition
+cousins	son of father's sibling	Fa;Sb;So	Hmong (White 2021: 288)	a son of a father's brother or sister (a cousin)
+cousins	daughter of father's sibling	Fa;Sb;Da	Hmong (White 2021: 288)	a daughter of a father's brother or sister (a cousin)
+cousins	son of father's sibling (female speaking)	o;Fa;Sb;So	Hmong nus (White 2021: 288)	a son of a woman's father's brother or sister (a cousin)
+cousins	daughter of father's sibling (male speaking)	x;Fa;Sb;Da	Hmong muam (White 2021: 288)	a daughter of a man's father's brother or sister (a cousin)
+cousins	elder son of father's sibling (male speaking)	x;El;Fa;Sb;So	Hmong tij laug (White 2021: 288)	a son of a man's father's brother or sister, who is older than him (a cousin)
+cousins	younger son of father's sibling (male speaking)	x;Yn;Fa;Sb;So	Hmong kwv (White 2021: 288)	a son of a man's father's brother or sister, who is younger than him (a cousin)
+
+### for wn/extra-relations.tsv
+Subdomain	Hyponym_concept	Hypernym_concept
+cousins	o;Fa;Sb;So	Fa;Sb;So
+cousins	x;Fa;Sb;Da	Fa;Sb;Da
+cousins	x;El;Fa;Sb;So	Fa;Sb;So
+cousins	x;Yn;Fa;Sb;So	Fa;Sb;So
+cousins	x;El;Fa;Sb;So	El;Pa;Sb;So
+cousins	x;Yn;Fa;Sb;So	Yn;Pa;Sb;So
+
+### Hmong words for wn/extra-words.tsv, once the concepts exist
+Language	Subdomain	Word	Source	Concept
+White Hmong	cousins	nus	White 2021: 288	son of father's sibling (female speaking)
+Green Mong	cousins	nug	White 2021: 288	son of father's sibling (female speaking)
+White Hmong	cousins	muam	White 2021: 288	daughter of father's sibling (male speaking)
+White Hmong	cousins	tij laug	White 2021: 288	elder son of father's sibling (male speaking)
+White Hmong	cousins	kwv	White 2021: 288	younger son of father's sibling (male speaking)

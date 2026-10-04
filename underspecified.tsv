@@ -1,0 +1,49 @@
+# Underspecified nouns and the classifiers that specify them, from White (2021)
+# section 7.8.4, Tables 39-41, printed pp. 381-382.
+#
+# An underspecified noun has "a vague basic semantic value to which the choice of
+# classifier adds a significant degree of semantic specificity, such that a
+# completely different kind of object may be indicated depending on the choice of
+# classifier" (White, p. 381, citing Ratliff 1991: 694ff.). So `ntawv` is not
+# ambiguous between 'book' and 'letter': it is vague, and the classifier decides.
+#
+# This is the one place in the sources where a classifier does not merely agree
+# with a noun but changes what the phrase denotes, which makes each row a sense
+# distinction rather than a collocation. For a wordnet that means three things at
+# once: the compound is a lexical entry, its classifier is a `classified_by`
+# relation, and the set of rows for one noun is that noun's sense inventory.
+#
+# COLUMNS
+#   NOUN            the underspecified noun, White Hmong.
+#   NOUN_GLOSS      its vague basic value, as White gives it.
+#   CLASSIFIER      the classifier, White Hmong.
+#   CLASSIFIER_GM   the Green Mong form, where White gives a distinct one.
+#   VALUE           White's semantic label for the classifier, his notation.
+#   COMPOUND        the resulting phrase. White's tables give the White Hmong
+#                   result only, so no Green Mong compound is recorded here
+#                   rather than assembled from the parts.
+#   GLOSS           what the compound denotes, as White gives it.
+#   PAGE            printed page.
+#   CATEGORY        the ontology category the compound belongs in, chosen from the
+#                   terms already in hmong_ontology.xml's category_set. tus duab
+#                   'shadow' is `attribute` because the ontology has no phenomenon
+#                   category; CHECK: Nathan.
+#
+# CHECK: Nathan -- particularly nqe lus 'list', where CL:PARAGRAPH and the gloss
+# 'list' do not obviously agree, and whether nplooj ntawv and daim ntawv are
+# really both 'piece of paper' or differ in a way the table flattens.
+NOUN	NOUN_GLOSS	CLASSIFIER	CLASSIFIER_GM	VALUE	COMPOUND	GLOSS	PAGE	CATEGORY
+ntawv	paper	daim	dlaim	CL:2D	daim ntawv	piece of paper	381	two_dimensional_object
+ntawv	paper	phau	phoo	CL:BOOK	phau ntawv	book	381	communication
+ntawv	paper	nplooj		CL:FLAT.PIECE	nplooj ntawv	piece of paper	381	two_dimensional_object
+ntawv	paper	tsab	tsaab	CL:DOCUMENT	tsab ntawv	letter	381	communication
+ntawv	paper	kab	kaab	CL:SENTENCE	kab ntawv	sentence	381	communication
+lus	speech, word	lo	lu	CL:MOUTHFUL	lo lus	word	382	communication
+lus	speech, word	kab	kaab	CL:SENTENCE	kab lus	sentence	382	communication
+lus	speech, word	sob		CL:PARAGRAPH	sob lus	paragraph	382	communication
+lus	speech, word	zaj	zaaj	CL:DISCOURSE	zaj lus	discourse	382	communication
+lus	speech, word	nqe	nqai	CL:PARAGRAPH	nqe lus	list	382	communication
+lus	speech, word	tog		CL:SIDE	tog lus	side of the story	382	communication
+duab	shadow, picture	tus	tug	CL:1D.RIGID	tus duab	shadow	382	attribute
+duab	shadow, picture	daim	dlaim	CL:2D	daim duab	photograph	382	two_dimensional_object
+duab	shadow, picture	phau	phoo	CL:BOOK	phau duab	photo album	382	artifact

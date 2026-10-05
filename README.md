@@ -24,6 +24,11 @@ The data in this repository is released under [Creative Commons Attribution 4.0
 International](https://creativecommons.org/licenses/by/4.0/) (see `LICENSE`).
 Please cite the repository when you use it.
 
+Three files are exceptions, derived from share-alike sources and redistributed
+under their terms: `dbnary-hmong.tsv`, `dbnary-pivots.tsv` and the `KINDIV_LABEL`
+column of `kinship-kindiv.tsv`. `COPYRIGHT.md` lists them, and records what is
+extracted from the two descriptive publications and on what basis.
+
 ## Files
 
 | File | What it is |
@@ -66,13 +71,17 @@ Scripts, in the order they are run:
 | `facts.py` | recomputes every figure the paper cites, into `facts.json` |
 | `test_hmong2lmf.py` | tests for the converter |
 | `hmongnet.py` | WordNet-style access to the ontology (Nathan White's original) |
-| `build.sh`, `run.sh` | build and preview the online lookup |
+| `build.sh` | ontology → WN-LMF, then the lookup databases if Cygnet is there |
+| `run.sh` | serve `docs/` for a local preview (`online-lookup` branch) |
 
 | File | What it is |
 |---|---|
-| `etc/pivots.lock` | the wordnet releases triangulation may use, from Cygnet's `wordnets.toml` |
+| `etc/pivots.toml` | which release of English and of each of the 28 pivots the linking uses |
+| `etc/pivots.lock` | those pins resolved against what is actually loaded, written by `load_pivots.py` |
+| `etc/wordnets.toml` | which wordnets the browsable lookup merges (`online-lookup` branch) |
 | `facts.json` | every figure the paper cites, with the settings they depend on |
 | `wordnets-cited.tsv` | each wordnet used, with its citation, licence and BibTeX key |
+| `COPYRIGHT.md` | the files not covered by `LICENSE`, and why |
 | `RESOURCES.md` | survey of further resources that could enrich the ontology |
 | `IMPROVEMENTS.md` | what would improve the resource, measured and ranked |
 | `correspondence/` | external reviews of this code, with the prompts that produced them |
@@ -293,13 +302,29 @@ online lookup is built from, so the two can never disagree:
 uv run load_pivots.py --from ../cygnet/bin/raw_wns
 ```
 
-That reads the release URLs out of `../cygnet/wordnets.toml`, loads the matching
-WN-LMF files into `.wn_data` beside this script, checks that what landed is what
-was pinned, and writes `etc/pivots.lock`. The English wordnet it pins is
-**`oewn:2025+`**, the edition that includes curated proper names: the plain
-`oewn:2025` has neither `Moon` (`i85806`) nor `Sun` (`i86272`), so two Concepticon
-mappings dangle against it. The `+` edition costs four gloss-only links in exchange,
-since 13,000 extra name synsets make a few monosemous glosses ambiguous. `hmong2lmf.py`, `facts.py` and
+That reads the release URLs out of **`etc/pivots.toml`** — this repository's own
+file, so a build here does not depend on a sibling checkout's working state —
+loads the matching WN-LMF files into `.wn_data` beside this script, checks that
+what landed is what was pinned, and writes `etc/pivots.lock`.
+
+There are two TOMLs and they declare different things. `etc/pivots.toml` names the
+29 wordnets the *linking* queries: English plus the 28 pivots. `etc/wordnets.toml`
+names what the *lookup* merges: English and the two Hmong lexicons, nothing else.
+Both must name the same English release, or the lookup merges against a different
+English wordnet from the one the ILIs were chosen against and some links point at
+synsets it does not contain.
+
+The English wordnet both pin is **`oewn:2025+`**, the edition that includes curated
+proper names: the plain `oewn:2025` has neither `Moon` (`i85806`) nor `Sun`
+(`i86272`), so two Concepticon mappings dangle against it. The `+` edition costs
+four gloss-only links in exchange, since 13,000 extra name synsets make a few
+monosemous glosses ambiguous.
+
+Changing the pinned English edition invalidates the work directory: Cygnet keeps
+converted intermediates in `build/cygnet-work/bin/cygnets_presynth/`, every edition
+declares the lexicon id `oewn`, and two of them there make the synthesis stage fail
+with `Duplicate concept id: oewn.i1`. `build.sh` clears the stale ones, in both
+`raw_wns/` and `cygnets_presynth/`. `hmong2lmf.py`, `facts.py` and
 `conflicts.py` all read that lock file by default and refuse to use a lexicon at
 any other version; `--allow-missing-pivots` overrides the refusal for exploration.
 Nothing here ever reads or writes the user's `~/.wn_data`, and `load_pivots.py`
@@ -345,6 +370,12 @@ uv run --with pytest --with wn pytest test_hmong2lmf.py -q
 ```
 
 ## Online lookup
+
+**The lookup lives on the `online-lookup` branch.** Its page, its configuration and
+its deploy workflow — `docs/`, `etc/wordnets.toml`, `etc/local.json`, `run.sh` and
+`.github/workflows/pages.yml` — are there rather than on `main`, which carries the
+wordnet itself. `git switch online-lookup` to get them; stage 2 of `build.sh` skips
+cleanly without them.
 
 `build.sh` also builds a browsable wordnet with
 [Cygnet](https://github.com/fcbond/cygnet), which merges the two Hmong lexicons

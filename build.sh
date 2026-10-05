@@ -45,11 +45,10 @@ else
     echo "note: $CONCEPTICON not found; building without the Concepticon route," >&2
     echo "      which costs about 1,150 of the 2,100 interlingual links." >&2
 fi
-# The pivot wordnets are pinned to the releases named in Cygnet's wordnets.toml,
-# which is the same file step 2 builds the lookup from. load_pivots.py resolves
-# those pins into etc/pivots.lock and hmong2lmf.py refuses to triangulate against
-# any other version: triangulation counts languages, so a wordnet at a different
-# release can change which ILI wins.
+# The pivot wordnets are pinned to the releases named in etc/pivots.toml.
+# load_pivots.py resolves those pins into etc/pivots.lock and hmong2lmf.py refuses
+# to triangulate against any other version: triangulation counts languages, so a
+# wordnet at a different release can change which ILI wins.
 # `etc/pivots.lock` is in the repository, so its presence says nothing about
 # whether the wordnets it names are on *this* machine. What matters is the data
 # directory, which is not in the repository: a fresh clone has the lock file and
@@ -60,7 +59,6 @@ if [[ ! -f "$WN_DATA/wn.db" && -n "$CYGNET_DIR" ]]; then
     uv run "$PROJECT_DIR/load_pivots.py" \
         --data-directory "$WN_DATA" \
         --from "$CYGNET_DIR/bin/raw_wns" \
-        --wordnets "$CYGNET_DIR/wordnets.toml" \
         --lock "$PIN_FILE" || true
 fi
 if [[ -f "$WN_DATA/wn.db" ]]; then

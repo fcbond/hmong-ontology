@@ -1,0 +1,51 @@
+# Wordnet releases this repository links against, and the only place their
+# versions are declared.
+#
+# Triangulation counts languages, so a pivot wordnet at a different release can
+# change which ILI wins a vote --- not merely how many senses link. The releases
+# are therefore pinned, `load_pivots.py` resolves these URLs into
+# `etc/pivots.lock`, and the converter refuses any other version.
+#
+# This file is deliberately separate from `etc/wordnets.toml`, which lists what the
+# browsable lookup merges (English and the two Hmong lexicons, nothing else). These
+# 28 pivots are queried while building the wordnet and are not part of it.
+#
+# The format is Cygnet's, so the URLs can be kept in step with it by eye; the
+# version in each filename is what `load_pivots.py` pins. Keeping our own copy
+# means a build here does not depend on the state of a sibling checkout.
+#
+# English is the backbone every linking route goes through. The "plus" edition
+# carries curated proper names from Open English Namenet, among them Moon
+# (i85806) and Sun (i86272), which two Concepticon concept sets name and the
+# plain edition does not have.
+en = ["https://en-word.net/static/english-wordnet-2025-plus.xml.gz"]
+
+# The 28 Open Multilingual Wordnet pivots, by their ISO 639-3 code.
+arb = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-arb-2.0.tar.xz"]
+bg = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-bg-2.0.tar.xz"]
+ca = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-ca-2.0.tar.xz"]
+cmn = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-cmn-2.0.tar.xz"]
+da = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-da-2.0.tar.xz"]
+el = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-el-2.0.tar.xz"]
+es = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-es-2.0.tar.xz"]
+eu = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-eu-2.0.tar.xz"]
+fi = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-fi-2.0.tar.xz"]
+fr = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-fr-2.0.tar.xz"]
+gl = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-gl-2.0.tar.xz"]
+he = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-he-2.0.tar.xz"]
+hr = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-hr-2.0.tar.xz"]
+id = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-id-2.0.tar.xz"]
+is = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-is-2.0.tar.xz"]
+it = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-it-2.0.tar.xz"]
+ja = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-ja-2.0.tar.xz"]
+lt = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-lt-2.0.tar.xz"]
+nb = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-nb-2.0.tar.xz"]
+nl = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-nl-2.0.tar.xz"]
+nn = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-nn-2.0.tar.xz"]
+pl = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-pl-2.0.tar.xz"]
+ro = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-ro-2.0.tar.xz"]
+sk = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-sk-2.0.tar.xz"]
+sq = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-sq-2.0.tar.xz"]
+sv = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-sv-2.0.tar.xz"]
+th = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-th-2.0.tar.xz"]
+zsm = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-zsm-2.0.tar.xz"]

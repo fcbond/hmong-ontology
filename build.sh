@@ -45,29 +45,34 @@ else
     echo "note: $CONCEPTICON not found; building without the Concepticon route," >&2
     echo "      which costs about 1,150 of the 2,100 interlingual links." >&2
 fi
-# The pivot wordnets are pinned to the releases named in Cygnet's wordnets.toml,
-# which is the same file step 2 builds the lookup from. load_pivots.py resolves
-# those pins into etc/pivots.lock and hmong2lmf.py refuses to triangulate against
-# any other version: triangulation counts languages, so a wordnet at a different
-# release can change which ILI wins.
-if [[ ! -f "$PIN_FILE" ]]; then
-    echo "=== resolving wordnet pins -> $PIN_FILE ==="
+# The pivot wordnets are pinned to the releases named in etc/pivots.toml.
+# load_pivots.py resolves those pins into etc/pivots.lock and hmong2lmf.py refuses
+# to triangulate against any other version: triangulation counts languages, so a
+# wordnet at a different release can change which ILI wins.
+# `etc/pivots.lock` is in the repository, so its presence says nothing about
+# whether the wordnets it names are on *this* machine. What matters is the data
+# directory, which is not in the repository: a fresh clone has the lock file and
+# no lexicons at all, and passing --english to a wn database with nothing in it
+# fails deep inside the library with "no lexicon found".
+if [[ ! -f "$WN_DATA/wn.db" && -n "$CYGNET_DIR" ]]; then
+    echo "=== loading the pinned wordnets -> $WN_DATA ==="
     uv run "$PROJECT_DIR/load_pivots.py" \
         --data-directory "$WN_DATA" \
         --from "$CYGNET_DIR/bin/raw_wns" \
-        --wordnets "$CYGNET_DIR/wordnets.toml" \
-        --lock "$PIN_FILE" || {
-        echo "note: could not load the pivot wordnets; building without" >&2
-        echo "      triangulation and the Wiktionary route." >&2
-    }
+        --lock "$PIN_FILE" || true
 fi
-if [[ -f "$PIN_FILE" ]]; then
+if [[ -f "$WN_DATA/wn.db" ]]; then
     route_args+=(--data-directory "$WN_DATA" --pin-file "$PIN_FILE"
                  --english "$ENGLISH")
     [[ -f "$PROJECT_DIR/dbnary-pivots.tsv" ]] && \
         route_args+=(--pivots "$PROJECT_DIR/dbnary-pivots.tsv")
     [[ -f "$PROJECT_DIR/dbnary-hmong.tsv" ]] && \
         route_args+=(--dbnary "$PROJECT_DIR/dbnary-hmong.tsv")
+else
+    echo "note: no wordnets are loaded in $WN_DATA, so this build has neither" >&2
+    echo "      triangulation nor the Wiktionary route, which together cost" >&2
+    echo "      about 350 interlingual concepts. To add them:" >&2
+    echo "        uv run load_pivots.py --from ../cygnet/bin/raw_wns" >&2
 fi
 if [[ -n "$CLDF" && -d "${CLDF%%:*}" ]]; then
     route_args+=(--cldf "$CLDF")
@@ -107,11 +112,34 @@ if [[ -z "$CYGNET_DIR" || ! -f "$PROJECT_DIR/etc/wordnets.toml" ]]; then
 fi
 
 cp "$PROJECT_DIR/etc/wordnets.toml" "$WORK_DIR/wordnets.toml"
-for cached in english-wordnet-2025-plus.xml.gz; do
-    [[ -f "$WORK_DIR/bin/raw_wns/$cached" ]] && continue
-    [[ -f "$CYGNET_DIR/bin/raw_wns/$cached" ]] && \
-        cp "$CYGNET_DIR/bin/raw_wns/$cached" "$WORK_DIR/bin/raw_wns/$cached"
-done
+
+# Stage exactly one English wordnet, the pinned edition, derived from $ENGLISH:
+# "oewn:2025+" -> english-wordnet-2025-plus.xml.gz, and lexicon oewn:2025+.
+#
+# Every edition declares the lexicon id `oewn`, so if two of them reach the
+# synthesis stage Cygnet merges `oewn` twice and dies with "Duplicate concept id:
+# oewn.i1". That happens to anyone whose work directory was built against a
+# different edition, and it has to be cleaned in *two* places: the input files in
+# raw_wns/, and the converted intermediates in cygnets_presynth/, which stage 6
+# reads wholesale. Cleaning only the first leaves the build failing later with the
+# same error.
+english_version="${ENGLISH#oewn:}"
+english_file="english-wordnet-${english_version/+/-plus}.xml.gz"
+find "$WORK_DIR/bin/raw_wns" -maxdepth 1 -name 'english-wordnet-*.xml.gz' \
+    ! -name "$english_file" -delete
+if [[ -d "$WORK_DIR/bin/cygnets_presynth" ]]; then
+    find "$WORK_DIR/bin/cygnets_presynth" -maxdepth 1 -name 'oewn-*' \
+        ! -name "oewn-${english_version}.xml" \
+        ! -name "oewn-${english_version}_log.json" -delete
+fi
+if [[ ! -f "$WORK_DIR/bin/raw_wns/$english_file" ]]; then
+    if [[ -f "$CYGNET_DIR/bin/raw_wns/$english_file" ]]; then
+        cp "$CYGNET_DIR/bin/raw_wns/$english_file" "$WORK_DIR/bin/raw_wns/"
+    else
+        echo "note: $english_file is not in $CYGNET_DIR/bin/raw_wns;" >&2
+        echo "      Cygnet will download it." >&2
+    fi
+fi
 [[ -f "$WORK_DIR/bin/cili.tsv" ]] || { [[ -f "$CYGNET_DIR/bin/cili.tsv" ]] && \
     cp "$CYGNET_DIR/bin/cili.tsv" "$WORK_DIR/bin/cili.tsv"; } || true
 

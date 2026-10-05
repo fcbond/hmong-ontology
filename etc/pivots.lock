@@ -1,5 +1,5 @@
 # Wordnet releases triangulation is pinned to, written by load_pivots.py.
-# Taken from /home/bond/git/cygnet/wordnets.toml, which is also what the online lookup builds from.
+# Resolved from pivots.toml, which is where a release is declared.
 # hmong2lmf.py refuses to triangulate against any other version.
 #
 # lexicon	version

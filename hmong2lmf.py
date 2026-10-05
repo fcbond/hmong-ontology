@@ -1467,7 +1467,17 @@ def main() -> int:
     print(f"read {len(entries)} entries, {len(senses)} senses, "
           f"{len(hierarchy)} categories from {args.ontology} (dialect {args.dialect})")
 
-    english = wn.Wordnet(lexicon=args.english)
+    try:
+        english = wn.Wordnet(lexicon=args.english)
+    except wn.Error as error:
+        raise SystemExit(
+            f"cannot open the English wordnet {args.english!r} in "
+            f"{args.data_directory}: {error}\n"
+            f"Every linking route goes through English WordNet, so the converter "
+            f"needs it. Load the pinned wordnets first:\n"
+            f"    uv run load_pivots.py --from ../cygnet/bin/raw_wns\n"
+            f"or point --data-directory at a wn database that already has it."
+        ) from error
     lemmatiser = None if args.no_morphy else Morphy(english)
     concepticon = by_id = None
     if args.concepticon:

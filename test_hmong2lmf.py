@@ -1067,5 +1067,41 @@ def test_read_adjudications_skips_comment_rows(tmp_path: Path) -> None:
     assert [r["FORM"] for r in m.read_adjudications(path)] == ["nyuj"]
 
 
+def proposal(gloss: str = "heart") -> dict[str, str]:
+    return {"FORM": "siab", "DIALECT": "WH", "GLOSS": gloss, "POS": "n",
+            "DEFINITION": "the liver as the locus of feelings and dispositions",
+            "RELATION": "similar", "TARGET": "i67941", "BY": "a speaker", "NOTE": ""}
+
+
+def test_ili_proposal_marks_an_unlinked_sense() -> None:
+    sense = m.OntSense(0, "siab", ["heart"], "cognition")
+    assert m.apply_ili_proposals([sense], [proposal()]) == []
+    assert sense.ili is None
+    assert sense.ili_definition.startswith("the liver")
+    assert "similar i67941" in sense.note
+
+
+def test_ili_proposal_leaves_a_linked_sense_alone() -> None:
+    sense = m.OntSense(0, "siab", ["heart"], "cognition")
+    sense.ili = "i67941"
+    assert m.apply_ili_proposals([sense], [proposal()]) == [proposal()]
+    assert sense.ili_definition == ""
+
+
+def test_ili_proposal_is_written_as_ili_in(tmp_path: Path) -> None:
+    sense = m.OntSense(0, "siab", ["heart"], "cognition")
+    m.apply_ili_proposals([sense], [proposal()])
+    entry = m.Entry("siab", "n", senses=[sense])
+    out = tmp_path / "out.xml"
+    m.write_lmf(out, [entry], m.build_synsets([sense]), {}, _meta())
+    text = out.read_text(encoding="utf8")
+    assert 'ili="in"' in text
+    assert ("<ILIDefinition>the liver as the locus of feelings and dispositions"
+            "</ILIDefinition>") in text
+    # the rejected gloss does not survive as the synset's definition
+    assert '<Definition language="en">heart</Definition>' not in text
+    assert 'note="proposed new concept, similar i67941"' in text
+
+
 if __name__ == "__main__":
     sys.exit(subprocess.call([sys.executable, "-m", "pytest", __file__, "-q"]))

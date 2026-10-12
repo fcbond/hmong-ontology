@@ -207,6 +207,11 @@ class OntSense:
     linked_gloss: str = ""
     candidates: set[str] = field(default_factory=set)
     candidate_notes: dict[str, str] = field(default_factory=dict)
+    #: the definition of a new concept proposed for CILI, from ili-proposals.tsv;
+    #: the sense's synset is then written ili="in" with this as its ILIDefinition
+    ili_definition: str = ""
+    #: the proposed concept's relation to the nearest existing one, e.g. "similar i67941"
+    ili_relation: str = ""
 
     @property
     def pos(self) -> str:
@@ -576,6 +581,51 @@ def apply_adjudications(
                 sense.note, f"adjudicated by {verdict['BY']}: {verdict['NOTE']}") if n)
         if not hits:
             unmatched.append(verdict)
+    return unmatched
+
+
+ILI_PROPOSAL_FIELDS = ["FORM", "DIALECT", "GLOSS", "POS", "DEFINITION", "RELATION",
+                       "TARGET", "BY", "NOTE"]
+
+
+def read_ili_proposals(path: Path) -> list[dict[str, str]]:
+    """New concepts proposed for CILI, one row per sense: `ili-proposals.tsv`.
+
+    FORM, DIALECT and GLOSS pick out the sense as in `adjudications.tsv`;
+    DEFINITION defines the new concept, and RELATION and TARGET relate it to
+    the nearest concept the index already has.
+    """
+    return read_adjudications(path)
+
+
+def apply_ili_proposals(
+    senses: list[OntSense], proposals: list[dict[str, str]]
+) -> list[dict[str, str]]:
+    """Mark each proposed sense as a new concept, with its draft definition.
+
+    Only an unlinked sense can be proposed: a sense with an ILI already has a
+    concept, and a proposal that finds it linked means the two files disagree.
+    The relation to the nearest concept goes into the note, because its target
+    is in no synset of this lexicon. Returns the proposals that matched no
+    unlinked sense.
+    """
+    unmatched = []
+    for proposal in proposals:
+        hits = [s for s in senses
+                if s.form == normalise_form(proposal["FORM"])
+                and s.dialect == proposal["DIALECT"]
+                and proposal["GLOSS"] in s.glosses
+                and not s.ili]
+        relation = " ".join(x for x in (proposal["RELATION"], proposal["TARGET"]) if x)
+        for sense in hits:
+            sense.ili_definition = proposal["DEFINITION"]
+            sense.ili_relation = relation
+            sense.note = "; ".join(n for n in (
+                sense.note,
+                f"proposed as a new concept by {proposal['BY']}"
+                + (f", {relation}" if relation else "")) if n)
+        if not hits:
+            unmatched.append(proposal)
     return unmatched
 
 
@@ -1431,6 +1481,17 @@ def write_lmf(
         # where the interlingual index has no entry for it, so it goes on the synset
         # as dc:identifier, which is what KinDiv's own build does
         kindiv = sorted({s.kindiv for s in members if s.kindiv})
+        # a proposed new concept carries ili="in" and its own definition in place
+        # of the gloss, which for these senses is the reading a speaker rejected
+        proposal = next((s for s in members if s.ili_definition), None)
+        if proposal and not ili:
+            ili = "in"
+            glosses = [proposal.ili_definition]
+        if ili == "in":
+            note = "proposed new concept" + (
+                f", {proposal.ili_relation}" if proposal.ili_relation else "")
+        else:
+            note = f"linked by {members[0].method}" if ili else members[0].method
         # id and ili are #REQUIRED; an unlinked synset carries ili="".
         lines.append(
             "    <Synset"
@@ -1442,7 +1503,7 @@ def write_lmf(
                     ("dc:type", ", ".join(functions) or None),
                     ("dc:identifier",
                      f"KinDiv:{kindiv[0]}" if len(kindiv) == 1 else None),
-                    ("note", f"linked by {members[0].method}" if ili else members[0].method),
+                    ("note", note),
                 ]
             )
             + ">"
@@ -1450,6 +1511,9 @@ def write_lmf(
         lines.append(
             f'      <Definition language="en">{escape("; ".join(glosses))}</Definition>'
         )
+        if ili == "in":
+            lines.append(f"      <ILIDefinition>{escape(proposal.ili_definition)}"
+                         "</ILIDefinition>")
         for rel_type, target, confidence in sorted(relations.get(synset_id, set())):
             lines.append(
                 "      <SynsetRelation"
@@ -1544,6 +1608,9 @@ def main() -> int:
     parser.add_argument("--adjudications", type=Path, metavar="FILE",
                         help="adjudications.tsv: a speaker's verdicts on links, "
                              "which overrule every route")
+    parser.add_argument("--ili-proposals", type=Path, metavar="FILE",
+                        help="ili-proposals.tsv: new concepts proposed for CILI, "
+                             "written as ili=\"in\" synsets")
     parser.add_argument("--dbnary", type=Path, metavar="FILE",
                         help="dbnary-hmong.tsv, the sense-anchored Wiktionary "
                              "translations produced by fetch_dbnary.py")
@@ -1693,6 +1760,16 @@ def main() -> int:
         for verdict in unmatched:
             print(f"  warning: no sense {verdict['FORM']} '{verdict['GLOSS']}' "
                   f"({verdict['DIALECT']}) to adjudicate", file=sys.stderr)
+    if args.ili_proposals:
+        proposals = [p for p in read_ili_proposals(args.ili_proposals)
+                     if args.dialect in ("all", p["DIALECT"])]
+        unmatched = apply_ili_proposals(senses, proposals)
+        print(f"proposed {len(proposals) - len(unmatched)} of {len(proposals)} "
+              f"new concepts from {args.ili_proposals}")
+        for proposal in unmatched:
+            print(f"  warning: no unlinked sense {proposal['FORM']} "
+                  f"'{proposal['GLOSS']}' ({proposal['DIALECT']}) to propose",
+                  file=sys.stderr)
 
     record_ili_pos(senses, english)
     merged = dedupe_senses(entries)

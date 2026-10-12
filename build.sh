@@ -98,6 +98,7 @@ for dialect in WH GM; do
         --pivot-review "$PROJECT_DIR/review-triangulation-$dialect.tsv" \
         --dbnary-review "$PROJECT_DIR/review-wiktionary-$dialect.tsv" \
         --adjudications "$PROJECT_DIR/adjudications.tsv" \
+        --ili-proposals "$PROJECT_DIR/ili-proposals.tsv" \
         "${route_args[@]}"
     gzip -cf "$PROJECT_DIR/build/$stem.xml" > "$WORK_DIR/bin/raw_wns/$stem.xml.gz"
 done

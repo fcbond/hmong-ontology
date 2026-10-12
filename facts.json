@@ -326,6 +326,12 @@
     "ontology_lemmas": 99,
     "senses": 101
   },
+  "ili_proposals": {
+    "concepts": 1,
+    "forms": [
+      "siab"
+    ]
+  },
   "kinship": {
     "ili_status": {
       "lemma": 11,

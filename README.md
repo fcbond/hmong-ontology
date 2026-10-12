@@ -46,7 +46,7 @@ extracted from the two descriptive publications and on what basis.
 | `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary; candidates only |
 | `dbnary-pivots.tsv` | the other languages' translations of those same senses, for triangulation |
 | `adjudications.tsv` | a speaker's verdicts on links, which overrule every linking route |
-| `ili-proposals.tsv` | new concepts proposed for CILI where a speaker found no ILI fits |
+| `ili-proposals.tsv` | new concepts proposed for CILI where a speaker found no ILI fits; written as `ili="in"` synsets |
 | `stopwords_base.txt` | Hmong stopwords, excluding classifiers and verbal bound roots/affixes |
 | `stopwords_classifiers.txt` | Hmong classifiers |
 | `stopwords_verbal_adjuncts.txt` | Hmong verbal adjuncts, such as bound roots and affixes |
@@ -327,8 +327,13 @@ Where no ILI fits, the sense stays unlinked and the missing concept goes in
 `ili-proposals.tsv`: a draft definition and its relation to the nearest existing
 concept. The first is *siab* 'liver' as the seat of feeling, similar to i67941
 'heart, bosom: the locus of feelings and intuitions' but not the same concept,
-since *siab* does not occur in the same idioms. The converter does not read this
-file yet; the proposals are for submission to CILI.
+since *siab* does not occur in the same idioms. Pass the file with
+`--ili-proposals ili-proposals.tsv`: the sense's synset is written `ili="in"`, with
+the draft definition as both its `Definition` and its `ILIDefinition`, which is how
+WN-LMF marks a concept proposed for CILI. The relation to the nearest concept
+cannot be a `SynsetRelation`, since its target is in no synset of this lexicon, so
+it goes in the synset's note and stays in the file for the CILI submission. A
+proposal for a sense that is already linked is reported and ignored.
 
 ### Which wordnets, at which release
 

@@ -98,6 +98,8 @@ def main() -> int:
     parser.add_argument("--pivots", type=Path, default=Path("dbnary-pivots.tsv"))
     parser.add_argument("--adjudications", type=Path,
                         default=Path("adjudications.tsv"))
+    parser.add_argument("--ili-proposals", type=Path,
+                        default=Path("ili-proposals.tsv"))
     parser.add_argument("--out", type=Path, default=Path("facts.json"))
     args = parser.parse_args()
 
@@ -258,6 +260,12 @@ def main() -> int:
     facts["adjudications"] = {
         "verdicts": len(verdicts),
         "unlinked": sum(1 for v in verdicts if not v["ILI"]),
+    }
+    proposals = (m.read_ili_proposals(args.ili_proposals)
+                 if args.ili_proposals.exists() else [])
+    facts["ili_proposals"] = {
+        "concepts": len(proposals),
+        "forms": sorted({p["FORM"] for p in proposals}),
     }
     for key, value in stages.items():
         value.pop("senses", None)

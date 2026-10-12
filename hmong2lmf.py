@@ -521,8 +521,8 @@ def read_dbnary_pivots(
 
     `min_support` counts the languages backing the *winning* ILI, not the languages
     that produced any candidate at all. That distinction matters: counting the
-    latter is a mistake we made in earlier work on this method, and fixing it moved
-    precision from 85.4% to 90.7%.
+    latter would pass a link backed by one language whenever a second language
+    proposed something else.
 
     Returns the senses it could link, and a review row for every group it could not.
     """

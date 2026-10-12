@@ -80,7 +80,7 @@ BIBKEYS = {
     "omw-nn": "Fjeld:Nygaard:2009",
     "omw-pl": "Piasecki:Szpakowicz:Broda:2009",
     "omw-ro": "Tufis:Ion:Bozianu:Ceausu:Stefanescu:2008",
-    "omw-sk": "bond-foster-2013-omw",
+    "omw-sk": "bond-etal-2023-documenting",
     "omw-sq": "Ruci:2008",
     "omw-sv": "Borin:Forsberg:Lonngren:2013",
     "omw-th": "Thoongsup:Charoenporn:Robkop:Sinthurahat:Mokarat:"

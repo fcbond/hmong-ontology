@@ -22,20 +22,20 @@ and Green Mong from nothing to **96 lemmas**. For White Hmong:
 | | linkable | linked | | distinct ILIs |
 |---|---|---|---|---|
 | English WordNet lookup alone | 1,545 | 540 | 35.0% | 497 |
-| + the Concepticon bridge | 1,543 | 854 | 55.3% | 748 |
-| + WOLD | 2,736 | 1,735 | 63.4% | 1,358 |
-| + triangulation | 3,084 | 2,083 | 67.5% | 1,582 |
-| + Wiktionary definition overlap | 3,095 | **2,094** | **67.7%** | **1,592** |
+| + the Concepticon bridge | 1,543 | 842 | 54.6% | 738 |
+| + WOLD | 2,739 | 1,747 | 63.8% | 1,376 |
+| + triangulation | 3,086 | 2,094 | 67.9% | 1,598 |
+| + Wiktionary definition overlap | 3,097 | **2,105** | **68.0%** | **1,608** |
 
-Of those 1,592 concepts, 494 come from the descriptive sources, 1,019 from WOLD (845
-of them reached by no other source), 344 from triangulation (313 likewise), and 11
+Of those 1,608 concepts, 487 come from the descriptive sources, 1,038 from WOLD (870
+of them reached by no other source), 343 from triangulation (312 likewise), and 11
 from the Wiktionary definition comparison (10 likewise). A further **34 senses carry
 a KinDiv kin-type identifier** for concepts the interlingual index has no entry for
 at all.
 
-What each link rests on: **1,710** senses on a hand-mapped concept set, two glosses
-intersecting, or several languages agreeing; **384** on a single monosemous gloss,
-labelled as the weaker evidence it is; **1,001** open; **141** classifiers with no
+What each link rests on: **1,722** senses on a hand-mapped concept set, two glosses
+intersecting, or several languages agreeing; **383** on a single monosemous gloss,
+labelled as the weaker evidence it is; **992** open; **141** classifiers with no
 ILI by design.
 
 The English wordnet is **`oewn:2025+`**, the edition that includes proper names.
@@ -368,6 +368,22 @@ invisible in a passing test suite:
   definition or examples; a missing pivot wordnet changed which ILI wins and was
   only a warning, now an error unless `--allow-missing-pivots`.
 
+## Fixed while checking the route conflicts (2026-10-12)
+
+- **Adjective satellites.** Borin's conceptlist tags satellites `a`; CILI keys them
+  `s`. `cldf2wn` looked them up as `-a` and dropped 48 links, 43 exact. Exact links
+  went from 1,185 to **1,228**, and WOLD's identifier links from 1,149 to 1,171.
+- **Gloss fall-through.** The Concepticon gloss route tried each gloss of a sense in
+  turn, so `tua` 'kill; shoot', with no exact link for KILL, linked to SHOOT; `dab`
+  'spirit; demon' likewise to DEMON. It now stops at the first gloss Concepticon
+  knows, linked or not: 12 fewer gloss links, `tua` and `dab` among them.
+- **Conflict keys.** `conflicts.py` filed a link under every gloss of a sense, not
+  the gloss that made it, which manufactured the `cai` 'custom' and 'rule' rows.
+  The three "too specific" Concepticon mappings in the first draft of the paper
+  were all ours: Borin maps SHOOT, DEMON and LAW correctly. The sheet is now 27
+  conflicts out of 189 (85.7% agreement); the colour terms `liab`, `daj`, `ntsuab`
+  are new, adjective against colour noun.
+
 ## Measured and rejected
 
 - **Merging kaikki.org's White Hmong glosses to disambiguate our senses.** 815
@@ -393,9 +409,9 @@ invisible in a passing test suite:
 
 | | concepts | coverage |
 |---|---|---|
-| now | 1,592 ILIs + 34 KinDiv | 67.7% of linkable senses |
-| (1) a second gloss for the 145 two-candidate senses | +145 senses | 72.3% |
-| (1b) the 134 rows across the three review sheets | +up to 134 senses | |
+| now | 1,608 ILIs + 34 KinDiv | 68.0% of linkable senses |
+| (1) a second gloss for the 142 two-candidate senses | +142 senses | 72.6% |
+| (1b) the 133 rows across the three review sheets | +up to 133 senses | |
 | (3) proposing the 238 unknown concepts | +238 | |
 | (6) Strecker's dictionary, with permission | ~849 ILIs for Green Mong | |
 | (8) a speaker-judged stratified sample | — | the missing evaluation |

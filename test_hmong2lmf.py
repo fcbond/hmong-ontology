@@ -474,7 +474,38 @@ def test_concepticon_links_only_exact_relations(tmp_path: Path) -> None:
         "3\tNOTHING\t\tn\tss\n",
         encoding="utf8")
     mapping = m.read_concepticon(table)
-    assert mapping == {"firewood": ("i100", "n")}
+    # inexact or unlinked concepts are known, but carry no link
+    assert mapping == {"firewood": ("i100", "n"), "vulture": ("", ""),
+                       "nothing": ("", "")}
+
+
+def test_concepticon_stops_at_a_known_concept_without_a_link() -> None:
+    """'kill; shoot' must not link to SHOOT because KILL has no exact link."""
+    sense = m.OntSense(0, "tua", ["kill", "shoot"], "verb.contact")
+    m.link_senses([sense], FakeWordnet({}), True, True,
+                  concepticon={"kill": ("", ""), "shoot": ("i27293", "v")})
+    assert sense.ili is None
+    # whereas a 'kill' Concepticon does not know at all is passed over
+    sense = m.OntSense(0, "tua", ["kill", "shoot"], "verb.contact")
+    m.link_senses([sense], FakeWordnet({}), True, True,
+                  concepticon={"shoot": ("i27293", "v")})
+    assert (sense.ili, sense.method) == ("i27293", "concepticon")
+
+
+def test_concepticon_passes_over_a_gloss_it_does_not_know() -> None:
+    sense = m.OntSense(0, "taws", ["kindling", "firewood"], "object")
+    m.link_senses([sense], FakeWordnet({}), True, True,
+                  concepticon={"firewood": ("i100", "n")})
+    assert (sense.ili, sense.method) == ("i100", "concepticon")
+    assert sense.linked_gloss == "firewood"
+
+
+def test_conflicts_key_a_gloss_link_only_by_the_gloss_it_used() -> None:
+    """'law; rule; custom' linked through 'law' says nothing about 'custom'."""
+    import conflicts
+    sense = m.OntSense(0, "cai", ["law", "rule", "custom"], "abstraction")
+    sense.ili, sense.method, sense.linked_gloss = "i81481", "concepticon", "law"
+    assert conflicts.answers([sense], "concepticon") == {("cai", "law"): "i81481"}
 
 
 def test_concepticon_links_what_english_lookup_could_not() -> None:

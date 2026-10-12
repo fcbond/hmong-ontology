@@ -203,6 +203,8 @@ class OntSense:
     # filled in by linking
     ili: str | None = None
     method: str = "unprocessed"
+    #: the one gloss a gloss-matching route linked by, where a sense has several
+    linked_gloss: str = ""
     candidates: set[str] = field(default_factory=set)
     candidate_notes: dict[str, str] = field(default_factory=dict)
 
@@ -745,6 +747,7 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
     if method_rank(loser.method) < method_rank(keeper.method):
         other = keeper.source
         keeper.method = loser.method
+        keeper.linked_gloss = loser.linked_gloss
         keeper.source = loser.source or keeper.source
     notes = [n for n in (keeper.note, loser.note, note) if n]
     if other and other != keeper.source:
@@ -861,13 +864,17 @@ def read_concepticon(path: Path) -> dict[str, tuple[str, str]]:
     Concepticon conceptlist. Only rows the conceptlist marks `ss`, a genuine
     synonym link, are used: its `ui` and `iu` rows are deliberately inexact and
     would put a sense in the wrong synset.
+
+    A concept set with no exact link maps to `("", "")` rather than being left
+    out: the gloss route needs to know that Concepticon has the concept, and only
+    lacks a link for it, so that it does not fall through to a later gloss.
     """
     mapping: dict[str, tuple[str, str]] = {}
     with path.open(newline="", encoding="utf8") as handle:
         for row in csv.DictReader(handle, delimiter="\t"):
-            if row.get("RELATION") != "ss" or not row.get("ILI"):
-                continue
-            mapping[normalise_gloss(row["GLOSS"]).lower()] = (row["ILI"], row["POS"] or "")
+            exact = row.get("RELATION") == "ss" and row.get("ILI")
+            mapping[normalise_gloss(row["GLOSS"]).lower()] = (
+                (row["ILI"], row["POS"] or "") if exact else ("", ""))
     return mapping
 
 
@@ -1121,11 +1128,18 @@ def link_by_concepticon(
             if found and found[1] == sense.pos:
                 sense.ili, sense.method = found[0], "concepticon-id"
                 continue
+        # a sense's glosses are tried in order, but only past glosses Concepticon
+        # does not know. Where it has the concept and no exact link for it, a
+        # later gloss names a different concept: `tua` 'kill; shoot' must not
+        # link to SHOOT because Borin's KILL is inexact
         for gloss in sense.glosses:
             found = concepticon.get(normalise_gloss(gloss).lower())
-            if found and found[1] == sense.pos:
+            if found is None:
+                continue
+            if found[0] and found[1] == sense.pos:
                 sense.ili, sense.method = found[0], "concepticon"
-                break
+                sense.linked_gloss = gloss
+            break
 
 
 def build_synsets(senses: list[OntSense]) -> dict[str, list[OntSense]]:
@@ -1483,7 +1497,8 @@ def main() -> int:
     if args.concepticon:
         concepticon = read_concepticon(args.concepticon)
         by_id = read_concepticon_ids(args.concepticon)
-        print(f"read {len(concepticon)} exact Concepticon links from {args.concepticon}")
+        exact = sum(1 for ili, _ in concepticon.values() if ili)
+        print(f"read {exact} exact Concepticon links from {args.concepticon}")
 
     for spec in args.cldf or []:
         if not by_id:

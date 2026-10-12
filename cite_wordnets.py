@@ -49,6 +49,45 @@ FALLBACK_CITATIONS = {
               "no citation of its own. [attribution supplied by us]",
 }
 
+#: The BibTeX keys the paper cites each wordnet by, in the paper's wordnets.bib.
+#: They are the keys of the papers the lexicon's own citation names, taken from
+#: the wordnet's citation.bib in omw-data where it has one. Greek's has none and
+#: Open English WordNet's is in curated-wordnets; Slovak, which names nothing, is
+#: credited through the Open Multilingual Wordnet that distributes it.
+BIBKEYS = {
+    "omw-arb": "Black:Elkateb:Rodriguez:Alkhalifa:Vossen:Pease:Bertran:Fellbaum:2006,"
+               "Abouenour:Bouzoubaa:Rosso:2013",
+    "omw-bg": "Simov:Osenova:2010",
+    "omw-ca": "Gonzalez-Agirre:Laparra:Rigau:2012",
+    "omw-cmn": "Wang:Bond:2013",
+    "omw-da": "Pedersen:2009",
+    "omw-el": "Stamou:Nenadic:Christodoulakis:2004",
+    "oewn": "mccrae-etal-2019-english",
+    "omw-es": "Gonzalez-Agirre:Laparra:Rigau:2012",
+    "omw-eu": "Pociello:Agirre:Aldezabal:2011",
+    "omw-fi": "Linden:Carlson:2010",
+    "omw-fr": "Sagot:Fiser:2008",
+    "omw-gl": "Gonzalez-Agirre:Laparra:Rigau:2012",
+    "omw-he": "Ordan:Wintner:2007",
+    "omw-hr": "Oliver:Sojat:Srebacic:2015",
+    "omw-id": "Noor:Sapuan:Bond:2011",
+    "omw-is": "Sigmundsson:1985",
+    "omw-it": "Pianta:Bentivogli:Girardi:2002",
+    "omw-ja": "Isahara:Bond:Uchimoto:Utiyama:Kanzaki:2008",
+    "omw-lt": "Garabik:Pileckyte:2013",
+    "omw-nb": "Fjeld:Nygaard:2009",
+    "omw-nl": "Postma:Miltenburg:Segers:Schoen:Vossen:2016",
+    "omw-nn": "Fjeld:Nygaard:2009",
+    "omw-pl": "Piasecki:Szpakowicz:Broda:2009",
+    "omw-ro": "Tufis:Ion:Bozianu:Ceausu:Stefanescu:2008",
+    "omw-sk": "bond-foster-2013-omw",
+    "omw-sq": "Ruci:2008",
+    "omw-sv": "Borin:Forsberg:Lonngren:2013",
+    "omw-th": "Thoongsup:Charoenporn:Robkop:Sinthurahat:Mokarat:"
+              "Sornlertlamvanich:Isahara:2009",
+    "omw-zsm": "Noor:Sapuan:Bond:2011",
+}
+
 #: TeX's reserved characters, so a citation that contains one does not break the
 #: build or silently render as something else
 TEX_ESCAPES = {
@@ -86,11 +125,9 @@ def rows_for(pinned: dict[str, str]) -> list[dict[str, str]]:
         if pinned and pinned.get(lexicon.id) != lexicon.version:
             continue
         rows.append({
-            # the BibTeX key the paper cites this wordnet by. The lexicon id is
-            # the key because it is short, stable across releases and already
-            # unique; a label such as "WOLF (Wordnet Libre du Francais)" is not a
-            # usable key. Whoever writes the .bib entries names them by this.
-            "BIBKEY": lexicon.id,
+            # a wordnet without an entry in BIBKEYS is left uncited rather than
+            # cited by a key no .bib defines
+            "BIBKEY": BIBKEYS.get(lexicon.id, ""),
             "LEXICON": lexicon.id,
             "VERSION": lexicon.version,
             "LANGUAGE": lexicon.language,
@@ -127,7 +164,8 @@ def write_latex(path: Path, rows: list[dict[str, str]]) -> None:
         detail = (f"{tex(row['LEXICON'])}:{tex(row['VERSION'])}, "
                   f"{tex(row['LANGUAGE'])}")
         citation = tex(row["CITATION"]) or r"\textit{no citation in the lexicon}"
-        lines.append(f"{name} \\citep{{{row['BIBKEY']}}} & {citation} \\\\")
+        cite = f" \\citep{{{row['BIBKEY']}}}" if row["BIBKEY"] else ""
+        lines.append(f"{name}{cite} & {citation} \\\\")
         lines.append(f"\\quad\\textit{{{detail}}} & \\\\[2pt]")
     lines += [r"\bottomrule", r"\end{longtable}"]
     path.write_text("\n".join(lines) + "\n", encoding="utf8")
@@ -160,6 +198,9 @@ def main() -> int:
     missing = [row["LEXICON"] for row in rows if not row["CITATION"]]
     if missing:
         print(f"  no citation in the lexicon metadata for: {' '.join(missing)}")
+    uncited = [row["LEXICON"] for row in rows if not row["BIBKEY"]]
+    if uncited:
+        print(f"  no BibTeX key in BIBKEYS for: {' '.join(uncited)}")
     if args.latex:
         write_latex(args.latex, rows)
         print(f"wrote {args.latex}")

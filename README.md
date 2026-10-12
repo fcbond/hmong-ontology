@@ -7,7 +7,7 @@ This resource is intended for data science and natural language processing purpo
 It is also, now, a wordnet. `hmong2lmf.py` converts the ontology to WN-LMF 1.4 and
 links its senses to the Collaborative Interlingual Index by six routes, so that a
 Hmong word and an English or Chinese or Thai one reach each other through a shared
-concept: **2,094 of 3,095 White Hmong senses are linked, over 1,592 concepts.** The
+concept: **2,105 of 3,097 White Hmong senses are linked, over 1,608 concepts.** The
 material that makes that possible — a classifier inventory, a kinship paradigm and
 a set of classifier-specified compounds, read out of two descriptive publications —
 is in the TSV files below, as editable data rather than as generated output.
@@ -203,8 +203,8 @@ Hmong forms as Green Mong.
 
 Folding in the White Hmong vocabulary of the
 [World Loanword Database](https://wold.clld.org) (Ratliff's contribution, CC BY
-4.0) takes the lexicon from 748 distinct ILIs to **1,358**; WOLD contributes
-**1,019 concepts, 845 of them reached by no other source**:
+4.0) takes the lexicon from 738 distinct ILIs to **1,376**; WOLD contributes
+**1,038 concepts, 870 of them reached by no other source**:
 
 ```sh
 git clone --depth 1 https://github.com/lexibank/wold.git ../wold
@@ -353,7 +353,7 @@ uv run conflicts.py --data-directory .wn_data \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH
 ```
 
-They both reach 190 White Hmong senses and agree on 162 (85.3%). The 28
+They both reach 189 White Hmong senses and agree on 162 (85.7%). The 27
 disagreements are in `review-conflicts-WH.tsv`, with an empty `VERDICT` column for
 a speaker and separate `ADJUDICATION`/`BY` columns so that a reading by someone who
 does not speak the language is never mistaken for a speaker's.
@@ -514,8 +514,8 @@ uv run facts.py --data-directory .wn_data --english oewn:2025+ \
    or not classifiers at all; those are `<variant>` elements or declined rows
    with the evidence in the `DISPOSITION` and `NOTE` columns of
    `classifiers.tsv`. Five remain marked `CHECK: Nathan`.
-7. Review the senses the converter leaves unlinked. 1,001 for White Hmong, of
-   which 134 are already on the three annotation sheets above; `--report` ranks
+7. Review the senses the converter leaves unlinked. 992 for White Hmong, of
+   which 133 are already on the three annotation sheets above; `--report` ranks
    the rest, and `IMPROVEMENTS.md` says which stage returns most per row.
 8. Mine the rest of White (2021c). Done: the kinship table (Table 29, p. 288) and
    the noun-to-classifier matrices (Tables 39–41, pp. 381–382). Still to do: the

@@ -26,7 +26,7 @@
     "with_examples": 143
   },
   "concepticon": {
-    "exact": 1185,
+    "exact": 1228,
     "exact_absent_but_current_in_cili": 1,
     "exact_absent_concept_renumbered": 1,
     "exact_absent_detail": [
@@ -42,26 +42,14 @@
     ],
     "exact_absent_from_english": 1,
     "exact_absent_pct": 0.1,
-    "inexact": 140,
+    "inexact": 145,
     "rows": 4165,
-    "unresolved": 2840
+    "unresolved": 2792
   },
   "concepticon_vs_triangulation": {
     "agree": 162,
-    "both_reached": 190,
+    "both_reached": 189,
     "disagreements": [
-      {
-        "concepticon": "i81481",
-        "form": "cai",
-        "gloss": "custom",
-        "triangulated": "i37573"
-      },
-      {
-        "concepticon": "i81481",
-        "form": "cai",
-        "gloss": "rule",
-        "triangulated": "i67597"
-      },
       {
         "concepticon": "i29513",
         "form": "cais",
@@ -75,10 +63,10 @@
         "triangulated": "i21956"
       },
       {
-        "concepticon": "i86808",
-        "form": "dab",
-        "gloss": "spirit",
-        "triangulated": "i86825"
+        "concepticon": "i2170",
+        "form": "daj",
+        "gloss": "yellow",
+        "triangulated": "i63075"
       },
       {
         "concepticon": "i18771",
@@ -123,6 +111,12 @@
         "triangulated": "i41147"
       },
       {
+        "concepticon": "i2130",
+        "form": "liab",
+        "gloss": "red",
+        "triangulated": "i63054"
+      },
+      {
         "concepticon": "i110874",
         "form": "mob",
         "gloss": "disease",
@@ -151,6 +145,12 @@
         "form": "ntse",
         "gloss": "sharp",
         "triangulated": "i2474"
+      },
+      {
+        "concepticon": "i2084",
+        "form": "ntsuab",
+        "gloss": "green",
+        "triangulated": "i63086"
       },
       {
         "concepticon": "i48238",
@@ -189,12 +189,6 @@
         "triangulated": "i79671"
       },
       {
-        "concepticon": "i27293",
-        "form": "tua",
-        "gloss": "kill",
-        "triangulated": "i28306"
-      },
-      {
         "concepticon": "i21819",
         "form": "ua",
         "gloss": "do",
@@ -219,7 +213,7 @@
         "triangulated": "i2502"
       }
     ],
-    "pct": 85.3
+    "pct": 85.7
   },
   "contribution": {
     "by_source": {
@@ -228,15 +222,15 @@
         "new": 10
       },
       "WOLD": {
-        "ilis": 1019,
-        "new": 845
+        "ilis": 1038,
+        "new": 870
       },
       "triangulated": {
-        "ilis": 344,
-        "new": 313
+        "ilis": 343,
+        "new": 312
       }
     },
-    "ontology_ilis": 494
+    "ontology_ilis": 487
   },
   "coverage": {
     "english_only": {
@@ -258,23 +252,23 @@
       "pct": 35.0
     },
     "everything": {
-      "ilis": 1592,
-      "linkable": 3095,
-      "linked": 2094,
+      "ilis": 1608,
+      "linkable": 3097,
+      "linked": 2105,
       "methods": {
-        "ambiguous": 209,
-        "ambiguous+category": 207,
-        "concepticon": 147,
-        "concepticon-id": 1149,
+        "ambiguous": 206,
+        "ambiguous+category": 208,
+        "concepticon": 138,
+        "concepticon-id": 1171,
         "dbnary-sense": 11,
         "intersection": 11,
         "intersection+category": 19,
-        "monosemous": 181,
+        "monosemous": 180,
         "monosemous+category": 192,
         "no-ili": 2,
         "no-intersection": 49,
-        "no-intersection+category": 80,
-        "nomatch": 454,
+        "no-intersection+category": 91,
+        "nomatch": 436,
         "triangulated-10": 17,
         "triangulated-11": 27,
         "triangulated-12": 13,
@@ -296,48 +290,48 @@
         "triangulated-4": 4,
         "triangulated-5": 8,
         "triangulated-6": 11,
-        "triangulated-7": 16,
+        "triangulated-7": 15,
         "triangulated-8": 13,
         "triangulated-9": 13
       },
-      "pct": 67.7
+      "pct": 68.0
     },
     "plus_concepticon": {
-      "ilis": 748,
+      "ilis": 738,
       "linkable": 1543,
-      "linked": 854,
+      "linked": 842,
       "methods": {
         "ambiguous": 147,
-        "ambiguous+category": 207,
-        "concepticon": 315,
+        "ambiguous+category": 208,
+        "concepticon": 303,
         "intersection": 12,
         "intersection+category": 25,
         "monosemous": 224,
         "monosemous+category": 278,
         "no-ili": 2,
         "no-intersection": 49,
-        "no-intersection+category": 80,
+        "no-intersection+category": 91,
         "nomatch": 204
       },
-      "pct": 55.3
+      "pct": 54.6
     },
     "plus_triangulation": {
-      "ilis": 1582,
-      "linkable": 3084,
-      "linked": 2083,
+      "ilis": 1598,
+      "linkable": 3086,
+      "linked": 2094,
       "methods": {
-        "ambiguous": 209,
-        "ambiguous+category": 207,
-        "concepticon": 147,
-        "concepticon-id": 1149,
+        "ambiguous": 206,
+        "ambiguous+category": 208,
+        "concepticon": 138,
+        "concepticon-id": 1171,
         "intersection": 11,
         "intersection+category": 19,
-        "monosemous": 181,
+        "monosemous": 180,
         "monosemous+category": 192,
         "no-ili": 2,
         "no-intersection": 49,
-        "no-intersection+category": 80,
-        "nomatch": 454,
+        "no-intersection+category": 91,
+        "nomatch": 436,
         "triangulated-10": 17,
         "triangulated-11": 27,
         "triangulated-12": 13,
@@ -359,31 +353,31 @@
         "triangulated-4": 4,
         "triangulated-5": 8,
         "triangulated-6": 11,
-        "triangulated-7": 16,
+        "triangulated-7": 15,
         "triangulated-8": 13,
         "triangulated-9": 13
       },
-      "pct": 67.5
+      "pct": 67.9
     },
     "plus_wordlist": {
-      "ilis": 1358,
-      "linkable": 2736,
-      "linked": 1735,
+      "ilis": 1376,
+      "linkable": 2739,
+      "linked": 1747,
       "methods": {
-        "ambiguous": 209,
-        "ambiguous+category": 207,
-        "concepticon": 155,
-        "concepticon-id": 1149,
+        "ambiguous": 206,
+        "ambiguous+category": 208,
+        "concepticon": 146,
+        "concepticon-id": 1171,
         "intersection": 11,
         "intersection+category": 19,
-        "monosemous": 190,
+        "monosemous": 189,
         "monosemous+category": 211,
         "no-ili": 2,
         "no-intersection": 49,
-        "no-intersection+category": 80,
-        "nomatch": 454
+        "no-intersection+category": 91,
+        "nomatch": 436
       },
-      "pct": 63.4
+      "pct": 63.8
     }
   },
   "dbnary": {
@@ -433,20 +427,20 @@
     "rows": 29301
   },
   "queue": {
-    "coverage_after_stage1_pct": 72.3,
-    "open": 1001,
-    "review_rows": 134,
+    "coverage_after_stage1_pct": 72.6,
+    "open": 992,
+    "review_rows": 133,
     "review_sheets": {
-      "conflicts": 28,
+      "conflicts": 27,
       "triangulation_splits": 71,
       "wiktionary_declined": 35
     },
-    "stage1_ambiguous": 416,
-    "stage1_binary": 145,
-    "stage1_single_gloss": 406,
+    "stage1_ambiguous": 414,
+    "stage1_binary": 142,
+    "stage1_single_gloss": 403,
     "stage2_triangulation_splits": 71,
     "stage4_multiword": 238,
-    "stage4_no_english_lemma": 454
+    "stage4_no_english_lemma": 436
   },
   "relations": {
     "classified_by": 380,
@@ -457,7 +451,7 @@
   },
   "settings": {
     "category_filter": true,
-    "cldf": "/tmp/claude-1000/-home-bond-git-guizhou/3cd64083-cc84-4aa4-afe0-a054a9fee0a1/scratchpad/wold/cldf:WhiteHmong:WOLD:WH",
+    "cldf": "../wold/cldf:WhiteHmong:WOLD:WH",
     "concepticon": "../cldf2wn/data/concepticon-ili.tsv",
     "english": "oewn:2025+",
     "morphy": true,
@@ -510,12 +504,12 @@
   },
   "tiers": {
     "classifier (no ILI by design)": 141,
-    "concept-set or gloss intersection": 1326,
-    "linked, stronger evidence": 1710,
-    "single gloss, monosemous": 384,
+    "concept-set or gloss intersection": 1339,
+    "linked, stronger evidence": 1722,
+    "single gloss, monosemous": 383,
     "triangulated, 2-3 languages": 18,
-    "triangulated, 4+ languages": 366,
-    "unlinked": 1001
+    "triangulated, 4+ languages": 365,
+    "unlinked": 992
   },
   "triangulation": {
     "senses": 660,

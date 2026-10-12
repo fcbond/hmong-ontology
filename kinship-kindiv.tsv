@@ -26,21 +26,20 @@
 #                   broader  the KinDiv concept is broader than the Hmong sense
 #                   narrower the KinDiv concept is narrower than the Hmong sense
 #                   proposed the concept does not yet exist in KinDiv and we have
-#                            proposed it; see kindiv-proposals.tsv
+#                            proposed it (none at present)
 #                 Only `exact` rows should become a link without review.
 #   NOTE          why, where the relation is not exact.
 #
-# The four `proposed` rows are the interesting ones. Hmong `nus`, `muam`, `tij laug`
-# and `kwv` cover the child of a father's sibling regardless of whether that sibling
-# is a brother or a sister, while distinguishing the speaker's sex and, for the last
-# two, relative age. KinDiv has `Fa;Sb;So` and `Fa;Sb;Da` in its relations graph as
-# bridging nodes but does not declare them as concepts, and has no speaker-sex or
-# age-marked variants of them at all. So these are not mapping failures: they are
-# concepts KinDiv should have, and Hmong is the evidence that a language
-# lexicalises them. See `kindiv-proposals.tsv`.
-#
-# CHECK: Nathan -- confirm the Hmong terms really are indifferent to whether the
-# father's sibling is a brother or a sister.
+# The four cousin rows were once `proposed`, on the reading that Hmong `nus`, `muam`,
+# `tij laug` and `kwv` cover the child of a father's sibling of either sex. Nathan
+# White (October 2026) confirms they do not: like the clan, they extend only to the
+# father's BROTHER's children (cf. White 2021: 287, "Members of the same clan and
+# generation are considered 'brothers'"). So they map to KinDiv's existing
+# `Fa;Br;*` concepts -- `nus` and `muam` exactly, `tij laug` and `kwv` to the
+# age-marked concepts, which are broader because KinDiv does not mark the speaker's
+# sex -- and nothing needs proposing. Cousins through the father's sister use other
+# terms; whether `npawg` and `muam npaws` cover them, which would make their
+# `Mo;Sb;*` mappings too narrow, is still to be checked.
 #
 # KinDiv's `wn/extra-concepts.tsv` has since added parents, children, spouses and
 # in-laws, which brought eight more Hmong terms into scope: `niam` 'mother', `txiv`
@@ -63,13 +62,13 @@ niam tais	nam tais	maternal aunt	Mo;Ss	maternal aunt	exact	White gives one form 
 yawm txiv		maternal grandfather	Mo;Fa	maternal grandfather	exact	
 dab laug	dlaab laug	maternal uncle	Mo;Br	maternal uncle	exact	
 nus	nug	brother of a female	o;Br	brother (female speaking)	exact	
-nus	nug	paternal male cousin of a female	o;Fa;Sb;So	son of father's sibling (female speaking)	proposed	proposed to KinDiv; Fa;Sb;So exists in its relations graph but is not a declared concept
+nus	nug	paternal male cousin of a female	o;Fa;Br;So	son of father's brother (female speaking)	exact	only the father's brother's children (Nathan White, 2026-10)
 muam		sister of a male	x;Ss	sister (male speaking)	exact	
-muam		paternal female cousin of a male	x;Fa;Sb;Da	daughter of father's sibling (male speaking)	proposed	proposed to KinDiv; Fa;Sb;Da exists in its relations graph but is not a declared concept
+muam		paternal female cousin of a male	x;Fa;Br;Da	daughter of father's brother (male speaking)	exact	only the father's brother's children (Nathan White, 2026-10)
 tij laug		older brother of a male	x;El;Br	elder brother (male speaking)	exact	
-tij laug		older paternal male cousin of a male	x;El;Fa;Sb;So	elder son of father's sibling (male speaking)	proposed	proposed to KinDiv
+tij laug		older paternal male cousin of a male	El;Fa;Br;So	elder, son of father's brother	broader	KinDiv does not mark the speaker's sex; only the father's brother's children (Nathan White, 2026-10)
 kwv		younger brother of a male	x;Yn;Br	younger brother (male speaking)	exact	
-kwv		younger paternal male cousin of a male	x;Yn;Fa;Sb;So	younger son of father's sibling (male speaking)	proposed	proposed to KinDiv
+kwv		younger paternal male cousin of a male	Yn;Fa;Br;So	younger, son of father's brother	broader	KinDiv does not mark the speaker's sex; only the father's brother's children (Nathan White, 2026-10)
 npawg		maternal male cousin	Mo;Sb;So	son of mother's sibling	exact	
 muam npaws	muam npawg	maternal female cousin	Mo;Sb;Da	daughter of mother's sibling	exact	
 xeeb ntxwv		grandchild	Gr;Ch	grandchild	exact	

@@ -1,3 +1,10 @@
+# WITHDRAWN (2026-10-12). Nathan White confirms that `nus`, `muam`, `tij laug` and
+# `kwv` extend only to the father's BROTHER's children, so they map to KinDiv's
+# existing Fa;Br;* concepts (see kinship-kindiv.tsv) and none of the six concepts
+# below is needed. The pending rows in fcbond/KinDiv's wn/extra-concepts.tsv,
+# extra-relations.tsv and attested-words.tsv should be withdrawn too. Kept for the
+# record; the tables below are no longer proposed.
+#
 # Concepts we propose adding to KinDiv, with Hmong as the motivating evidence.
 #
 # These are in KinDiv's own `wn/extra-concepts.tsv` format, so they can be pasted

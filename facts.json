@@ -9,24 +9,24 @@
     "new": 98
   },
   "classifiers": {
-    "added": 223,
-    "already_lemmas": 60,
-    "bisang_only": 55,
-    "both": 45,
+    "added": 228,
+    "already_lemmas": 62,
+    "bisang_only": 49,
+    "both": 51,
     "by_class": {
-      "event": 21,
+      "event": 22,
       "group": 22,
-      "mensural": 152,
+      "mensural": 154,
       "sortal": 34,
       "taxonomic": 6
     },
-    "gm": 84,
-    "omitted": 6,
-    "rows": 235,
-    "stopword_only": 17,
-    "variants": 6,
-    "wh": 151,
-    "white_only": 118,
+    "gm": 86,
+    "omitted": 3,
+    "rows": 238,
+    "stopword_only": 15,
+    "variants": 7,
+    "wh": 152,
+    "white_only": 123,
     "with_examples": 143
   },
   "concepticon": {
@@ -320,11 +320,11 @@
   },
   "gm": {
     "concepts": 4,
-    "lemmas": 96,
+    "lemmas": 99,
     "linkable": 16,
     "linked": 4,
-    "ontology_lemmas": 96,
-    "senses": 98
+    "ontology_lemmas": 99,
+    "senses": 101
   },
   "kinship": {
     "ili_status": {
@@ -333,25 +333,25 @@
       "propose": 2,
       "propose-hypernym": 21
     },
-    "kindiv_exact": 24,
+    "kindiv_exact": 26,
     "kindiv_mapped": 28,
-    "kindiv_proposed": 4,
+    "kindiv_proposed": 0,
     "no_english_lemma": 23,
     "senses": 37,
     "with_gm": 16
   },
   "ontology": {
     "after": {
-      "gm": 96,
-      "lemmas": 1565,
-      "senses": 1785
+      "gm": 99,
+      "lemmas": 1568,
+      "senses": 1790
     },
     "before": {
       "gm": 0,
       "lemmas": 1263,
       "senses": 1404
     },
-    "lemma_growth_pct": 23.9
+    "lemma_growth_pct": 24.1
   },
   "pivots": {
     "groups": 743,
@@ -377,10 +377,10 @@
   },
   "relations": {
     "classified_by": 380,
-    "classifier_synsets": 141,
+    "classifier_synsets": 143,
     "classifies": 380,
-    "exemplifies": 141,
-    "total": 901
+    "exemplifies": 143,
+    "total": 903
   },
   "settings": {
     "category_filter": true,
@@ -427,7 +427,7 @@
     "ontology_categories": 53,
     "ontology_categories_now": 61,
     "stopword_forms": 82,
-    "white_classifiers": 163,
+    "white_classifiers": 174,
     "wold_forms": 1465,
     "wold_senses_read": 1474
   },
@@ -437,7 +437,7 @@
   },
   "tiers": {
     "adjudicated by a speaker": 9,
-    "classifier (no ILI by design)": 141,
+    "classifier (no ILI by design)": 143,
     "concept-set or gloss intersection": 1340,
     "linked, stronger evidence": 1349,
     "single gloss, monosemous": 400,

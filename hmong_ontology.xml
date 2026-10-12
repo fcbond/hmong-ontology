@@ -983,8 +983,8 @@
 			<sense>
 				<meaning>paternal male cousin of a female</meaning>
 				<category>consanguineal_relation</category>
-				<kindiv concept="o;Fa;Sb;So" />
-				<note>attestation: W:288; KinDiv o;Fa;Sb;So (son of father's sibling (female speaking)), proposed; proposed to KinDiv; Fa;Sb;So exists in its relations graph but is not a declared concept</note>
+				<kindiv concept="o;Fa;Br;So" />
+				<note>attestation: W:288; KinDiv o;Fa;Br;So (son of father's brother (female speaking)), exact; only the father's brother's children (Nathan White, 2026-10)</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1021,8 +1021,8 @@
 			<sense>
 				<meaning>younger paternal male cousin of a male</meaning>
 				<category>consanguineal_relation</category>
-				<kindiv concept="x;Yn;Fa;Sb;So" />
-				<note>attestation: W:288; KinDiv x;Yn;Fa;Sb;So (younger son of father's sibling (male speaking)), proposed; proposed to KinDiv</note>
+				<kindiv concept="Yn;Fa;Br;So" />
+				<note>attestation: W:288; KinDiv Yn;Fa;Br;So (younger, son of father's brother), broader; KinDiv does not mark the speaker's sex; only the father's brother's children (Nathan White, 2026-10)</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1041,8 +1041,8 @@
 			<sense>
 				<meaning>older paternal male cousin of a male</meaning>
 				<category>consanguineal_relation</category>
-				<kindiv concept="x;El;Fa;Sb;So" />
-				<note>attestation: W:288; KinDiv x;El;Fa;Sb;So (elder son of father's sibling (male speaking)), proposed; proposed to KinDiv</note>
+				<kindiv concept="El;Fa;Br;So" />
+				<note>attestation: W:288; KinDiv El;Fa;Br;So (elder, son of father's brother), broader; KinDiv does not mark the speaker's sex; only the father's brother's children (Nathan White, 2026-10)</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1077,8 +1077,8 @@
 			<sense>
 				<meaning>paternal female cousin of a male</meaning>
 				<category>consanguineal_relation</category>
-				<kindiv concept="x;Fa;Sb;Da" />
-				<note>attestation: W:288; KinDiv x;Fa;Sb;Da (daughter of father's sibling (male speaking)), proposed; proposed to KinDiv; Fa;Sb;Da exists in its relations graph but is not a declared concept</note>
+				<kindiv concept="x;Fa;Br;Da" />
+				<note>attestation: W:288; KinDiv x;Fa;Br;Da (daughter of father's brother (male speaking)), exact; only the father's brother's children (Nathan White, 2026-10)</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1286,7 +1286,7 @@
 				<meaning>a mensural classifier of length: the width of a finger</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; W:366-367; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -3295,7 +3295,7 @@
 				<meaning>a mensural classifier of length: one kilometre</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; W:366-367; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -3788,6 +3788,12 @@
 				<meaning>heart</meaning>
 				<category>cognition</category>
 				<note>used in same way idiomatically as English 'heart', though literally means 'liver'</note>
+			</sense>
+			<sense>
+				<meaning>a measure word: a traditional rice measure, based on a container</meaning>
+				<category>mensural_classifier</category>
+				<function>quantifier</function>
+				<note>attestation: W:367; White's category: measure_word</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -5318,7 +5324,7 @@
 				<meaning>a mensural classifier of length: the distance between the thumb and the extended middle finger</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; W:366-367; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -8632,6 +8638,12 @@
 			<sense>
 				<meaning>plow</meaning>
 				<category>verb.creation</category>
+			</sense>
+			<sense>
+				<meaning>a measure word: an area of 600 square metres, taken from Thailand</meaning>
+				<category>mensural_classifier</category>
+				<function>quantifier</function>
+				<note>attestation: W:367; White's category: measure_word</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12528,7 +12540,7 @@
 				<meaning>a mensural classifier of length: the width of the palm of the hand</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; W:366-367; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12548,7 +12560,7 @@
 				<meaning>a mensural classifier of length: one cubit, the distance between elbow and fingertip</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; W:366-367; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12608,7 +12620,7 @@
 				<meaning>a mensural classifier of length: one metre</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; W:366-367; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12704,6 +12716,7 @@
 		<lemma>
 			<form>khawv</form>
 			<dialect>WH</dialect>
+			<variant>khaw</variant>
 			<sense>
 				<meaning>a mensural classifier of capacity: one mouthful</meaning>
 				<category>mensural_classifier</category>
@@ -13027,7 +13040,6 @@
 			<sense>
 				<meaning>a taxonomic classifier forcing a kind or species reading</meaning>
 				<category>taxonomic_classifier</category>
-				<function>quantifier</function>
 				<classifies form="txiv_ntoo">kind of fruit</classifies>
 				<classifies form="noog">species of bird</classifies>
 				<classifies form="neeg">race of people</classifies>
@@ -13035,6 +13047,7 @@
 				<classifies form="hauj_lwm">kind of work</classifies>
 				<classifies form="lus">the same thing said</classifies>
 				<note>attestation: B:40-41; W:343-344; White's category: kind; Bisang's category: kind</note>
+				<function>classifier</function>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13043,13 +13056,13 @@
 			<sense>
 				<meaning>a taxonomic classifier forcing a kind or species reading, borrowed from Chinese yang, also used as a general classifier for 'something'</meaning>
 				<category>taxonomic_classifier</category>
-				<function>quantifier</function>
 				<classifies form="nroj">species of vegetation</classifies>
 				<classifies form="tsiaj_txhu">species of animals</classifies>
 				<classifies form="xov">kind of news</classifies>
 				<classifies form="zoo">something good</classifies>
 				<classifies form="tshiab">something new</classifies>
 				<note>attestation: B:11,41; W:343-344; White's category: kind; Bisang's category: kind</note>
+				<function>classifier</function>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13437,13 +13450,13 @@
 			<sense>
 				<meaning>a taxonomic classifier forcing a kind or species reading, borrowed from Chinese yang, also used as a general classifier for 'something'</meaning>
 				<category>taxonomic_classifier</category>
-				<function>quantifier</function>
 				<classifies form="nroj">species of vegetation</classifies>
 				<classifies form="tsiaj_txhu">species of animals</classifies>
 				<classifies form="xov">kind of news</classifies>
 				<classifies form="zoo">something good</classifies>
 				<classifies form="tshiab">something new</classifies>
 				<note>attestation: L; White Hmong cognate yam B:11,41; W:343-344; White's category: kind; Bisang's category: kind</note>
+				<function>classifier</function>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14367,13 +14380,13 @@
 			</sense>
 		</lemma>
 		<lemma>
-			<form>zaus</form>
+			<form>zag</form>
 			<dialect>GM</dialect>
 			<sense>
 				<meaning>a time classifier counting occasions or repetitions of an event</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:409; White's category: time</note>
+				<note>attestation: W:409 (corrected), 216, 465; White's category: time; p. 409 misprints this as zaus (N. White, errata)</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15589,8 +15602,8 @@
 			<sense>
 				<meaning>paternal male cousin of a female</meaning>
 				<category>consanguineal_relation</category>
-				<kindiv concept="o;Fa;Sb;So" />
-				<note>attestation: W:288; KinDiv o;Fa;Sb;So (son of father's sibling (female speaking)), proposed; proposed to KinDiv; Fa;Sb;So exists in its relations graph but is not a declared concept</note>
+				<kindiv concept="o;Fa;Br;So" />
+				<note>attestation: W:288; KinDiv o;Fa;Br;So (son of father's brother (female speaking)), exact; only the father's brother's children (Nathan White, 2026-10)</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15867,6 +15880,36 @@
 				<category>artifact</category>
 				<classified_by form="phau" />
 				<note>classifier-specified sense of duab 'shadow, picture'; CL:BOOK; attestation: W:382</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>npaug</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a classifier counting times or multiples</meaning>
+				<category>event_classifier</category>
+				<function>classifier</function>
+				<note>attestation: L; W:675</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>dlus</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: the span from the tip of the middle finger to the tip of the thumb</meaning>
+				<category>mensural_classifier</category>
+				<function>quantifier</function>
+				<note>attestation: L; W:367; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>sab</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: a traditional rice measure, based on a container</meaning>
+				<category>mensural_classifier</category>
+				<function>quantifier</function>
+				<note>attestation: W:367; White's category: measure_word</note>
 			</sense>
 		</lemma>
 	</word_set>

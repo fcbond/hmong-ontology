@@ -16,8 +16,8 @@ definition of each.
 
 ## Where it stands
 
-The ontology has gone from 1,263 lemmas and 1,404 senses to **1,565 and 1,785**,
-and Green Mong from nothing to **96 lemmas**. For White Hmong:
+The ontology has gone from 1,263 lemmas and 1,404 senses to **1,568 and 1,790**,
+and Green Mong from nothing to **99 lemmas**. For White Hmong:
 
 | | linkable | linked | | distinct ILIs |
 |---|---|---|---|---|
@@ -114,15 +114,16 @@ This is now **fully closed**, and the way it closed is worth recording. The stop
 list turned out to be an index into chapter 7 of White (2021) — its headings
 "locational classifiers" and "verb classifiers" are his categories, which Bisang has
 no counterpart for — so the forms it listed without a description are described
-there. The inventory went from 137 to **235** rows.
+there. The inventory went from 137 to **235** rows (238 after Nathan White's
+review added the measure words White lists).
 
-Of the 12 rows that still carry no definition, **none is added as a classifier**:
-six are tone-melody alternants and become `<variant>` of the form they alternate
-with, and six are forms no source supports as classifiers at all. **Every classifier
-sense in the ontology now has a definition.**
+Of the rows that still carry no definition, **none is added as a classifier**:
+seven are tone-melody alternants and become `<variant>` of the form they alternate
+with (`khaw` is `khawv` after a -b numeral, N. White p.c.), and three are forms no
+source supports as classifiers at all. **Every classifier sense in the ontology now
+has a definition.**
 
-`CHECK: Nathan` on `cev`, and on whether `khaw` and White's `khawv` 'CL:BITE'
-(p. 337, occurring once and never discussed) are one form or two.
+`CHECK: Nathan` on `cev`.
 
 ### (7) The rest of White's thesis — two of four parts
 
@@ -211,7 +212,7 @@ the resource a contributor to CILI rather than only a consumer.
 lexicalise most of the distinctions Hmong obligatorily makes, so 21 of the 37
 kinship senses have no English WordNet lemma. But
 [KinDiv](https://github.com/kinship-diversity/KinDiv) — 198 concepts as Murdock kin
-types, 1,904 words in 168 languages, 37,370 recorded gaps — already has those
+types, 1,911 words in 168 languages, 37,370 recorded gaps — already has those
 concepts, with an identifier (`Fa;El;Br`) stable across languages **where CILI does
 not reach**. `kinship-kindiv.tsv` maps **28** of our senses onto them, 24 exactly. The converter
 emits `dc:identifier="KinDiv:Fa;El;Br"` on the synset.
@@ -221,16 +222,13 @@ in-laws, which brought eight more Hmong terms into scope — `niam` 'mother', `t
 'father' and 'husband', `tub` 'son', `ntxhais` 'daughter', `poj niam` 'wife', `nyab`
 'daughter-in-law', `vauv` 'son-in-law'.
 
-**Four senses need concepts KinDiv does not yet have**, and they are the interesting
-ones. Hmong `nus`, `muam`, `tij laug` and `kwv` name the child of a father's sibling
-*regardless of whether that sibling is a brother or a sister*, while distinguishing
-the speaker's sex and, for the last two, relative age. KinDiv has `Fa;Sb;So` and
-`Fa;Sb;Da` in its relations graph as bridging nodes but does not declare them as
-concepts, and has no speaker-sex or age-marked variants at all. So these are not
-mapping failures: they are concepts KinDiv should have, with Hmong as the evidence
-that a language lexicalises them. `kindiv-proposals.tsv` has the six rows to add, in
-KinDiv's own format, with their hypernym relations and the Hmong words, all verified
-to resolve against KinDiv's existing concepts.
+**The four cousin senses need no new concepts after all.** We had read Hmong
+`nus`, `muam`, `tij laug` and `kwv` as covering the child of a father's sibling of
+either sex, and proposed six concepts to KinDiv. Nathan White confirms they extend
+only to the father's *brother's* children, as the clan does, so they map to
+KinDiv's existing `Fa;Br;*` concepts: `nus` and `muam` exactly, `tij laug` and
+`kwv` to the age-marked concepts, which are broader because KinDiv does not mark
+the speaker's sex. `kindiv-proposals.tsv` is kept, marked withdrawn.
 
 Still unmapped and still needing a concept from somewhere: `yawg koob` 'ancestor',
 and the coordinate compounds `kwv tij` 'brothers, patrilineal relatives' and `neej
@@ -242,10 +240,6 @@ ego — and no kinship resource we have looked at has them.
 comparable identifier, and gives KinDiv a language it lacks. Contributing the Hmong
 rows back is the obvious next step, and cheap.
 
-`CHECK: Nathan` on the four cousin rows: confirm that Hmong `nus`, `muam`, `tij
-laug` and `kwv` really are indifferent to whether the father's sibling is a brother
-or a sister. If they are not, the four collapse onto KinDiv's existing `Fa;Br;*` and
-`Fa;Ss;*` concepts and no proposal is needed.
 
 ### (5) Seven Concepticon part-of-speech disagreements
 
@@ -270,7 +264,7 @@ the Concepticon concept is the wrong part of speech, not merely another reading,
 and these stay unlinked. *foom* is also a verb 'wish, bless, curse', as the
 ontology has it; its noun 'blessing' is not in the ontology yet.
 
-### (6) Green Mong — 96 lemmas is better, still not a lexicon
+### (6) Green Mong — 99 lemmas is better, still not a lexicon
 
 Green Mong is a separate ISO 639-3 language (`hnj`) with roughly as many speakers as
 White Hmong. It has gone from 0 lemmas to 20 (White's chapter 7), then 84, then **96**
@@ -418,11 +412,17 @@ proposals and `dbnary-hmong.tsv` (`COMMENTS.md` on his `nathan/comments` branch)
   'send for' (unlinked until the right 'call' is chosen); *mob*, *tseeb*, *ntev*,
   *dhau* and *vaj* take the ILIs he named; *siab* 'heart' and *tshuab* 'blow' take
   ILIs we chose from his description, marked to be confirmed.
-- **Still to apply:** his corrections to the classifier tables (*zaum*/*zaus*,
-  GM *zag*; *riam*, GM *rag*; *khawv* tone sandhi; *li*/*le* as a possessed
-  classifier), and to the kinship proposals (*nus*, *muam*, *tij laug* and *kwv*
-  cover only the father's *brother's* children, so the proposed KinDiv concepts
-  collapse into the existing `Fa;Br;*` ones).
+- **Classifier tables corrected** against White's thesis: the measure words White
+  lists (§7.6.1) are credited to him and *siab*/*sab* and *laij* added; *dlus* and
+  *npaug* (GM `CL:TIMES`, p. 675) are added, *khaw* becomes a variant of *khawv*;
+  GM *zaus* is *zag* (p. 409 misprint); *hom* and *yam* are classifiers; the
+  header no longer says White "excludes" measure words or "rejects" class nouns.
+  Still to do: the appendix-text classifiers (*vuag*, *tes*, *feem*), *pawg* 'pile'
+  as a separate sense, and a column recording White's analysis of each class-noun
+  head.
+- **Kinship:** *nus*, *muam*, *tij laug* and *kwv* cover only the father's
+  *brother's* children, so they map to KinDiv's existing `Fa;Br;*` concepts and the
+  six proposals are withdrawn.
 
 ## Measured and rejected
 

@@ -42,7 +42,7 @@ extracted from the two descriptive publications and on what basis.
 | `underspecified.tsv` | the 14 classifier-specified compounds of White's Tables 39–41 |
 | `kinship.tsv` | kinship terms from White's Table 29, both dialects |
 | `kinship-kindiv.tsv` | those terms mapped to KinDiv kin-type concepts |
-| `kindiv-proposals.tsv` | concepts to add to KinDiv, with Hmong as the evidence |
+| `kindiv-proposals.tsv` | concepts once proposed to KinDiv; withdrawn |
 | `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary; candidates only |
 | `dbnary-pivots.tsv` | the other languages' translations of those same senses, for triangulation |
 | `adjudications.tsv` | a speaker's verdicts on links, which overrule every linking route |
@@ -102,7 +102,8 @@ Four elements were added when the classifiers were folded in:
 - `<dialect>` on a lemma: `WH` for White Hmong (Hmoob Dawb, ISO 639-3 `mww`) or
   `GM` for Green Mong (Hmoob Ntsuab, `hnj`). Every lemma carries one.
 - `<function>` on a sense: `classifier`, `quantifier` or `class_noun`, recording
-  Bisang's (1993) three-way distinction. A sense may have more than one, because
+  the three-way distinction Bisang (1993) draws by meaning and White (2021c) by
+  syntax, as classifier / quantifier / class term prefix. A sense may have more than one, because
   several forms do more than one job.
 - `<classifies form="thoob">bucket</classifies>` on a classifier sense: an
   example noun the source gives for that classifier, with its English gloss.
@@ -110,28 +111,30 @@ Four elements were added when the classifiers were folded in:
 
 ## Classifiers
 
-`classifiers.tsv` holds 235 numeral classifiers and quantifiers, 151 White Hmong
-and 84 Green Mong, merged from two independent descriptions.
+`classifiers.tsv` holds 238 numeral classifiers, quantifiers and measure words,
+152 White Hmong and 86 Green Mong, merged from two independent descriptions.
 
 **White is the base analysis and Bisang fleshes it out.** Chapter 7 of White
 (2021c) is the later and fuller treatment, it covers Green Mong as well as White
 Hmong, and it states its disagreements with Bisang explicitly, so its categories
 are the ones `CLASS` follows and `WHITE_CATEGORY` comes before
-`BISANG_CATEGORY`. 118 rows rest on White alone, 45 are described by both, 55 come
-from Bisang alone, and 17 only from `stopwords_classifiers.txt`.
+`BISANG_CATEGORY`. 123 rows rest on White alone, 51 are described by both, 49 come
+from Bisang alone, and 15 only from `stopwords_classifiers.txt`. The two differ more
+in criteria than in substance: Bisang assigns words to classes by meaning, White by
+syntax (p. 486).
 
-What Bisang (1993) adds is of three kinds, and the first two are why this is a
-merge rather than a copy of chapter 7:
+What Bisang (1993) adds is of three kinds:
 
-1. **Measure words**, which White excludes as "not part of the system of noun
-   categorization" (p. 366) and Bisang's Appendix I §2.1 counts. The body-part
-   lengths are his: `ntiv` the width of a finger, `xib` the width of a palm,
-   `taus` the width of one fist. Ten rows, and the single biggest difference
-   between the two inventories.
-2. **Class nouns**, which White rejects outright — see the caveat below.
-3. **Finer categories** inside what White treats as one. White collapses measures,
-   intrinsic quantifiers, collectives and kinds into a single mensural category
-   (pp. 301–302); `BISANG_CATEGORY` preserves the distinction.
+1. **More measure words.** White treats measure words as classifier-like, with the
+   syntax of numeral classifiers, measuring rather than classifying (§7.6.1,
+   pp. 302, 366–367): `dos`/`dlus`, `ntiv`, `tshim`, `xib`, `siab`/`sab`, `laij`,
+   `mev`, `lav`. Bisang's Appendix I §2.1 adds `taus` the width of one fist,
+   `noos` and `daj`.
+2. **Class nouns**, which White sorts by syntax — see the note below.
+3. **Intrinsic quantifiers**, whose unit comes from the object's own shape. White,
+   grouping by syntax, files them with measures as mensural (p. 301), keeping
+   collective, kind, container and time as subclasses (p. 302);
+   `BISANG_CATEGORY` keeps the split.
 
 Running the other way, White's **locational** and **verbal action** classifiers
 have no Bisang category at all, so those rows rest on him alone.
@@ -141,14 +144,14 @@ Each row is classified three ways: in the five-way scheme of Bond and Paik (2000
 and in each source's own. Keeping all three columns makes every remapping
 inspectable and reversible in both directions.
 
-Smaller disagreements are in the `NOTE` column and the file's header: `cov` has
-four analyses and we resolve none of them, and `daig`, `riag`, `nploog`, `ntsug`,
-`ce` and `tug` are tone-melody alternants rather than separate classifiers, so
-they become `<variant>` elements. 29 rows carry such a note.
+Smaller differences are in the `NOTE` column and the file's header: `cov` is
+polyfunctional, a classifier grammaticalised into a quantifier, and the sources
+agree on its functions; `daig`, `riag`, `nploog`, `ntsug`, `ce`, `khaw` and `tug`
+are tone-melody alternants rather than separate classifiers, so they become
+`<variant>` elements.
 
-Twelve rows are deliberately not added, recorded with the evidence in
-`DISPOSITION`: six tone-melody alternants and six forms no source supports as
-classifiers. Five rows are marked `CHECK: Nathan`.
+Ten rows are not added as lemmas, recorded with the evidence in `DISPOSITION`:
+seven tone-melody alternants and three forms no source supports as classifiers.
 
 `classifiers-white2021.tsv` is the unmerged extraction from White's chapter 7,
 kept separately so the merge can be checked or redone; its own header records the
@@ -156,13 +159,13 @@ uncertainties in it.
 
 ## Class nouns
 
-**A caveat on this file.** White (2021c: 359–361) rejects Bisang's class-noun
-analysis of `phau`, `lo` and the rest, arguing that Bisang gives no supporting
-evidence and that the analysis obscures otherwise clear grammatical
-distinctions. Since this file is built on Bisang's Appendix II, that objection is
-about the whole file and not just a label. It is kept because the *members* —
-`ntoo ciab` 'larch', `txiv tsawb` 'banana' — are glossed vocabulary whatever one
-calls their head, but the class-noun relation itself is contested.
+**A note on this file.** It follows Bisang's Appendix II, whose class nouns White
+(2021c: 101, 359–361, 485–486) sorts by syntax: `phau` and `lo` are classifiers,
+`pob-`, `txiv-`, `tub-` and others are class term prefixes, and `chaw`, `kev`,
+`kws` and `lus` are nouns. The *members* — `ntoo ciab` 'larch', `txiv tsawb`
+'banana' — are glossed vocabulary whatever one calls their head, so they are kept.
+Whether prefix-headed words should be entries of their own or the whole word
+entered instead is still open.
 
 `class_nouns.tsv` holds 28 class nouns and 121 member compounds. A class noun is
 an ordinary, referential noun that heads a compound and fixes its semantic class:
@@ -481,15 +484,18 @@ hypernym proposed, 2 a new concept. The `ILI_STATUS` column records which.
 
 They do not have to be. [KinDiv](https://github.com/kinship-diversity/KinDiv) is a
 database of lexical diversity in the kinship domain — 198 concepts as Murdock kin
-types, 1,904 words in 168 languages, 37,370 recorded gaps — and it gives each
+types, 1,911 words in 168 languages, 37,370 recorded gaps — and it gives each
 concept a stable identifier (`Fa;El;Br` for a father's elder brother) that holds
 across languages **even where the interlingual index does not reach**.
 
-`kinship-kindiv.tsv` maps 28 of our kinship senses onto KinDiv concepts, 24 exactly.
-The remaining four need concepts KinDiv does not yet declare — Hmong `nus`, `muam`,
-`tij laug` and `kwv` name the child of a father's sibling regardless of whether that
-sibling is a brother or a sister — and `kindiv-proposals.tsv` has those six rows
-ready to paste into KinDiv, with their hypernym relations and the Hmong words. The converter emits the code as
+`kinship-kindiv.tsv` maps 28 of our kinship senses onto KinDiv concepts, 26 exactly
+and two to a broader concept. Hmong `nus`, `muam`, `tij laug` and `kwv` extend from
+siblings to the father's *brother's* children (Nathan White confirms they do not
+cover the father's sister's), so they map to KinDiv's existing `Fa;Br;*`
+concepts; `tij laug` and `kwv` also mark the speaker's sex, which KinDiv's
+age-marked concepts do not. An earlier reading had them cover either parent's
+sibling and proposed six concepts to KinDiv; `kindiv-proposals.tsv` keeps those
+rows, marked withdrawn. The converter emits the code as
 `dc:identifier="KinDiv:Fa;El;Br"` on the synset, which is what KinDiv's own build
 does, so an ILI-less kinship synset is still identified:
 
@@ -514,8 +520,8 @@ uv run add_classifiers.py --class-nouns --underspecified --kinship --check
 ```
 
 The flags are separable because each adds material from a different table, and
-each is a judgement a reader might want to decline: `--class-nouns` rests on an
-analysis White rejects, `--underspecified` and `--kinship` on his own tables.
+each is a judgement a reader might want to decline: `--class-nouns` rests on
+Bisang's semantic grouping, which White reassigns by syntax, `--underspecified` and `--kinship` on his own tables.
 Re-running after a table gains a definition, a function or an example folds that
 into the sense already there rather than skipping the row.
 
@@ -584,7 +590,7 @@ White Hmong. *Studies in Language* 45(3).
 White, Nathan M. 2021c. *The Hmong language of North Queensland*. PhD thesis,
 James Cook University. <https://doi.org/10.25903/f5rd-s089>\
 Open access, 742 pages; the first comprehensive grammar of the variety, written
-in Basic Linguistic Theory. **Chapter 7 (pp. 299–381) is a full account of the
+in Basic Linguistic Theory. **Chapter 7 (pp. 299–383) is a full account of the
 classifier system**, and its categories — sortal, mensural (container,
 collective, kind, time), locational, non-singular, possessed and verbal action —
 are the ones `stopwords_classifiers.txt` in this repository is organised by, so
@@ -592,8 +598,8 @@ the stopword list is an index to that chapter rather than an ad-hoc list.
 §1.5.2.1 (p. 25) reviews Bisang (1993), from which `classifiers.tsv` is built,
 and §6.7 (p. 298) gives a noun-subgroup scheme.
 
-White, Nathan M. et al. 2022. The Hmong Medical Corpus: a biomedical corpus for
-a minority language. *Language Resources and Evaluation*.
+White, Nathan M. 2022. The Hmong Medical Corpus: a biomedical corpus for a
+minority language. *Language Resources and Evaluation* 56(4): 1315–1332.
 <https://doi.org/10.1007/s10579-022-09596-2>
 
 White, Nathan M. 2024. Quantifier float in Hmong. *Folia Linguistica*.

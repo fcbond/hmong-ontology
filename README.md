@@ -5,18 +5,20 @@ A semantic ontology resource for the Hmong language, inspired by WordNet (Fellba
 This resource is intended for data science and natural language processing purposes, such as computational modeling of semantics or cleaning of raw data for deep learning.
 
 It is also, now, a wordnet. `hmong2lmf.py` converts the ontology to WN-LMF 1.4 and
-links its senses to the Collaborative Interlingual Index by six routes, so that a
+links its senses to the Collaborative Interlingual Index, so that a
 Hmong word and an English or Chinese or Thai one reach each other through a shared
-concept: **2,105 of 3,097 White Hmong senses are linked, over 1,608 concepts.** The
+concept: **1,749 of 2,735 White Hmong senses are linked, over 1,380 concepts.** The
 material that makes that possible — a classifier inventory, a kinship paradigm and
 a set of classifier-specified compounds, read out of two descriptive publications —
 is in the TSV files below, as editable data rather than as generated output.
 
 What a link rests on is recorded on the synset, and what is still undecided ships as
-three annotation sheets rather than being guessed. `IMPROVEMENTS.md` says what would
+three annotation sheets rather than being guessed. Wiktionary's translations are in
+those sheets as candidates only: a speaker's review found too many of them wrong. `IMPROVEMENTS.md` says what would
 improve the resource and what each improvement is worth, measured; `facts.json`
 holds every figure, with the settings it depends on. Nothing here has been checked
-by a fluent speaker yet, which is the largest single gap.
+by a fluent speaker beyond Nathan White's first review (October 2026), which is the
+largest single gap.
 
 ## Licence
 
@@ -41,8 +43,9 @@ extracted from the two descriptive publications and on what basis.
 | `kinship.tsv` | kinship terms from White's Table 29, both dialects |
 | `kinship-kindiv.tsv` | those terms mapped to KinDiv kin-type concepts |
 | `kindiv-proposals.tsv` | concepts to add to KinDiv, with Hmong as the evidence |
-| `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary |
+| `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary; candidates only |
 | `dbnary-pivots.tsv` | the other languages' translations of those same senses, for triangulation |
+| `adjudications.tsv` | a speaker's verdicts on links, which overrule every linking route |
 | `stopwords_base.txt` | Hmong stopwords, excluding classifiers and verbal bound roots/affixes |
 | `stopwords_classifiers.txt` | Hmong classifiers |
 | `stopwords_verbal_adjuncts.txt` | Hmong verbal adjuncts, such as bound roots and affixes |
@@ -54,9 +57,9 @@ language, marked as such.
 
 | File | Rows | What is undecided |
 |---|---|---|
-| `review-conflicts-*.tsv` | 28 | two routes reached the sense and named different ILIs |
-| `review-triangulation-*.tsv` | 71 | the pivot languages split |
-| `review-wiktionary-*.tsv` | 35 | the definition comparison found no clear winner |
+| `review-conflicts-*.tsv` | 27 | the Concepticon link and the Wiktionary candidate name different ILIs |
+| `review-triangulation-*.tsv` | 731 | Wiktionary candidates: 660 where the pivot languages agree, 71 where they split |
+| `review-wiktionary-*.tsv` | 54 | Wiktionary candidates from comparing definitions: 19 proposed, 35 undecided |
 
 Scripts, in the order they are run:
 
@@ -233,12 +236,25 @@ satisfy *every* source folded in. WOLD is CC BY 4.0 and the ontology is CC BY 4.
 so that case is simple; a non-commercial or no-derivatives source would constrain
 the result.
 
-### Folding in Wiktionary, through DBnary
+### Wiktionary, through DBnary: candidates only
 
-Hmong is not a Wiktionary edition, so it appears in Wiktionary only as a
-translation target — but the English edition's translation tables are
-**sense-anchored**, which is exactly the disambiguation a bare English lemma
-lacks. [DBnary](http://kaiko.getalp.org/dbnary) publishes that as RDF with a
+**Nothing from Wiktionary reaches the lexicon.** Both routes below write candidate
+sheets for a speaker to check, and a candidate becomes a link only through
+`adjudications.tsv`. Nathan White's review of the candidates (October 2026) found
+too many of them wrong to use unchecked, and the reason is structural: the pivot is
+English. Hmong appears in Wiktionary only as a translation of an English word, so
+the entries are what a speaker offered when asked for that word — an ad hoc phrase,
+a whole sentence (*kuv hlub koj* 'I love you'), or a word with only partial
+overlap — and the sense is the English word's, not the Hmong one's. *siab* is filed
+under 'heart', but means 'liver' and is used where English uses 'heart'
+figuratively; *thee* 'charcoal' is filed under charcoal as a drawing; *mob* 'be
+sick' under a causative 'hurt'. Triangulation then votes in the other languages'
+wordnets on the *English* sense, so it confirms the English reading rather than
+testing the Hmong one.
+
+The sheets are still worth having. Hmong is not a Wiktionary edition, but the
+English edition's translation tables are **sense-anchored**, which is exactly the
+disambiguation a bare English lemma lacks. [DBnary](http://kaiko.getalp.org/dbnary) publishes that as RDF with a
 SPARQL endpoint, so no scraping is needed and the release is citable.
 
 ```sh
@@ -282,14 +298,26 @@ Add `--report report.tsv` for a per-sense account of what linked, what did not,
 and which candidate ILIs each unlinked sense had, with the English definition of
 each, so that choosing between them is a reading task rather than a lookup task.
 
-Add `--dbnary-review review.tsv` for the Wiktionary translations the definition
-comparison would not decide, and `--pivot-review` for the triangulation groups the
-pivot languages split on — 35 and 71 for White Hmong. Each row has the Hmong form,
-the English lemma, the Wiktionary sense it was filed under, the candidate ILIs with
-their English definitions, and an empty `VERDICT` column. Choosing between two or
+Add `--dbnary-review review.tsv` and `--pivot-review` for the Wiktionary
+candidates: 54 from comparing definitions and 731 from triangulation for White
+Hmong, decided or not, since none is linked. Each row has the Hmong form, the
+English lemma, the Wiktionary sense it was filed under, the candidate ILIs with
+their English lemmas and definitions, and an empty `VERDICT` column. Choosing between two or
 three glossed candidates takes a speaker seconds, and it is work no threshold should
 be doing on their behalf. A run with nothing to review writes a header-only file
 rather than leaving the previous run's sheet in place.
+
+### A speaker's verdicts
+
+`adjudications.tsv` holds verdicts on individual senses, one row each: the form,
+dialect and one gloss pick out the sense, and `ILI` is the concept the speaker
+chose. An empty `ILI` means none fits and the sense stays unlinked. Pass it with
+`--adjudications adjudications.tsv`; a verdict overrules every route, a Concepticon
+identifier included, and is recorded as the method `adjudicated`. A verdict that
+matches no sense is reported, because it usually means the ontology entry changed
+underneath it. The first ten are from Nathan White's review; where he described a
+meaning rather than naming an ILI, the row says the ILI is ours and to be
+confirmed.
 
 ### Which wordnets, at which release
 
@@ -343,9 +371,11 @@ wordnet); the script supplies one for each and marks it as our attribution.
 
 ### Where two routes disagree
 
-`conflicts.py` runs the Concepticon and triangulation routes separately and writes
-every sense they both reach but name different ILIs for, with both candidates'
-English lemmas and definitions on one line:
+`conflicts.py` sets the Concepticon links against the Wiktionary triangulation
+candidates and writes every sense both reach but name different ILIs for, with both
+candidates' English lemmas and definitions on one line. Only the Concepticon link
+is in the lexicon; the sheet is a check on it, and it is how Nathan White found
+that *nyuj* is cattle, not the female, and *pob* the ball of games:
 
 ```sh
 uv run conflicts.py --data-directory .wn_data \

@@ -96,6 +96,8 @@ def main() -> int:
     parser.add_argument("--cldf", metavar="DIR:LANGUAGE:NAME")
     parser.add_argument("--dbnary", type=Path, default=Path("dbnary-hmong.tsv"))
     parser.add_argument("--pivots", type=Path, default=Path("dbnary-pivots.tsv"))
+    parser.add_argument("--adjudications", type=Path,
+                        default=Path("adjudications.tsv"))
     parser.add_argument("--out", type=Path, default=Path("facts.json"))
     args = parser.parse_args()
 
@@ -190,34 +192,22 @@ def main() -> int:
             100 * (after["lemmas"] - before["lemmas"]) / before["lemmas"], 1)
 
     # ---- the methods, one configuration at a time -----------------------
-    def run(concepticon=False, cldf=False, pivot=False, dbnary_route=False):
+    verdicts = (m.read_adjudications(args.adjudications)
+                if args.adjudications.exists() else [])
+
+    def run(concepticon=False, cldf=False, adjudicated=False):
         senses, _, entries = m.read_ontology(args.ontology, "WH")
-        tri_keys: set[tuple[str, str, str]] = set()
         if cldf and args.cldf:
             directory, language, name = args.cldf.split(":")[:3]
             extra = m.read_cldf(Path(directory), language, name)
             m.merge_into_entries(entries, extra)
             senses.extend(extra)
-        if pivot:
-            opened, absent = m.open_pivots(args.pivots, args.pin_file)
-            if absent:
-                raise SystemExit(
-                    f"{args.pivots}: {len(absent)} pivot wordnets are not loaded "
-                    f"({' '.join(absent)}). Triangulation counts languages, so the "
-                    f"figures would depend on an incomplete installation. Load them "
-                    f"with load_pivots.py.")
-            extra, review = m.read_dbnary_pivots(args.pivots, "WH", opened)
-            tri_keys = {(s.form, s.glosses[0], s.definition) for s in extra}
-            m.merge_into_entries(entries, extra)
-            senses.extend(extra)
-            facts.setdefault("triangulation", {})["undecided"] = len(review)
-        if dbnary_route:
-            extra = m.read_dbnary(args.dbnary, english, "WH", already=tri_keys)
-            m.merge_into_entries(entries, extra)
-            senses.extend(extra)
         m.link_senses(senses, english, True, True, morphy,
                       gloss_map if concepticon else None,
                       id_map if concepticon else None)
+        if adjudicated:
+            m.apply_adjudications(
+                senses, [v for v in verdicts if v["DIALECT"] == "WH"])
         m.record_ili_pos(senses, english)
         m.dedupe_senses(entries)
         senses = [s for e in entries for s in e.senses]
@@ -236,10 +226,39 @@ def main() -> int:
         "english_only": run(),
         "plus_concepticon": run(concepticon=True),
         "plus_wordlist": run(concepticon=True, cldf=True),
-        "plus_triangulation": run(concepticon=True, cldf=True, pivot=True),
-        "everything": run(concepticon=True, cldf=True, pivot=True, dbnary_route=True),
+        "everything": run(concepticon=True, cldf=True, adjudicated=True),
     }
     full = stages["everything"]["senses"]
+
+    # ---- the Wiktionary candidates ---------------------------------------
+    # Wiktionary's Hmong is elicited through English, so neither of its routes
+    # links anything: what they produce is a list for a speaker to check
+    opened, absent = m.open_pivots(args.pivots, args.pin_file)
+    if absent:
+        raise SystemExit(
+            f"{args.pivots}: {len(absent)} pivot wordnets are not loaded "
+            f"({' '.join(absent)}). Triangulation counts languages, so the figures "
+            f"would depend on an incomplete installation. Load them with "
+            f"load_pivots.py.")
+    proposed, undecided = m.read_dbnary_pivots(args.pivots, "WH", opened)
+    lexicon_forms = {x.form for x in full}
+    tri_keys = {(x.form, x.glosses[0], x.definition) for x in proposed}
+    declined: list[dict[str, str]] = []
+    matched = m.read_dbnary(args.dbnary, english, "WH", review=declined,
+                            already=tri_keys)
+    facts["triangulation"] = {
+        "candidates": len(proposed),
+        "undecided": len(undecided),
+        "candidate_ilis": len({x.ili for x in proposed}),
+        "on_forms_in_lexicon": sum(1 for x in proposed if x.form in lexicon_forms),
+        "multiword_forms": sum(1 for x in proposed if " " in x.form),
+    }
+    facts["definition_match"] = {"candidates": len(matched),
+                                 "declined": len(declined)}
+    facts["adjudications"] = {
+        "verdicts": len(verdicts),
+        "unlinked": sum(1 for v in verdicts if not v["ILI"]),
+    }
     for key, value in stages.items():
         value.pop("senses", None)
         facts.setdefault("coverage", {})[key] = value
@@ -392,8 +411,8 @@ def main() -> int:
         "stage1_ambiguous": len(ambiguous),
         "stage1_single_gloss": len(one_gloss),
         "stage1_binary": sum(1 for s in one_gloss if len(s.candidates) == 2),
-        "stage2_triangulation_splits": facts.get("triangulation", {}).get(
-            "undecided", 0),
+        "stage2_wiktionary_candidates": facts["triangulation"]["candidates"]
+        + facts["triangulation"]["undecided"],
         "stage4_no_english_lemma": len(nomatch),
         "stage4_multiword": sum(1 for s in nomatch
                                 if any(" " in g for g in s.glosses)),
@@ -401,8 +420,8 @@ def main() -> int:
     # what a speaker is actually handed: the three annotation sheets
     sheets = {
         "conflicts": here / "review-conflicts-WH.tsv",
-        "triangulation_splits": here / "review-triangulation-WH.tsv",
-        "wiktionary_declined": here / "review-wiktionary-WH.tsv",
+        "triangulation_candidates": here / "review-triangulation-WH.tsv",
+        "definition_match_candidates": here / "review-wiktionary-WH.tsv",
     }
     rows_in_sheets = {name: max(len(path.read_text(encoding="utf8").splitlines()) - 1, 0)
                       for name, path in sheets.items() if path.exists()}
@@ -418,10 +437,8 @@ def main() -> int:
     # the GM lexicon is built separately, because WH and GM are separate ISO 639-3
     # languages. WOLD's doculect is White Hmong, so it contributes nothing here
     gm_senses, _, gm_entries = m.read_ontology(args.ontology, dialect="GM")
-    opened, _ = m.open_pivots(args.pivots, args.pin_file)
-    gm_extra, _ = m.read_dbnary_pivots(args.pivots, "GM", opened)
-    m.merge_into_entries(gm_entries, gm_extra)
-    gm_senses.extend(gm_extra)
+    gm_proposed, _ = m.read_dbnary_pivots(args.pivots, "GM", opened)
+    facts["triangulation"]["gm_candidates"] = len(gm_proposed)
     m.link_senses(gm_senses, english, True, True, morphy, gloss_map, id_map)
     m.record_ili_pos(gm_senses, english)
     m.dedupe_senses(gm_entries)
@@ -459,10 +476,8 @@ def main() -> int:
     for s in full:
         if s.is_classifier:
             tiers["classifier (no ILI by design)"] += 1
-        elif s.method.startswith("triangulated"):
-            support = int(s.method.rsplit("-", 1)[-1])
-            tiers["triangulated, 4+ languages" if support >= 4
-                  else "triangulated, 2-3 languages"] += 1
+        elif s.method == "adjudicated":
+            tiers["adjudicated by a speaker"] += 1
         elif s.method in CERTAIN:
             tiers["concept-set or gloss intersection"] += 1
         elif s.ili:
@@ -471,12 +486,7 @@ def main() -> int:
             tiers["unlinked"] += 1
     facts["tiers"] = dict(tiers)
     facts["tiers"]["linked, stronger evidence"] = (
-        tiers["concept-set or gloss intersection"]
-        + tiers["triangulated, 4+ languages"] + tiers["triangulated, 2-3 languages"])
-    # the triangulation route's own sense count, before deduplication merges any of
-    # them into a sense another route also reached
-    facts["triangulation"]["senses"] = len(m.read_dbnary_pivots(
-        args.pivots, "WH", m.open_pivots(args.pivots, args.pin_file)[0])[0])
+        tiers["concept-set or gloss intersection"] + tiers["adjudicated by a speaker"])
     # the category hierarchy as received, not after the categories we added for the
     # extracted material
     if args.pristine and args.pristine.exists():

@@ -24,18 +24,17 @@ and Green Mong from nothing to **96 lemmas**. For White Hmong:
 | English WordNet lookup alone | 1,545 | 540 | 35.0% | 497 |
 | + the Concepticon bridge | 1,543 | 842 | 54.6% | 738 |
 | + WOLD | 2,739 | 1,747 | 63.8% | 1,376 |
-| + triangulation | 3,086 | 2,094 | 67.9% | 1,598 |
-| + Wiktionary definition overlap | 3,097 | **2,105** | **68.0%** | **1,608** |
+| + a speaker's verdicts | 2,735 | **1,749** | **63.9%** | **1,380** |
 
-Of those 1,608 concepts, 487 come from the descriptive sources, 1,038 from WOLD (870
-of them reached by no other source), 343 from triangulation (312 likewise), and 11
-from the Wiktionary definition comparison (10 likewise). A further **34 senses carry
-a KinDiv kin-type identifier** for concepts the interlingual index has no entry for
-at all.
+Wiktionary no longer contributes: since Nathan White's review it only proposes
+candidates (see "Changed after Nathan White's review" below). Of the 1,380
+concepts, 520 come from the descriptive sources and 1,036 from WOLD (860 of them
+reached by no other source). A further **34 senses carry a KinDiv kin-type
+identifier** for concepts the interlingual index has no entry for at all.
 
-What each link rests on: **1,722** senses on a hand-mapped concept set, two glosses
-intersecting, or several languages agreeing; **383** on a single monosemous gloss,
-labelled as the weaker evidence it is; **992** open; **141** classifiers with no
+What each link rests on: **1,349** senses on a hand-mapped concept set, two glosses
+intersecting, or a speaker's verdict; **400** on a single monosemous gloss,
+labelled as the weaker evidence it is; **986** open; **141** classifiers with no
 ILI by design.
 
 The English wordnet is **`oewn:2025+`**, the edition that includes proper names.
@@ -43,8 +42,9 @@ The plain `oewn:2025` links four more senses by gloss alone but leaves two
 Concepticon mappings dangling, `moon` and `sun` being proper-name concepts; see
 "Fixed after external review" below.
 
-Green Mong: 25 of 37 linkable senses, 15 distinct ILIs. It had zero of everything
-until the classifier, kinship and triangulation work.
+Green Mong: 4 of 16 linkable senses, 4 distinct ILIs, plus 13 KinDiv concepts. The
+21 senses triangulation added are now candidates only, and Nathan White found them
+all to be phrases.
 
 ## Done
 
@@ -71,7 +71,10 @@ rather than error.
 sets, CC BY 4.0, covering the Guizhou varieties `hea`, `hmd`, `mmr`, `cqd`. One
 lexicon per language, since they are separate ISO codes.
 
-### (0b) Wiktionary through DBnary — +145 concepts, and Green Mong's first links
+### (0b) Wiktionary through DBnary — withdrawn to candidates only
+
+*Superseded on 2026-10-12: see "Changed after Nathan White's review". The account
+below is of what the route did while it linked; the figures are not current.*
 
 Hmong is not a Wiktionary edition, so it appears only as a translation target — but
 the English edition's translation tables are **sense-anchored**, and
@@ -155,14 +158,16 @@ any fluent speaker can do directly in `hmong_ontology.xml` — add a second
 
 Three sheets, in increasing order of yield per row:
 
-- `review-wiktionary-WH.tsv`, **35 rows**: translations the definition comparison
-  would not decide, with up to five candidate ILIs, their English definitions and
-  the overlap scores.
-- `review-triangulation-WH.tsv`, **71 rows**: groups where the pivot languages
-  split, with every pivot word grouped by language, so a speaker can see that French
-  and Italian point one way and Chinese and Japanese the other.
-- `review-conflicts-WH.tsv`, **28 rows**: senses the Concepticon and triangulation
-  routes both reach and name different ILIs for. One of the two is wrong, so this is
+- `review-wiktionary-WH.tsv`, **54 rows**: Wiktionary candidates from comparing
+  definitions, 19 proposed and 35 undecided, with up to five candidate ILIs, their
+  English definitions and the overlap scores.
+- `review-triangulation-WH.tsv`, **731 rows**: Wiktionary candidates by
+  triangulation, 660 where the pivot languages agree and 71 where they split, with
+  every pivot word grouped by language and each candidate ILI's lemmas and
+  definition. Many are phrases, translationese or English senses (see below), so the
+  yield per row is low.
+- `review-conflicts-WH.tsv`, **27 rows**: senses where the Concepticon link and the
+  triangulation candidate name different ILIs. One of the two is wrong, so this is
   where a correction is most likely per row. It also carries our own provisional
   reading in an `ADJUDICATION` column, kept separate from the empty `VERDICT` so a
   non-speaker's judgement is never mistaken for a speaker's.
@@ -258,10 +263,12 @@ pairings of a language with adjectival verbs:
 | `qhuas` | praise | v | n | i71660 |
 | `sau` | harvest | v | n | i105478 |
 
-Allowing a cross-part-of-speech link is a judgement call, not a bug fix, so it is
-listed rather than done. Seven is small, but each is certainly correct in meaning.
-
-CHECK: Nathan
+**Closed: not to be linked.** Nathan White confirms that our parts of speech are
+right (*ziab* 'to dry [laundry]', as against *qhuav* 'be dry'; *tis* 'to name';
+*tu* 'to clean'; *cub* 'to steam'; *qhuas* 'to praise'; *sau* 'to harvest'), so
+the Concepticon concept is the wrong part of speech, not merely another reading,
+and these stay unlinked. *foom* is also a verb 'wish, bless, curse', as the
+ontology has it; its noun 'blessing' is not in the ontology yet.
 
 ### (6) Green Mong — 96 lemmas is better, still not a lexicon
 
@@ -384,6 +391,39 @@ invisible in a passing test suite:
   conflicts out of 189 (85.7% agreement); the colour terms `liab`, `daj`, `ntsuab`
   are new, adjective against colour noun.
 
+## Changed after Nathan White's review (2026-10-12)
+
+Nathan White reviewed the review sheets, the classifier tables, the kinship
+proposals and `dbnary-hmong.tsv` (`COMMENTS.md` on his `nathan/comments` branch).
+
+- **Wiktionary links nothing.** Both Wiktionary routes now write candidates only.
+  The cause is the English pivot: Hmong is in Wiktionary only as translations of
+  English words, elicited from speakers, so the entries include ad hoc phrases and
+  whole sentences (*kuv hlub koj* 'I love you', *koj puas nyob zoo* 'how are
+  you'), approximate words, and English senses the Hmong word does not have.
+  *siab* 'liver' is filed under 'heart' (down to the ♥ symbol); *thee* 'charcoal'
+  under 'a drawing made with charcoal'; *mob* 'be sick, illness' under 'to cause
+  pain'; *xiav* 'blue' under 'grue'; *dab tsi* 'what' under the fused relative
+  'whatever'. Triangulation counts languages agreeing on the *English* sense, so
+  it confirms the English reading rather than testing the Hmong one. Removing them
+  takes White Hmong from 2,105 linked senses over 1,608 concepts (68.0%) to 1,749
+  over 1,380 (63.9%); Green Mong loses all 21 of its triangulated senses.
+- **The extraction is not always sense-anchored either.** *siab* 'chest' appears
+  under nine Wiktionary senses of *chest* ('coffin', 'chest of drawers', 'a
+  treasury' among them) with identical pivots, so for some rows the translation was
+  attached to the English word, not one of its senses. Worth checking in
+  `fetch_dbnary.py` before the candidates are used.
+- **`adjudications.tsv`** records a speaker's verdicts, which overrule every route.
+  Ten so far: *nyuj* is cattle, not the female; *pob* the ball of games; *hu* is not
+  'send for' (unlinked until the right 'call' is chosen); *mob*, *tseeb*, *ntev*,
+  *dhau* and *vaj* take the ILIs he named; *siab* 'heart' and *tshuab* 'blow' take
+  ILIs we chose from his description, marked to be confirmed.
+- **Still to apply:** his corrections to the classifier tables (*zaum*/*zaus*,
+  GM *zag*; *riam*, GM *rag*; *khawv* tone sandhi; *li*/*le* as a possessed
+  classifier), and to the kinship proposals (*nus*, *muam*, *tij laug* and *kwv*
+  cover only the father's *brother's* children, so the proposed KinDiv concepts
+  collapse into the existing `Fa;Br;*` ones).
+
 ## Measured and rejected
 
 - **Merging kaikki.org's White Hmong glosses to disambiguate our senses.** 815
@@ -409,9 +449,9 @@ invisible in a passing test suite:
 
 | | concepts | coverage |
 |---|---|---|
-| now | 1,608 ILIs + 34 KinDiv | 68.0% of linkable senses |
-| (1) a second gloss for the 142 two-candidate senses | +142 senses | 72.6% |
-| (1b) the 133 rows across the three review sheets | +up to 133 senses | |
+| now | 1,380 ILIs + 34 KinDiv | 63.9% of linkable senses |
+| (1) a second gloss for the 140 two-candidate senses | +140 senses | 69.1% |
+| (1b) the 812 rows across the three review sheets | +up to 812 senses, most of them Wiktionary candidates of low yield | |
 | (3) proposing the 238 unknown concepts | +238 | |
 | (6) Strecker's dictionary, with permission | ~849 ILIs for Green Mong | |
 | (8) a speaker-judged stratified sample | — | the missing evaluation |

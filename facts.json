@@ -1,4 +1,8 @@
 {
+  "adjudications": {
+    "unlinked": 1,
+    "verdicts": 10
+  },
   "class_nouns": {
     "heads": 28,
     "members": 121,
@@ -217,20 +221,12 @@
   },
   "contribution": {
     "by_source": {
-      "DBnary": {
-        "ilis": 11,
-        "new": 10
-      },
       "WOLD": {
-        "ilis": 1038,
-        "new": 870
-      },
-      "triangulated": {
-        "ilis": 343,
-        "new": 312
+        "ilis": 1036,
+        "new": 860
       }
     },
-    "ontology_ilis": 487
+    "ontology_ilis": 520
   },
   "coverage": {
     "english_only": {
@@ -252,49 +248,26 @@
       "pct": 35.0
     },
     "everything": {
-      "ilis": 1608,
-      "linkable": 3097,
-      "linked": 2105,
+      "ilis": 1380,
+      "linkable": 2735,
+      "linked": 1749,
       "methods": {
-        "ambiguous": 206,
-        "ambiguous+category": 208,
-        "concepticon": 138,
-        "concepticon-id": 1171,
-        "dbnary-sense": 11,
+        "adjudicated": 9,
+        "adjudicated-unlinked": 1,
+        "ambiguous": 203,
+        "ambiguous+category": 206,
+        "concepticon": 144,
+        "concepticon-id": 1166,
         "intersection": 11,
         "intersection+category": 19,
-        "monosemous": 180,
-        "monosemous+category": 192,
+        "monosemous": 189,
+        "monosemous+category": 211,
         "no-ili": 2,
-        "no-intersection": 49,
+        "no-intersection": 48,
         "no-intersection+category": 91,
-        "nomatch": 436,
-        "triangulated-10": 17,
-        "triangulated-11": 27,
-        "triangulated-12": 13,
-        "triangulated-13": 38,
-        "triangulated-14": 25,
-        "triangulated-15": 19,
-        "triangulated-16": 14,
-        "triangulated-17": 13,
-        "triangulated-18": 17,
-        "triangulated-19": 20,
-        "triangulated-2": 12,
-        "triangulated-20": 17,
-        "triangulated-21": 32,
-        "triangulated-22": 23,
-        "triangulated-23": 18,
-        "triangulated-24": 7,
-        "triangulated-25": 1,
-        "triangulated-3": 6,
-        "triangulated-4": 4,
-        "triangulated-5": 8,
-        "triangulated-6": 11,
-        "triangulated-7": 15,
-        "triangulated-8": 13,
-        "triangulated-9": 13
+        "nomatch": 435
       },
-      "pct": 68.0
+      "pct": 63.9
     },
     "plus_concepticon": {
       "ilis": 738,
@@ -314,50 +287,6 @@
         "nomatch": 204
       },
       "pct": 54.6
-    },
-    "plus_triangulation": {
-      "ilis": 1598,
-      "linkable": 3086,
-      "linked": 2094,
-      "methods": {
-        "ambiguous": 206,
-        "ambiguous+category": 208,
-        "concepticon": 138,
-        "concepticon-id": 1171,
-        "intersection": 11,
-        "intersection+category": 19,
-        "monosemous": 180,
-        "monosemous+category": 192,
-        "no-ili": 2,
-        "no-intersection": 49,
-        "no-intersection+category": 91,
-        "nomatch": 436,
-        "triangulated-10": 17,
-        "triangulated-11": 27,
-        "triangulated-12": 13,
-        "triangulated-13": 38,
-        "triangulated-14": 25,
-        "triangulated-15": 19,
-        "triangulated-16": 14,
-        "triangulated-17": 13,
-        "triangulated-18": 17,
-        "triangulated-19": 20,
-        "triangulated-2": 12,
-        "triangulated-20": 17,
-        "triangulated-21": 32,
-        "triangulated-22": 23,
-        "triangulated-23": 18,
-        "triangulated-24": 7,
-        "triangulated-25": 1,
-        "triangulated-3": 6,
-        "triangulated-4": 4,
-        "triangulated-5": 8,
-        "triangulated-6": 11,
-        "triangulated-7": 15,
-        "triangulated-8": 13,
-        "triangulated-9": 13
-      },
-      "pct": 67.9
     },
     "plus_wordlist": {
       "ilis": 1376,
@@ -385,13 +314,17 @@
     "mww": 732,
     "sense_anchored": 761
   },
+  "definition_match": {
+    "candidates": 19,
+    "declined": 35
+  },
   "gm": {
-    "concepts": 15,
-    "lemmas": 116,
-    "linkable": 37,
-    "linked": 25,
+    "concepts": 4,
+    "lemmas": 96,
+    "linkable": 16,
+    "linked": 4,
     "ontology_lemmas": 96,
-    "senses": 119
+    "senses": 98
   },
   "kinship": {
     "ili_status": {
@@ -427,20 +360,20 @@
     "rows": 29301
   },
   "queue": {
-    "coverage_after_stage1_pct": 72.6,
-    "open": 992,
-    "review_rows": 133,
+    "coverage_after_stage1_pct": 69.1,
+    "open": 986,
+    "review_rows": 812,
     "review_sheets": {
       "conflicts": 27,
-      "triangulation_splits": 71,
-      "wiktionary_declined": 35
+      "definition_match_candidates": 54,
+      "triangulation_candidates": 731
     },
-    "stage1_ambiguous": 414,
-    "stage1_binary": 142,
-    "stage1_single_gloss": 403,
-    "stage2_triangulation_splits": 71,
-    "stage4_multiword": 238,
-    "stage4_no_english_lemma": 436
+    "stage1_ambiguous": 409,
+    "stage1_binary": 140,
+    "stage1_single_gloss": 398,
+    "stage2_wiktionary_candidates": 731,
+    "stage4_multiword": 237,
+    "stage4_no_english_lemma": 435
   },
   "relations": {
     "classified_by": 380,
@@ -495,7 +428,7 @@
     "ontology_categories_now": 61,
     "stopword_forms": 82,
     "white_classifiers": 163,
-    "wold_forms": 1469,
+    "wold_forms": 1465,
     "wold_senses_read": 1474
   },
   "supersense": {
@@ -503,16 +436,19 @@
     "senses_rescued": 159
   },
   "tiers": {
+    "adjudicated by a speaker": 9,
     "classifier (no ILI by design)": 141,
-    "concept-set or gloss intersection": 1339,
-    "linked, stronger evidence": 1722,
-    "single gloss, monosemous": 383,
-    "triangulated, 2-3 languages": 18,
-    "triangulated, 4+ languages": 365,
-    "unlinked": 992
+    "concept-set or gloss intersection": 1340,
+    "linked, stronger evidence": 1349,
+    "single gloss, monosemous": 400,
+    "unlinked": 986
   },
   "triangulation": {
-    "senses": 660,
+    "candidate_ilis": 495,
+    "candidates": 660,
+    "gm_candidates": 26,
+    "multiword_forms": 245,
+    "on_forms_in_lexicon": 472,
     "undecided": 71
   },
   "underspecified": {

@@ -391,6 +391,7 @@ def read_dbnary(
     threshold: float = 0.12, margin: float = 1.5,
     review: list[dict[str, str]] | None = None,
     already: set[tuple[str, str, str]] | None = None,
+    proposals: list[dict[str, str]] | None = None,
 ) -> list[OntSense]:
     """Senses from the sense-anchored Wiktionary translations in `dbnary-hmong.tsv`.
 
@@ -408,7 +409,9 @@ def read_dbnary(
 
     A declined row is not a dead end: the candidates are there, with their
     definitions, and a speaker could choose between them in seconds. Pass `review`
-    to collect them, and `write_review` turns that into an annotation sheet.
+    to collect them, and `write_review` turns that into an annotation sheet. Pass
+    `proposals` to collect the rows it did decide in the same form: the build lists
+    them as candidates for a speaker to check rather than linking them.
 
     `already` holds the (form, English lemma, Wiktionary definition) triples
     triangulation has decided. Those are skipped, because triangulation is the
@@ -474,6 +477,19 @@ def read_dbnary(
             # the ILI is decided here, not by the gloss routes
             sense.ili, sense.method = str(best[1].ili), "dbnary-sense"
             senses.append(sense)
+            if proposals is not None:
+                proposals.append({
+                    "VERDICT": "",
+                    "FORM": sense.form,
+                    "DIALECT": dialect,
+                    "ENGLISH": row["ENGLISH"],
+                    "POS": pos,
+                    "WHY": f"proposed: best definition match [{best[0]:.2f}]",
+                    "WIKTIONARY_SENSE": row["DEFINITION"],
+                    "CANDIDATES": " | ".join(
+                        f"{c.ili}={(c.definitions() or [''])[0][:70]} [{score:.2f}]"
+                        for score, c in scored[:5]),
+                })
     return senses
 
 
@@ -499,9 +515,74 @@ def write_review(path: Path, rows: list[dict[str, str]]) -> None:
         writer.writerows(rows)
 
 
+#: an ILI at the head of a triangulation candidate, as `i123(4: de,fr)`
+CANDIDATE_ILI = re.compile(r"\b(i[\w-]+)\(")
+
+
+def describe_candidates(rows: list[dict[str, str]], english: wn.Wordnet) -> None:
+    """Spell out each triangulation candidate's English lemmas and definition.
+
+    A bare ILI asks the reviewer to look it up; with the lemmas and definition on
+    the line, choosing between two candidates is a matter of reading them.
+    """
+    def spell(match: re.Match[str]) -> str:
+        found = english.synsets(ili=match.group(1))
+        if not found:
+            return match.group(0)
+        synset = found[0]
+        lemmas = ", ".join(synset.lemmas()[:3])
+        definition = (synset.definitions() or [""])[0][:70]
+        return f"{match.group(1)} [{lemmas}: {definition}]("
+
+    for row in rows:
+        if row.get("CANDIDATES"):
+            row["CANDIDATES"] = CANDIDATE_ILI.sub(spell, row["CANDIDATES"])
+
+
+ADJUDICATION_FIELDS = ["FORM", "DIALECT", "GLOSS", "ILI", "BY", "NOTE"]
+
+
+def read_adjudications(path: Path) -> list[dict[str, str]]:
+    """A speaker's verdicts on links, one row per sense: `adjudications.tsv`.
+
+    `GLOSS` picks out the sense by one of its glosses. An empty `ILI` means the
+    sense has no good concept and must stay unlinked.
+    """
+    with path.open(newline="", encoding="utf8") as handle:
+        return [row for row in csv.DictReader(handle, delimiter="\t")
+                if row.get("FORM") and not row["FORM"].startswith("#")]
+
+
+def apply_adjudications(
+    senses: list[OntSense], verdicts: list[dict[str, str]]
+) -> list[dict[str, str]]:
+    """Overrule the linking routes wherever a speaker has decided the sense.
+
+    A verdict is evidence of a different kind from any route: someone who knows
+    the language read the candidates and chose. So it replaces whatever a route
+    chose, including a Concepticon identifier. Returns the verdicts that matched
+    no sense, which usually means the ontology entry has changed under them.
+    """
+    unmatched = []
+    for verdict in verdicts:
+        hits = [s for s in senses
+                if s.form == normalise_form(verdict["FORM"])
+                and s.dialect == verdict["DIALECT"]
+                and verdict["GLOSS"] in s.glosses]
+        for sense in hits:
+            sense.ili = verdict["ILI"] or None
+            sense.method = "adjudicated" if verdict["ILI"] else "adjudicated-unlinked"
+            sense.note = "; ".join(n for n in (
+                sense.note, f"adjudicated by {verdict['BY']}: {verdict['NOTE']}") if n)
+        if not hits:
+            unmatched.append(verdict)
+    return unmatched
+
+
 def read_dbnary_pivots(
     path: Path, dialect: str, pivots: dict[str, wn.Wordnet],
     source: str = "triangulated", min_support: int = 2,
+    proposals: list[dict[str, str]] | None = None,
 ) -> tuple[list[OntSense], list[dict[str, str]]]:
     r"""Link Hmong senses by intersecting other languages' translations of the same
     English sense.
@@ -525,6 +606,8 @@ def read_dbnary_pivots(
     proposed something else.
 
     Returns the senses it could link, and a review row for every group it could not.
+    Pass `proposals` to collect a row for each linked sense as well, in the same
+    form: the build lists those as candidates for a speaker to check.
     """
     groups: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
     with path.open(newline="", encoding="utf8") as handle:
@@ -584,6 +667,20 @@ def read_dbnary_pivots(
             senses[-1].ili = best
             senses[-1].method = f"triangulated-{len(support)}"
             senses[-1].pos_override = pos_of_ili(best, pivots) or "n"
+            if proposals is not None:
+                proposals.append({
+                    "VERDICT": "",
+                    "FORM": normalise_form(form),
+                    "DIALECT": dialect,
+                    "ENGLISH": english,
+                    "WHY": f"proposed: {len(support)} of {len(words)} languages agree",
+                    "WIKTIONARY_SENSE": definition,
+                    "PIVOTS": "; ".join(f"{iso}={'/'.join(sorted(w))}"
+                                        for iso, w in sorted(words.items()))[:300],
+                    "CANDIDATES": " | ".join(
+                        f"{ili}({len(langs)}: {','.join(sorted(langs))})"
+                        for ili, langs in ranked[:5]),
+                })
         else:
             review.append({
                 "VERDICT": "",
@@ -694,6 +791,7 @@ def merge_into_entries(entries: list[Entry], senses: list[OntSense]) -> int:
 #: Only the prefix is compared, so `triangulated-7` and `intersection+category`
 #: are ranked by their route.
 METHOD_STRENGTH = (
+    "adjudicated",        # a speaker's verdict, from adjudications.tsv
     "concepticon-id",     # a hand-mapped concept set identifier
     "triangulated",       # several other languages' lexicographers agreeing
     "concepticon",        # a gloss that is also a Concepticon gloss
@@ -1433,15 +1531,19 @@ def main() -> int:
                              "same senses, for triangulation. Needs the pivot "
                              "wordnets in the wn data directory")
     parser.add_argument("--pivot-review", type=Path, metavar="FILE",
-                        help="write the triangulation groups that did not decide")
+                        help="write the triangulation candidates, decided or not, "
+                             "as an annotation sheet")
     parser.add_argument("--allow-missing-pivots", action="store_true",
                         help="triangulate even though some pivot wordnets are not "
                              "loaded. The links then depend on which wordnets happen "
                              "to be installed, so this is for exploration, not for "
                              "any run whose figures are reported")
     parser.add_argument("--dbnary-review", type=Path, metavar="FILE",
-                        help="write the Wiktionary candidates the definition "
-                             "comparison could not decide, as an annotation sheet")
+                        help="write the Wiktionary definition-match candidates, "
+                             "decided or not, as an annotation sheet")
+    parser.add_argument("--adjudications", type=Path, metavar="FILE",
+                        help="adjudications.tsv: a speaker's verdicts on links, "
+                             "which overrule every route")
     parser.add_argument("--dbnary", type=Path, metavar="FILE",
                         help="dbnary-hmong.tsv, the sense-anchored Wiktionary "
                              "translations produced by fetch_dbnary.py")
@@ -1550,35 +1652,47 @@ def main() -> int:
         if missing_pivots:
             print(f"warning: triangulating without {len(missing_pivots)} pivot "
                   f"wordnets: {' '.join(missing_pivots)}", file=sys.stderr)
+        # Wiktionary's Hmong is elicited from English, so its translations and the
+        # English senses they hang on are candidates for a speaker to check, never
+        # links: nothing from this route reaches the lexicon
+        proposed: list[dict[str, str]] = []
         extra, pivot_review = read_dbnary_pivots(
             args.pivots, args.dialect if args.dialect != "all" else "WH",
-            pivot_wordnets)
+            pivot_wordnets, proposals=proposed)
         triangulated = {(s.form, s.glosses[0], s.definition) for s in extra}
-        created = merge_into_entries(entries, extra)
-        senses.extend(extra)
-        print(f"triangulated {len(extra)} senses through {len(pivot_wordnets)} pivot "
-              f"wordnets: {created} new entries, {len(extra) - created} on entries "
-              f"already present; {len(pivot_review)} groups undecided")
+        print(f"triangulation proposed {len(extra)} candidate senses through "
+              f"{len(pivot_wordnets)} pivot wordnets; {len(pivot_review)} groups "
+              f"undecided. None is linked until a speaker checks it")
         if args.pivot_review:
-            write_review(args.pivot_review, pivot_review)
-            print(f"  wrote {args.pivot_review}")
+            sheet = proposed + pivot_review
+            describe_candidates(sheet, english)
+            write_review(args.pivot_review, sheet)
+            print(f"  wrote {args.pivot_review}: {len(sheet)} candidates")
 
     if args.dbnary:
         review: list[dict[str, str]] = []
+        proposed = []
         extra = read_dbnary(args.dbnary, english,
                             args.dialect if args.dialect != "all" else "WH",
-                            review=review, already=triangulated)
-        created = merge_into_entries(entries, extra)
-        senses.extend(extra)
-        print(f"read {len(extra)} sense-anchored translations from {args.dbnary}: "
-              f"{created} new entries, {len(extra) - created} on entries already present")
+                            review=review, already=triangulated, proposals=proposed)
+        print(f"the Wiktionary definition match proposed {len(extra)} candidate "
+              f"senses and declined {len(review)}; none is linked")
         if args.dbnary_review:
-            write_review(args.dbnary_review, review)
-            print(f"  wrote {args.dbnary_review}: {len(review)} declined candidates "
-                  f"for a speaker to choose between")
+            write_review(args.dbnary_review, proposed + review)
+            print(f"  wrote {args.dbnary_review}: {len(proposed) + len(review)} "
+                  f"candidates for a speaker to choose between")
 
     link_senses(senses, english, not args.no_stative_adjective,
                 not args.no_category_filter, lemmatiser, concepticon, by_id)
+    if args.adjudications:
+        verdicts = [v for v in read_adjudications(args.adjudications)
+                    if args.dialect in ("all", v["DIALECT"])]
+        unmatched = apply_adjudications(senses, verdicts)
+        print(f"applied {len(verdicts) - len(unmatched)} of {len(verdicts)} "
+              f"adjudications from {args.adjudications}")
+        for verdict in unmatched:
+            print(f"  warning: no sense {verdict['FORM']} '{verdict['GLOSS']}' "
+                  f"({verdict['DIALECT']}) to adjudicate", file=sys.stderr)
 
     record_ili_pos(senses, english)
     merged = dedupe_senses(entries)

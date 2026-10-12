@@ -46,6 +46,7 @@ extracted from the two descriptive publications and on what basis.
 | `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary; candidates only |
 | `dbnary-pivots.tsv` | the other languages' translations of those same senses, for triangulation |
 | `adjudications.tsv` | a speaker's verdicts on links, which overrule every linking route |
+| `ili-proposals.tsv` | new concepts proposed for CILI where a speaker found no ILI fits |
 | `stopwords_base.txt` | Hmong stopwords, excluding classifiers and verbal bound roots/affixes |
 | `stopwords_classifiers.txt` | Hmong classifiers |
 | `stopwords_verbal_adjuncts.txt` | Hmong verbal adjuncts, such as bound roots and affixes |
@@ -150,8 +151,8 @@ agree on its functions; `daig`, `riag`, `nploog`, `ntsug`, `ce`, `khaw` and `tug
 are tone-melody alternants rather than separate classifiers, so they become
 `<variant>` elements.
 
-Ten rows are not added as lemmas, recorded with the evidence in `DISPOSITION`:
-seven tone-melody alternants and three forms no source supports as classifiers.
+Nine rows are not added as lemmas, recorded with the evidence in `DISPOSITION`:
+seven tone-melody alternants and two forms no source supports as classifiers.
 
 `classifiers-white2021.tsv` is the unmerged extraction from White's chapter 7,
 kept separately so the merge can be checked or redone; its own header records the
@@ -321,6 +322,13 @@ matches no sense is reported, because it usually means the ontology entry change
 underneath it. The first ten are from Nathan White's review; where he described a
 meaning rather than naming an ILI, the row says the ILI is ours and to be
 confirmed.
+
+Where no ILI fits, the sense stays unlinked and the missing concept goes in
+`ili-proposals.tsv`: a draft definition and its relation to the nearest existing
+concept. The first is *siab* 'liver' as the seat of feeling, similar to i67941
+'heart, bosom: the locus of feelings and intuitions' but not the same concept,
+since *siab* does not occur in the same idioms. The converter does not read this
+file yet; the proposals are for submission to CILI.
 
 ### Which wordnets, at which release
 

@@ -1,6 +1,6 @@
 {
   "adjudications": {
-    "unlinked": 1,
+    "unlinked": 2,
     "verdicts": 10
   },
   "class_nouns": {
@@ -9,8 +9,8 @@
     "new": 98
   },
   "classifiers": {
-    "added": 228,
-    "already_lemmas": 62,
+    "added": 229,
+    "already_lemmas": 63,
     "bisang_only": 49,
     "both": 51,
     "by_class": {
@@ -21,7 +21,7 @@
       "taxonomic": 6
     },
     "gm": 86,
-    "omitted": 3,
+    "omitted": 2,
     "rows": 238,
     "stopword_only": 15,
     "variants": 7,
@@ -226,7 +226,7 @@
         "new": 860
       }
     },
-    "ontology_ilis": 520
+    "ontology_ilis": 519
   },
   "coverage": {
     "english_only": {
@@ -248,12 +248,12 @@
       "pct": 35.0
     },
     "everything": {
-      "ilis": 1380,
+      "ilis": 1379,
       "linkable": 2735,
-      "linked": 1749,
+      "linked": 1748,
       "methods": {
-        "adjudicated": 9,
-        "adjudicated-unlinked": 1,
+        "adjudicated": 8,
+        "adjudicated-unlinked": 2,
         "ambiguous": 203,
         "ambiguous+category": 206,
         "concepticon": 144,
@@ -344,7 +344,7 @@
     "after": {
       "gm": 99,
       "lemmas": 1568,
-      "senses": 1790
+      "senses": 1791
     },
     "before": {
       "gm": 0,
@@ -360,8 +360,8 @@
     "rows": 29301
   },
   "queue": {
-    "coverage_after_stage1_pct": 69.1,
-    "open": 986,
+    "coverage_after_stage1_pct": 69.0,
+    "open": 987,
     "review_rows": 812,
     "review_sheets": {
       "conflicts": 27,
@@ -377,10 +377,10 @@
   },
   "relations": {
     "classified_by": 380,
-    "classifier_synsets": 143,
+    "classifier_synsets": 144,
     "classifies": 380,
-    "exemplifies": 143,
-    "total": 903
+    "exemplifies": 144,
+    "total": 904
   },
   "settings": {
     "category_filter": true,
@@ -436,12 +436,12 @@
     "senses_rescued": 159
   },
   "tiers": {
-    "adjudicated by a speaker": 9,
-    "classifier (no ILI by design)": 143,
+    "adjudicated by a speaker": 8,
+    "classifier (no ILI by design)": 144,
     "concept-set or gloss intersection": 1340,
-    "linked, stronger evidence": 1349,
+    "linked, stronger evidence": 1348,
     "single gloss, monosemous": 400,
-    "unlinked": 986
+    "unlinked": 987
   },
   "triangulation": {
     "candidate_ilis": 495,

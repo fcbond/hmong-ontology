@@ -129,14 +129,12 @@
 #                      needs care: tug is ALSO the Green Mong cognate of tus, and
 #                      that row stands separately as a Green Mong lemma, so the
 #                      form alone does not identify the dialect.
-#                      ce attaches to the ontology's existing noun cev 'body',
-#                      not to a classifier, because cev is not a classifier.
+#                      ce attaches to cev, which is both the noun 'body' and,
+#                      alternatively, a classifier (N. White, p.c.).
 #   omit               the stopword list has the form but no source supports it as
-#                      a classifier, so it is not added. Three rows: txog and txug
-#                      (only the verb 'arrive') and cev (only the noun 'body').
-#                      The rows are kept rather than deleted so the evidence for
-#                      omitting them is on the record.
-#                      CHECK: Nathan -- cev.
+#                      a classifier, so it is not added. Two rows: txog and txug
+#                      (only the verb 'arrive'). The rows are kept rather than
+#                      deleted so the evidence for omitting them is on the record.
 FORM	DIALECT	CLASS	WHITE_CATEGORY	BISANG_CATEGORY	FUNCTION	DEFINITION	EXAMPLES	SOURCE	NOTE	DISPOSITION
 lub	WH	sortal	sortal	classifier	classifier	a sortal classifier used with hollow or round three-dimensional objects, round body parts, vehicles, machines, garments, places, buildings and a wide range of abstracts	thoob (bucket); qhov rooj (door); paj (flower); taub hau (head); qhov muag (eye); plawv (heart); tsheb (car); dav hlau (airplane); nkoj (boat); tsho (shirt); zos (village); tsev (house); npe (name); lis piam (week); neej (life)	B:31-32; W:305-308		
 tus	WH	sortal	sortal	classifier	classifier	a sortal classifier used with living beings, with things closely connected to them, and with predominantly long objects	neeg (person); dab (spirit); tub (son); tsiaj (animal); noog (bird); plig (soul); mob (illness); nplaig (tongue); hniav (tooth); tw (tail); choj (bridge); mem (pen); yuam sij (key); ntaiv (ladder); nqe (price)	B:32; W:309-316		
@@ -241,7 +239,7 @@ pluas	WH	mensural			classifier	a mensural classifier used with single meals and 
 pluag	WH	mensural	mensural		classifier	a mensural classifier used with single meals and single doses	tshais (breakfast)	L; W:334, 337		
 chav	WH	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
 chaav	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
-cev	WH	mensural			classifier			L	not a classifier for White: only the noun 'body' (p. 132)	omit
+cev	WH	mensural			classifier	a classifier, from the noun cev 'body'		L; N. White p.c.	the noun 'body' (White 2021 p. 132), which can alternatively be used as a classifier (N. White, p.c.); what it classifies, and so its CLASS, is to confirm	
 ce	WH	mensural			classifier			L	not a classifier for White: the tone-melody alternant of cev 'body' (p. 681)	variant-of:cev
 khaw	WH	mensural			classifier			L	tone-melody alternant of khawv after a numeral of the -b tone class: ib khaw N (White Sec. 2.3.1; N. White, p.c.)	variant-of:khawv
 npaug	GM	event			classifier	a classifier counting times or multiples		L; W:675	glossed CL:TIMES in White's Green Mong appendix text (p. 675)	

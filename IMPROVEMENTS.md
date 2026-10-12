@@ -119,11 +119,12 @@ review added the measure words White lists).
 
 Of the rows that still carry no definition, **none is added as a classifier**:
 seven are tone-melody alternants and become `<variant>` of the form they alternate
-with (`khaw` is `khawv` after a -b numeral, N. White p.c.), and three are forms no
-source supports as classifiers at all. **Every classifier sense in the ontology now
+with (`khaw` is `khawv` after a -b numeral, N. White p.c.), and two are forms no
+source supports as classifiers at all; `cev` is the noun 'body' and also a
+classifier (N. White p.c.). **Every classifier sense in the ontology now
 has a definition.**
 
-`CHECK: Nathan` on `cev`.
+`CHECK: Nathan` on what `cev` classifies.
 
 ### (7) The rest of White's thesis — two of four parts
 

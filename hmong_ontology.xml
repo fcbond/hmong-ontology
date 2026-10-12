@@ -489,6 +489,7 @@
 			<sense>
 				<meaning>wife</meaning>
 				<category>social_role</category>
+				<kindiv concept="Wi" />
 			</sense>
 		</lemma>
 		<lemma>
@@ -923,6 +924,7 @@
 			<sense>
 				<meaning>mother</meaning>
 				<category>consanguineal_relation</category>
+				<kindiv concept="Mo" />
 			</sense>
 		</lemma>
 		<lemma>
@@ -1003,6 +1005,7 @@
 			<sense>
 				<meaning>daughter</meaning>
 				<category>consanguineal_relation</category>
+				<kindiv concept="Da" />
 			</sense>
 		</lemma>
 		<lemma>
@@ -1088,10 +1091,12 @@
 				<meaning>father</meaning>
 				<category>consanguineal_relation</category>
 				<function>class_noun</function>
+				<kindiv concept="Fa" />
 			</sense>
 			<sense>
 				<meaning>husband</meaning>
 				<category>affinal_relation</category>
+				<kindiv concept="Hu" />
 			</sense>
 			<sense>
 				<meaning>fruit</meaning>
@@ -1105,6 +1110,7 @@
 			<sense>
 				<meaning>grandchild</meaning>
 				<category>consanguineal_relation</category>
+				<kindiv concept="Gr;Ch" />
 			</sense>
 		</lemma>
 		<lemma>
@@ -2196,7 +2202,7 @@
 				<meaning>a classifier, from the noun cev 'body'</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L; N. White p.c.</note>
+				<note>attestation: L; NW:p.c.</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14424,6 +14430,7 @@
 				<category>consanguineal_relation</category>
 				<function>class_noun</function>
 				<note>attestation: B:43</note>
+				<kindiv concept="So" />
 			</sense>
 		</lemma>
 		<lemma>

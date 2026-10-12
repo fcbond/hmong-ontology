@@ -460,9 +460,18 @@ def add_kinship(
                     wh += 1
                 else:
                     gm += 1
-            elif any((m.text or "") == row["GLOSS"]
-                     for sense in lemma.findall("sense")
-                     for m in sense.findall("meaning")):
+            elif (present := next(
+                    (sense for sense in lemma.findall("sense")
+                     if any((m.text or "") == row["GLOSS"]
+                            for m in sense.findall("meaning"))), None)) is not None:
+                # the sense is already there, from the ontology or an earlier run,
+                # but its KinDiv concept may not be: record or correct it
+                mapped = kindiv.get((row["WH"], row["GLOSS"]))
+                if mapped:
+                    found = present.find("kindiv")
+                    if found is None:
+                        found = ET.SubElement(present, "kindiv")
+                    found.set("concept", mapped["KINDIV"])
                 continue
             else:
                 existing += 1

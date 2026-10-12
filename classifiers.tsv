@@ -19,6 +19,8 @@
 #             class nouns (pp. 42-45). Use the 51-page published article: the
 #             25-page draft has neither appendix.
 #   S         studyhmong.com/noun-classifier-hmong/
+#   NW:p.c.   Nathan White, personal communication (written in KEY:page form so
+#             that add_classifiers.py recognises it as part of the attestation)
 #   L         this repository's stopwords_classifiers.txt, which gives a form
 #             and a class but no definition. It turns out to be an index into
 #             White's chapter 7: its headings "locational classifiers" and
@@ -239,7 +241,7 @@ pluas	WH	mensural			classifier	a mensural classifier used with single meals and 
 pluag	WH	mensural	mensural		classifier	a mensural classifier used with single meals and single doses	tshais (breakfast)	L; W:334, 337		
 chav	WH	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
 chaav	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
-cev	WH	mensural			classifier	a classifier, from the noun cev 'body'		L; N. White p.c.	the noun 'body' (White 2021 p. 132), which can alternatively be used as a classifier (N. White, p.c.); what it classifies, and so its CLASS, is to confirm	
+cev	WH	mensural			classifier	a classifier, from the noun cev 'body'		L; NW:p.c.	the noun 'body' (White 2021 p. 132), which can alternatively be used as a classifier (N. White, p.c.); what it classifies, and so its CLASS, is to confirm	
 ce	WH	mensural			classifier			L	not a classifier for White: the tone-melody alternant of cev 'body' (p. 681)	variant-of:cev
 khaw	WH	mensural			classifier			L	tone-melody alternant of khawv after a numeral of the -b tone class: ib khaw N (White Sec. 2.3.1; N. White, p.c.)	variant-of:khawv
 npaug	GM	event			classifier	a classifier counting times or multiples		L; W:675	glossed CL:TIMES in White's Green Mong appendix text (p. 675)	

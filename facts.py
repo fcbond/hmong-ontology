@@ -19,6 +19,7 @@ import argparse
 import collections
 import csv
 import json
+import re
 import sys
 import warnings
 import xml.etree.ElementTree as ET
@@ -75,6 +76,14 @@ def rows_of(path: Path) -> list[dict[str, str]]:
     return list(csv.DictReader(lines, delimiter="\t"))
 
 
+def cites(row: dict[str, str], key: str) -> bool:
+    """Whether a classifier row's SOURCE cites `key` (W, B or NW) as `KEY:page`.
+
+    A substring test is not enough: `NW:p.c.` contains `W:`.
+    """
+    return re.search(rf"(?<![A-Za-z]){key}:", row["SOURCE"]) is not None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ontology", type=Path, default=Path("hmong_ontology.xml"))
@@ -128,13 +137,14 @@ def main() -> int:
         "wh": sum(1 for r in classifiers if r["DIALECT"] == "WH"),
         "gm": sum(1 for r in classifiers if r["DIALECT"] == "GM"),
         "bisang_only": sum(1 for r in classifiers
-                           if "B:" in r["SOURCE"] and "W:" not in r["SOURCE"]),
+                           if cites(r, "B") and not cites(r, "W")),
         "white_only": sum(1 for r in classifiers
-                          if "W:" in r["SOURCE"] and "B:" not in r["SOURCE"]),
-        "both": sum(1 for r in classifiers
-                    if "W:" in r["SOURCE"] and "B:" in r["SOURCE"]),
+                          if cites(r, "W") and not cites(r, "B")),
+        "both": sum(1 for r in classifiers if cites(r, "W") and cites(r, "B")),
+        "speaker_only": sum(1 for r in classifiers if cites(r, "NW")
+                            and not cites(r, "W") and not cites(r, "B")),
         "stopword_only": sum(1 for r in classifiers
-                             if "W:" not in r["SOURCE"] and "B:" not in r["SOURCE"]),
+                             if not any(cites(r, k) for k in ("W", "B", "NW"))),
         "with_examples": sum(1 for r in classifiers if r["EXAMPLES"]),
         "variants": sum(1 for r in classifiers
                         if r["DISPOSITION"].startswith("variant")),
@@ -304,8 +314,8 @@ def main() -> int:
                  if line.strip() and not line.startswith("#")]
     facts["sources"] = {
         "stopword_forms": len(set(stopwords)),
-        "bisang_classifiers": sum(1 for r in classifiers if "B:" in r["SOURCE"]),
-        "white_classifiers": sum(1 for r in classifiers if "W:" in r["SOURCE"]),
+        "bisang_classifiers": sum(1 for r in classifiers if cites(r, "B")),
+        "white_classifiers": sum(1 for r in classifiers if cites(r, "W")),
         # as read from the wordlist, and as many as survive deduplication
         "wold_senses_read": len(m.read_cldf(
             Path(args.cldf.split(":")[0]), args.cldf.split(":")[1],

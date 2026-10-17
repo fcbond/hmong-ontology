@@ -241,8 +241,8 @@ pluas	WH	mensural			classifier	a mensural classifier used with single meals and 
 pluag	WH	mensural	mensural		classifier	a mensural classifier used with single meals and single doses	tshais (breakfast)	L; W:334, 337		
 chav	WH	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
 chaav	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of buildings, individuating a room as a subcomponent of a whole	laj fai (office)	L; W:333, 337		
-cev	WH	mensural			classifier	a classifier, from the noun cev 'body'		L; NW:p.c.	the noun 'body' (White 2021 p. 132), which can alternatively be used as a classifier (N. White, p.c.); what it classifies, and so its CLASS, is to confirm	
-ce	WH	mensural			classifier			L	not a classifier for White: the tone-melody alternant of cev 'body' (p. 681)	variant-of:cev
+cev	WH	event			classifier	a classifier, from the noun cev 'body', used mostly with verbal actions and in some cases with nouns		L; NW:p.c.	the noun 'body' (White 2021 p. 132), which can alternatively be used as a classifier (N. White, p.c.), most often of verbal actions (N. White, 2026-10-17); which nouns it classifies he will check against his interview notes and a corpus	
+ce	WH	event			classifier			L	not a classifier for White: the tone-melody alternant of cev 'body' (p. 681)	variant-of:cev
 khaw	WH	mensural			classifier			L	tone-melody alternant of khawv after a numeral of the -b tone class: ib khaw N (White Sec. 2.3.1; N. White, p.c.)	variant-of:khawv
 npaug	GM	event			classifier	a classifier counting times or multiples		L; W:675	glossed CL:TIMES in White's Green Mong appendix text (p. 675)	
 nploog	WH	mensural			classifier			L	not a separate classifier: White (p. 381) shows this is the tone-melody alternant of nplooj CL:FLAT.PIECE	variant-of:nplooj

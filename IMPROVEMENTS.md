@@ -124,7 +124,9 @@ source supports as classifiers at all; `cev` is the noun 'body' and also a
 classifier (N. White p.c.). **Every classifier sense in the ontology now
 has a definition.**
 
-`CHECK: Nathan` on what `cev` classifies.
+`cev` is most often a verbal action classifier, so its CLASS is now event; it
+also classifies some nouns. `CHECK: Nathan` on which: he will check his interview
+notes and run a corpus search.
 
 ### (7) The rest of White's thesis — two of four parts
 
@@ -411,8 +413,9 @@ proposals and `dbnary-hmong.tsv` (`COMMENTS.md` on his `nathan/comments` branch)
 - **`adjudications.tsv`** records a speaker's verdicts, which overrule every route.
   Ten so far: *nyuj* is cattle, not the female; *pob* the ball of games; *hu* is not
   'send for' (unlinked until the right 'call' is chosen); *mob*, *tseeb*, *ntev*,
-  *dhau* and *vaj* take the ILIs he named; *siab* 'heart' and *tshuab* 'blow' take
-  ILIs we chose from his description, marked to be confirmed.
+  *dhau* and *vaj* take the ILIs he named; *tshuab* 'blow' takes i21801, which we
+  chose from his description and he has since confirmed; *siab* 'heart' is left
+  unlinked and proposed as a new concept, with a definition he accepted.
 - **Classifier tables corrected** against White's thesis: the measure words White
   lists (§7.6.1) are credited to him and *siab*/*sab* and *laij* added; *dlus* and
   *npaug* (GM `CL:TIMES`, p. 675) are added, *khaw* becomes a variant of *khawv*;
@@ -424,6 +427,23 @@ proposals and `dbnary-hmong.tsv` (`COMMENTS.md` on his `nathan/comments` branch)
 - **Kinship:** *nus*, *muam*, *tij laug* and *kwv* cover only the father's
   *brother's* children, so they map to KinDiv's existing `Fa;Br;*` concepts and the
   six proposals are withdrawn.
+
+## Settled with Nathan White (2026-10-17)
+
+- *tshuab* 'blow' → i21801 'exhale hard' is confirmed ("good enough").
+- The *siab* proposal's definition, 'the liver as the locus of feelings and
+  dispositions', is accepted. One or two idioms where *siab* and English 'heart'
+  diverge would still strengthen the CILI submission.
+- *cev* is most often a verbal action classifier (CLASS event), and in some cases
+  also classifies nouns. Which nouns is open: he will check his interview notes and
+  a corpus.
+- The father's sister's children have terms of their own, neither the paternal
+  sibling terms nor *npawg*/*muam npaws*, so the `Mo;Sb;*` mappings of those two
+  stand. What the terms are is open: he is checking the literature.
+- *nam pa* 'fish sauce' (Wiktionary) is Lao/Thai, not Hmong. It is not added: how
+  far it is integrated into Hmong is unknown, and so is whether its *-m* is the
+  RPA tone letter or the Lao/Thai coda. It was only ever a candidate (no pivot has
+  an ILI for it), so nothing in the lexicon changes.
 
 ## Measured and rejected
 

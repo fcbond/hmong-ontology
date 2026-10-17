@@ -252,7 +252,8 @@ a whole sentence (*kuv hlub koj* 'I love you'), or a word with only partial
 overlap — and the sense is the English word's, not the Hmong one's. *siab* is filed
 under 'heart', but means 'liver' and is used where English uses 'heart'
 figuratively; *thee* 'charcoal' is filed under charcoal as a drawing; *mob* 'be
-sick' under a causative 'hurt'. Triangulation then votes in the other languages'
+sick' under a causative 'hurt'; *nam pa* 'fish sauce' is a Lao/Thai word whose
+place in Hmong is unverified. Triangulation then votes in the other languages'
 wordnets on the *English* sense, so it confirms the English reading rather than
 testing the Hmong one.
 
@@ -562,7 +563,8 @@ uv run facts.py --data-directory .wn_data --english oewn:2025+ \
    description.~~ Done, and six of them turned out to be tone-melody alternants
    or not classifiers at all; those are `<variant>` elements or declined rows
    with the evidence in the `DISPOSITION` and `NOTE` columns of
-   `classifiers.tsv`. Five remain marked `CHECK: Nathan`.
+   `classifiers.tsv`. One question remains open: which nouns `cev`, mostly a
+   verbal action classifier, can also classify.
 7. Review the senses the converter leaves unlinked. 992 for White Hmong, of
    which 133 are already on the three annotation sheets above; `--report` ranks
    the rest, and `IMPROVEMENTS.md` says which stage returns most per row.

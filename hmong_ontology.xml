@@ -2199,8 +2199,8 @@
 				<note>conceptualized as a three_dimensional object</note>
 			</sense>
 			<sense>
-				<meaning>a classifier, from the noun cev 'body'</meaning>
-				<category>mensural_classifier</category>
+				<meaning>a classifier, from the noun cev 'body', used mostly with verbal actions and in some cases with nouns</meaning>
+				<category>event_classifier</category>
 				<function>classifier</function>
 				<note>attestation: L; NW:p.c.</note>
 			</sense>

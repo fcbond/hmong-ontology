@@ -38,8 +38,9 @@
 # `Fa;Br;*` concepts -- `nus` and `muam` exactly, `tij laug` and `kwv` to the
 # age-marked concepts, which are broader because KinDiv does not mark the speaker's
 # sex -- and nothing needs proposing. Cousins through the father's sister use other
-# terms; whether `npawg` and `muam npaws` cover them, which would make their
-# `Mo;Sb;*` mappings too narrow, is still to be checked.
+# terms: not `npawg` or `muam npaws` either, so their `Mo;Sb;*` mappings stand
+# (Nathan White, 2026-10-17). He is checking the literature for those terms; Table 29
+# (White 2021: 288) does not list them.
 #
 # KinDiv's `wn/extra-concepts.tsv` has since added parents, children, spouses and
 # in-laws, which brought eight more Hmong terms into scope: `niam` 'mother', `txiv`

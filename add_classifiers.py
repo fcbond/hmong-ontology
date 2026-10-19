@@ -398,6 +398,12 @@ def add_class_nouns(root: ET.Element, rows: list[dict[str, str]]) -> tuple[int, 
     return lemmas, marked, skipped
 
 
+def mark_unlexicalized(sense: ET.Element) -> None:
+    """Mark an ontology sense as a phrase rather than a word, once."""
+    if sense.find("lexicalized") is None:
+        ET.SubElement(sense, "lexicalized").text = "false"
+
+
 def add_underspecified(root: ET.Element, rows: list[dict[str, str]]) -> tuple[int, int]:
     """Add the classifier-plus-underspecified-noun compounds of White's Tables 39-41.
 
@@ -405,6 +411,11 @@ def add_underspecified(root: ET.Element, rows: list[dict[str, str]]) -> tuple[in
     what the phrase denotes, so each row is a distinct sense: `phau ntawv` is a book
     and `tsab ntawv` a letter, from the same noun. Each becomes a compound lemma with
     the noun as its `<headword>` and the classifier as `<classified_by>`.
+
+    The compounds are compositional: `phau ntawv` translates 'book' but is a phrase,
+    not a word. So each sense is marked `<lexicalized>false</lexicalized>`, which
+    the converter writes as a non-lexicalised WN-LMF sense; a compound already in
+    the ontology gets the mark too.
 
     Returns (compounds added, already present).
     """
@@ -415,11 +426,15 @@ def add_underspecified(root: ET.Element, rows: list[dict[str, str]]) -> tuple[in
         form = normalise(row["COMPOUND"])
         if (form, "WH") in index:
             present += 1
+            for sense in index[(form, "WH")].findall("sense"):
+                if any((m.text or "") == row["GLOSS"] for m in sense.findall("meaning")):
+                    mark_unlexicalized(sense)
             continue
         lemma = new_lemma(word_set, form, "WH", normalise(row["NOUN"]))
         index[(form, "WH")] = lemma
         sense = ET.SubElement(lemma, "sense")
         ET.SubElement(sense, "meaning").text = row["GLOSS"]
+        mark_unlexicalized(sense)
         if row["CATEGORY"]:
             ET.SubElement(sense, "category").text = row["CATEGORY"]
         node = ET.SubElement(sense, "classified_by")

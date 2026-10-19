@@ -15750,6 +15750,7 @@
 				<category>two_dimensional_object</category>
 				<classified_by form="daim" />
 				<note>classifier-specified sense of ntawv 'paper'; CL:2D; attestation: W:381</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15761,6 +15762,7 @@
 				<category>communication</category>
 				<classified_by form="phau" />
 				<note>classifier-specified sense of ntawv 'paper'; CL:BOOK; attestation: W:381</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15772,6 +15774,7 @@
 				<category>two_dimensional_object</category>
 				<classified_by form="nplooj" />
 				<note>classifier-specified sense of ntawv 'paper'; CL:FLAT.PIECE; attestation: W:381</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15783,6 +15786,7 @@
 				<category>communication</category>
 				<classified_by form="tsab" />
 				<note>classifier-specified sense of ntawv 'paper'; CL:DOCUMENT; attestation: W:381</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15794,6 +15798,7 @@
 				<category>communication</category>
 				<classified_by form="kab" />
 				<note>classifier-specified sense of ntawv 'paper'; CL:SENTENCE; attestation: W:381</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15805,6 +15810,7 @@
 				<category>communication</category>
 				<classified_by form="lo" />
 				<note>classifier-specified sense of lus 'speech, word'; CL:MOUTHFUL; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15816,6 +15822,7 @@
 				<category>communication</category>
 				<classified_by form="kab" />
 				<note>classifier-specified sense of lus 'speech, word'; CL:SENTENCE; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15827,6 +15834,7 @@
 				<category>communication</category>
 				<classified_by form="sob" />
 				<note>classifier-specified sense of lus 'speech, word'; CL:PARAGRAPH; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15838,6 +15846,7 @@
 				<category>communication</category>
 				<classified_by form="zaj" />
 				<note>classifier-specified sense of lus 'speech, word'; CL:DISCOURSE; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15849,6 +15858,7 @@
 				<category>communication</category>
 				<classified_by form="nqe" />
 				<note>classifier-specified sense of lus 'speech, word'; CL:PARAGRAPH; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15860,6 +15870,7 @@
 				<category>communication</category>
 				<classified_by form="tog" />
 				<note>classifier-specified sense of lus 'speech, word'; CL:SIDE; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15871,6 +15882,7 @@
 				<category>attribute</category>
 				<classified_by form="tus" />
 				<note>classifier-specified sense of duab 'shadow, picture'; CL:1D.RIGID; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15882,6 +15894,7 @@
 				<category>two_dimensional_object</category>
 				<classified_by form="daim" />
 				<note>classifier-specified sense of duab 'shadow, picture'; CL:2D; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15893,6 +15906,7 @@
 				<category>artifact</category>
 				<classified_by form="phau" />
 				<note>classifier-specified sense of duab 'shadow, picture'; CL:BOOK; attestation: W:382</note>
+				<lexicalized>false</lexicalized>
 			</sense>
 		</lemma>
 		<lemma>

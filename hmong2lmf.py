@@ -191,6 +191,9 @@ class OntSense:
     source: str = ""
     #: a KinDiv kin-type code, where the sense is a kinship term mapped to one
     kindiv: str = ""
+    #: False for a compositional phrase that translates a concept but is not a word,
+    #: such as a classifier-specified compound: written as Sense lexicalized="false"
+    lexicalized: bool = True
     #: the source's own definition, where it anchors the sense: Wiktionary numbers
     #: its senses privately, so the definition text is what distinguishes two
     #: translations of one English lemma
@@ -350,7 +353,9 @@ def read_ontology(
             sense = OntSense(index, form, glosses, category, note=sense_note,
                              dialect=lemma_dialect, functions=functions,
                              classifies=classifies, classified_by=classified_by,
-                             kindiv=kindiv)
+                             kindiv=kindiv,
+                             lexicalized=text_of(sense_element.find("lexicalized"))
+                             != "false")
             senses.append(sense)
 
             key = (form, sense.pos, lemma_dialect)
@@ -883,6 +888,8 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
         if form not in keeper.classified_by:
             keeper.classified_by.append(form)
     keeper.kindiv = keeper.kindiv or loser.kindiv
+    # a second source attesting the form as a word outweighs a phrase reading
+    keeper.lexicalized = keeper.lexicalized or loser.lexicalized
     keeper.concepticon = keeper.concepticon or loser.concepticon
     keeper.definition = keeper.definition or loser.definition
     keeper.candidates |= loser.candidates
@@ -1092,6 +1099,24 @@ CLDF_POS = {"Noun": "n", "Verb": "v", "Adjective": "a", "Adverb": "r",
             "Property": "a", "Other": "x", "Number": "n", "Classifier": "x"}
 
 
+def cldf_glosses(name: str) -> list[str]:
+    """The English glosses in a CLDF meaning name.
+
+    WOLD names meanings as phrases ("the world", "to eat"), numbers homonymous
+    names ("fork(2)", "male(1)"), and joins spelling variants and synonyms with a
+    slash ("the axe/ax", "the shop/store"). Each alternative becomes a gloss of
+    its own, so that two of them can intersect on one synset as any pair of
+    glosses does; left joined, "axe/ax" is no English lemma and links nothing.
+    """
+    name = re.sub(r"^(the|a|an|to) ", "", name.strip())
+    glosses = []
+    for part in name.split("/"):
+        part = re.sub(r"\(\d+\)", "", part).strip()
+        if part and part not in glosses:
+            glosses.append(part)
+    return glosses
+
+
 def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntSense]:
     """Senses from a CLDF wordlist, for one of its languages.
 
@@ -1122,8 +1147,7 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
             parameter = parameters.get(row["Parameter_ID"])
             if parameter is None:
                 continue
-            # meanings are named as phrases: "the world", "to eat"
-            gloss = re.sub(r"^(the|a|an|to) ", "", parameter["Name"].strip())
+            glosses = cldf_glosses(parameter["Name"])
             notes = []
             if row.get("Borrowed") and not row["Borrowed"].startswith("5."):
                 notes.append(f"{source} borrowing: {row['Borrowed']}")
@@ -1133,7 +1157,7 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
                 OntSense(
                     lemma_index=-1,
                     form=normalise_form(row["Form"]),
-                    glosses=[gloss],
+                    glosses=glosses,
                     category=parameter.get("Semantic_field", ""),
                     note="; ".join(notes) or None,
                     dialect="WH",
@@ -1448,6 +1472,7 @@ def write_lmf(
                     [
                         ("id", f"{entry_id}-{position}"),
                         ("synset", synset_of[id(sense)]),
+                        ("lexicalized", None if sense.lexicalized else "false"),
                         ("note", sense.note),
                     ]
                 )

@@ -14,9 +14,9 @@
     "bisang_only": 49,
     "both": 51,
     "by_class": {
-      "event": 22,
+      "event": 24,
       "group": 22,
-      "mensural": 154,
+      "mensural": 152,
       "sortal": 34,
       "taxonomic": 6
     },
@@ -52,8 +52,8 @@
     "unresolved": 2792
   },
   "concepticon_vs_triangulation": {
-    "agree": 162,
-    "both_reached": 189,
+    "agree": 165,
+    "both_reached": 192,
     "disagreements": [
       {
         "concepticon": "i29513",
@@ -218,16 +218,16 @@
         "triangulated": "i2502"
       }
     ],
-    "pct": 85.7
+    "pct": 85.9
   },
   "contribution": {
     "by_source": {
       "WOLD": {
-        "ilis": 1036,
-        "new": 860
+        "ilis": 1046,
+        "new": 869
       }
     },
-    "ontology_ilis": 519
+    "ontology_ilis": 518
   },
   "coverage": {
     "english_only": {
@@ -249,26 +249,26 @@
       "pct": 35.0
     },
     "everything": {
-      "ilis": 1379,
-      "linkable": 2735,
-      "linked": 1748,
+      "ilis": 1387,
+      "linkable": 2734,
+      "linked": 1758,
       "methods": {
         "adjudicated": 8,
-        "adjudicated-unlinked": 2,
-        "ambiguous": 203,
+        "adjudicated-unlinked": 3,
+        "ambiguous": 215,
         "ambiguous+category": 206,
         "concepticon": 144,
-        "concepticon-id": 1166,
-        "intersection": 11,
+        "concepticon-id": 1165,
+        "intersection": 23,
         "intersection+category": 19,
-        "monosemous": 189,
+        "monosemous": 188,
         "monosemous+category": 211,
         "no-ili": 2,
-        "no-intersection": 48,
+        "no-intersection": 50,
         "no-intersection+category": 91,
-        "nomatch": 435
+        "nomatch": 409
       },
-      "pct": 63.9
+      "pct": 64.3
     },
     "plus_concepticon": {
       "ilis": 738,
@@ -290,24 +290,24 @@
       "pct": 54.6
     },
     "plus_wordlist": {
-      "ilis": 1376,
-      "linkable": 2739,
-      "linked": 1747,
+      "ilis": 1384,
+      "linkable": 2738,
+      "linked": 1758,
       "methods": {
-        "ambiguous": 206,
+        "ambiguous": 218,
         "ambiguous+category": 208,
         "concepticon": 146,
         "concepticon-id": 1171,
-        "intersection": 11,
+        "intersection": 23,
         "intersection+category": 19,
-        "monosemous": 189,
+        "monosemous": 188,
         "monosemous+category": 211,
         "no-ili": 2,
-        "no-intersection": 49,
+        "no-intersection": 51,
         "no-intersection+category": 91,
-        "nomatch": 436
+        "nomatch": 410
       },
-      "pct": 63.8
+      "pct": 64.2
     }
   },
   "dbnary": {
@@ -367,20 +367,20 @@
     "rows": 29301
   },
   "queue": {
-    "coverage_after_stage1_pct": 69.0,
-    "open": 987,
+    "coverage_after_stage1_pct": 69.4,
+    "open": 976,
     "review_rows": 812,
     "review_sheets": {
       "conflicts": 27,
       "definition_match_candidates": 54,
       "triangulation_candidates": 731
     },
-    "stage1_ambiguous": 409,
+    "stage1_ambiguous": 421,
     "stage1_binary": 140,
-    "stage1_single_gloss": 398,
+    "stage1_single_gloss": 404,
     "stage2_wiktionary_candidates": 731,
-    "stage4_multiword": 237,
-    "stage4_no_english_lemma": 435
+    "stage4_multiword": 235,
+    "stage4_no_english_lemma": 409
   },
   "relations": {
     "classified_by": 380,
@@ -445,10 +445,10 @@
   "tiers": {
     "adjudicated by a speaker": 8,
     "classifier (no ILI by design)": 144,
-    "concept-set or gloss intersection": 1340,
-    "linked, stronger evidence": 1348,
-    "single gloss, monosemous": 400,
-    "unlinked": 987
+    "concept-set or gloss intersection": 1351,
+    "linked, stronger evidence": 1359,
+    "single gloss, monosemous": 399,
+    "unlinked": 976
   },
   "triangulation": {
     "candidate_ilis": 495,

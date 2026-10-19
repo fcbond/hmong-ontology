@@ -1103,5 +1103,35 @@ def test_ili_proposal_is_written_as_ili_in(tmp_path: Path) -> None:
     assert 'note="proposed new concept, similar i67941"' in text
 
 
+def test_unlexicalized_sense_is_written_as_such(tmp_path: Path) -> None:
+    phrase = m.OntSense(0, "phau ntawv", ["book"], "artifact", lexicalized=False)
+    word = m.OntSense(1, "ntawv", ["paper"], "artifact")
+    entries = [m.Entry("phau ntawv", "n", senses=[phrase]),
+               m.Entry("ntawv", "n", senses=[word])]
+    out = tmp_path / "out.xml"
+    m.write_lmf(out, entries, m.build_synsets([phrase, word]), {}, _meta())
+    lines = out.read_text(encoding="utf8").splitlines()
+    sense_of = {line for line in lines if "<Sense " in line}
+    assert sum('lexicalized="false"' in line for line in sense_of) == 1
+
+
+def test_absorb_keeps_a_word_reading_over_a_phrase() -> None:
+    phrase = m.OntSense(0, "phau ntawv", ["book"], "artifact", lexicalized=False)
+    word = m.OntSense(0, "phau ntawv", ["book"], "artifact")
+    m.absorb(phrase, word)
+    assert phrase.lexicalized
+
+
+@pytest.mark.parametrize("name, expected", [
+    ("the world", ["world"]),
+    ("to eat", ["eat"]),
+    ("the axe/ax", ["axe", "ax"]),
+    ("the fork(2)/pitchfork", ["fork", "pitchfork"]),
+    ("male(1)", ["male"]),
+])
+def test_cldf_glosses_split_alternatives(name: str, expected: list[str]) -> None:
+    assert m.cldf_glosses(name) == expected
+
+
 if __name__ == "__main__":
     sys.exit(subprocess.call([sys.executable, "-m", "pytest", __file__, "-q"]))

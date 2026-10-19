@@ -911,7 +911,7 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
 
 
 def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -> int:
-    """Collapse senses of one entry that resolved to the same ILI.
+    """Collapse senses of one entry that resolved to the same ILI or KinDiv code.
 
     Two sources describing the same word and the same concept are describing one
     sense, not two. Without this the merged lexicon lists the same lemma twice in a
@@ -933,12 +933,15 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
         seen: dict[str, OntSense] = {}
         keep: list[OntSense] = []
         for sense in entry.senses:
-            if not sense.ili:
+            # a KinDiv code identifies a concept as an ILI does, so two unlinked
+            # senses with the same code are one sense
+            key = sense.ili or (f"KinDiv:{sense.kindiv}" if sense.kindiv else "")
+            if not key:
                 keep.append(sense)
                 continue
-            first = seen.get(sense.ili)
+            first = seen.get(key)
             if first is None:
-                seen[sense.ili] = sense
+                seen[key] = sense
                 keep.append(sense)
                 continue
             absorb(first, sense)
@@ -1168,6 +1171,72 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
                     source=source,
                 )
             )
+    return merge_speaker_sex(senses)
+
+
+#: WOLD's in-law meanings are split by the speaker's sex, "the father-in-law (of a
+#: man)" and "(of a woman)", a distinction some languages lexicalise
+SPEAKER_SEX = re.compile(r"^(?P<base>.+?) \(of a (?:man|woman)\)$")
+
+
+def read_kinship_aliases(path: Path) -> dict[tuple[str, str], str]:
+    """Further glosses for KinDiv-mapped kinship senses: `kinship-aliases.tsv`.
+
+    Keyed by (form, normalised gloss); the value is the KinDiv kin-type code.
+    """
+    with path.open(newline="", encoding="utf8") as handle:
+        return {(normalise_form(row["FORM"]), normalise_gloss(row["GLOSS"]).lower()):
+                row["KINDIV"]
+                for row in csv.DictReader(handle, delimiter="\t")
+                if row.get("FORM") and not row["FORM"].startswith("#")}
+
+
+def apply_kinship_aliases(
+    senses: list[OntSense], aliases: dict[tuple[str, str], str]
+) -> int:
+    """Give a KinDiv code to each sense whose gloss is a listed alias.
+
+    Returns the number of senses that received one.
+    """
+    count = 0
+    for sense in senses:
+        if sense.kindiv:
+            continue
+        for gloss in sense.glosses:
+            code = aliases.get((sense.form, normalise_gloss(gloss).lower()))
+            if code:
+                sense.kindiv = code
+                count += 1
+                break
+    return count
+
+
+def merge_speaker_sex(senses: list[OntSense]) -> list[OntSense]:
+    """Collapse a form given for both speaker-sex variants of one meaning.
+
+    A word listed for both "father-in-law (of a man)" and "(of a woman)" does not
+    mark the speaker's sex, so it has one sense, the general one: Hmong `txiv` for
+    both is 'father-in-law', where `yawg txiv` and `txiv yawg`, each listed for
+    one, keep the specific meaning. The merged sense takes the bare gloss
+    ("father-in-law") and no concept set, since both of the source's concept sets
+    are the specific ones.
+    """
+    groups: dict[tuple[str, str], list[OntSense]] = defaultdict(list)
+    for sense in senses:
+        match = SPEAKER_SEX.match(sense.glosses[0]) if sense.glosses else None
+        if match:
+            groups[(sense.form, match["base"])].append(sense)
+    for (_, base), group in groups.items():
+        if len(group) < 2:
+            continue
+        keeper = group[0]
+        keeper.glosses = [base]
+        keeper.concepticon = ""
+        keeper.note = "; ".join(n for n in (
+            keeper.note, f"given for both '{base} (of a man)' and "
+            f"'{base} (of a woman)'") if n)
+        for other in group[1:]:
+            senses.remove(other)
     return senses
 
 
@@ -1633,6 +1702,9 @@ def main() -> int:
     parser.add_argument("--adjudications", type=Path, metavar="FILE",
                         help="adjudications.tsv: a speaker's verdicts on links, "
                              "which overrule every route")
+    parser.add_argument("--kinship-aliases", type=Path, metavar="FILE",
+                        help="kinship-aliases.tsv: further glosses for KinDiv-mapped "
+                             "kinship senses, so that duplicates merge")
     parser.add_argument("--ili-proposals", type=Path, metavar="FILE",
                         help="ili-proposals.tsv: new concepts proposed for CILI, "
                              "written as ili=\"in\" synsets")
@@ -1774,6 +1846,9 @@ def main() -> int:
             print(f"  wrote {args.dbnary_review}: {len(proposed) + len(review)} "
                   f"candidates for a speaker to choose between")
 
+    if args.kinship_aliases:
+        coded = apply_kinship_aliases(senses, read_kinship_aliases(args.kinship_aliases))
+        print(f"gave {coded} kinship senses a KinDiv code from {args.kinship_aliases}")
     link_senses(senses, english, not args.no_stative_adjective,
                 not args.no_category_filter, lemmatiser, concepticon, by_id)
     if args.adjudications:

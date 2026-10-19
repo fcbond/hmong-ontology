@@ -1133,5 +1133,29 @@ def test_cldf_glosses_split_alternatives(name: str, expected: list[str]) -> None
     assert m.cldf_glosses(name) == expected
 
 
+def test_speaker_sex_variants_of_one_form_merge() -> None:
+    def wold(form: str, gloss: str) -> m.OntSense:
+        return m.OntSense(-1, form, [gloss], "Kinship", concepticon="1")
+    senses = [wold("txiv", "father-in-law (of a man)"),
+              wold("txiv", "father-in-law (of a woman)"),
+              wold("yawg txiv", "father-in-law (of a man)")]
+    merged = m.merge_speaker_sex(senses)
+    assert [(s.form, s.glosses) for s in merged] == [
+        ("txiv", ["father-in-law"]), ("yawg txiv", ["father-in-law (of a man)"])]
+    assert merged[0].concepticon == ""
+
+
+def test_kinship_alias_merges_duplicate_senses() -> None:
+    table29 = m.OntSense(0, "nus", ["brother of a female"], "consanguineal_relation",
+                         kindiv="o;Br")
+    original = m.OntSense(0, "nus", ["females_brother"], "consanguineal_relation")
+    cousin = m.OntSense(0, "nus", ["paternal male cousin of a female"],
+                        "consanguineal_relation", kindiv="o;Fa;Br;So")
+    entry = m.Entry("nus", "n", senses=[original, table29, cousin])
+    assert m.apply_kinship_aliases(entry.senses, {("nus", "females brother"): "o;Br"}) == 1
+    assert m.dedupe_senses([entry]) == 1
+    assert [s.kindiv for s in entry.senses] == ["o;Br", "o;Fa;Br;So"]
+
+
 if __name__ == "__main__":
     sys.exit(subprocess.call([sys.executable, "-m", "pytest", __file__, "-q"]))

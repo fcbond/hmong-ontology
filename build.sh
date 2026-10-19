@@ -99,6 +99,7 @@ for dialect in WH GM; do
         --dbnary-review "$PROJECT_DIR/review-wiktionary-$dialect.tsv" \
         --adjudications "$PROJECT_DIR/adjudications.tsv" \
         --ili-proposals "$PROJECT_DIR/ili-proposals.tsv" \
+        --kinship-aliases "$PROJECT_DIR/kinship-aliases.tsv" \
         "${route_args[@]}"
     gzip -cf "$PROJECT_DIR/build/$stem.xml" > "$WORK_DIR/bin/raw_wns/$stem.xml.gz"
 done

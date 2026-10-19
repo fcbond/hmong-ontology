@@ -107,6 +107,8 @@ def main() -> int:
     parser.add_argument("--pivots", type=Path, default=Path("dbnary-pivots.tsv"))
     parser.add_argument("--adjudications", type=Path,
                         default=Path("adjudications.tsv"))
+    parser.add_argument("--kinship-aliases", type=Path,
+                        default=Path("kinship-aliases.tsv"))
     parser.add_argument("--ili-proposals", type=Path,
                         default=Path("ili-proposals.tsv"))
     parser.add_argument("--out", type=Path, default=Path("facts.json"))
@@ -214,6 +216,8 @@ def main() -> int:
             extra = m.read_cldf(Path(directory), language, name)
             m.merge_into_entries(entries, extra)
             senses.extend(extra)
+        if args.kinship_aliases.exists():
+            m.apply_kinship_aliases(senses, m.read_kinship_aliases(args.kinship_aliases))
         m.link_senses(senses, english, True, True, morphy,
                       gloss_map if concepticon else None,
                       id_map if concepticon else None)

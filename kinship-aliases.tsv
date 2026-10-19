@@ -1,0 +1,23 @@
+FORM	GLOSS	KINDIV	SOURCE	NOTE
+# Other glosses for kinship senses already mapped to KinDiv in kinship-kindiv.tsv.
+# The ontology's own glosses ("males_sister") and WOLD's ("the mother's brother")
+# often name exactly the concept White's Table 29 names, so the word ends up with
+# the same sense two or three times. A row here gives such a gloss the KinDiv code
+# of the Table 29 sense, and hmong2lmf.py then merges senses of one word that share
+# a code, as it does senses that share an ILI.
+#
+# Only exact equivalents are listed. WOLD's broader meanings (muam 'sister', nus
+# 'brother', pog 'grandmother', txiv hlob 'father's brother') are not: they are
+# linked to a broader ILI or concept set and stay separate senses. niam tais
+# 'mothers_sister; maternal_grandmother' is one ontology sense with two meanings, so
+# it has no single code; Table 29 gives the two as separate senses.
+nus	females_brother	o;Br	ontology	
+muam	males_sister	x;Ss	ontology	
+kwv	males_younger_brother	x;Yn;Br	ontology	
+tij laug	males_older_brother	x;El;Br	ontology	
+txiv ntxawm	fathers_younger_brother	Fa;Yn;Br	ontology	
+dab laug	mothers_brother	Mo;Br	ontology	
+dab laug	mother's brother	Mo;Br	WOLD	
+phauj	fathers_sister	Fa;Ss	ontology	
+phauj	father's sister	Fa;Ss	WOLD	
+niam tais	mother's sister	Mo;Ss	WOLD	

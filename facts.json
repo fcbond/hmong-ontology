@@ -227,7 +227,7 @@
         "new": 871
       }
     },
-    "ontology_ilis": 518
+    "ontology_ilis": 505
   },
   "coverage": {
     "english_only": {
@@ -249,9 +249,9 @@
       "pct": 35.1
     },
     "everything": {
-      "ilis": 1389,
-      "linkable": 2718,
-      "linked": 1760,
+      "ilis": 1376,
+      "linkable": 2705,
+      "linked": 1747,
       "methods": {
         "adjudicated": 8,
         "adjudicated-unlinked": 3,
@@ -261,19 +261,19 @@
         "concepticon-id": 1165,
         "intersection": 23,
         "intersection+category": 19,
-        "monosemous": 190,
-        "monosemous+category": 211,
+        "monosemous": 189,
+        "monosemous+category": 199,
         "no-ili": 2,
         "no-intersection": 50,
         "no-intersection+category": 91,
         "nomatch": 391
       },
-      "pct": 64.8
+      "pct": 64.6
     },
     "plus_concepticon": {
-      "ilis": 738,
-      "linkable": 1536,
-      "linked": 842,
+      "ilis": 737,
+      "linkable": 1535,
+      "linked": 841,
       "methods": {
         "ambiguous": 147,
         "ambiguous+category": 208,
@@ -281,7 +281,7 @@
         "intersection": 12,
         "intersection+category": 25,
         "monosemous": 224,
-        "monosemous+category": 278,
+        "monosemous+category": 277,
         "no-ili": 2,
         "no-intersection": 49,
         "no-intersection+category": 91,
@@ -290,9 +290,9 @@
       "pct": 54.8
     },
     "plus_wordlist": {
-      "ilis": 1386,
-      "linkable": 2722,
-      "linked": 1760,
+      "ilis": 1373,
+      "linkable": 2709,
+      "linked": 1747,
       "methods": {
         "ambiguous": 218,
         "ambiguous+category": 208,
@@ -300,14 +300,14 @@
         "concepticon-id": 1171,
         "intersection": 23,
         "intersection+category": 19,
-        "monosemous": 190,
-        "monosemous+category": 211,
+        "monosemous": 189,
+        "monosemous+category": 199,
         "no-ili": 2,
         "no-intersection": 51,
         "no-intersection+category": 91,
         "nomatch": 392
       },
-      "pct": 64.7
+      "pct": 64.5
     }
   },
   "dbnary": {
@@ -367,7 +367,7 @@
     "rows": 29301
   },
   "queue": {
-    "coverage_after_stage1_pct": 69.9,
+    "coverage_after_stage1_pct": 69.8,
     "open": 958,
     "review_rows": 812,
     "review_sheets": {
@@ -447,7 +447,7 @@
     "classifier (no ILI by design)": 144,
     "concept-set or gloss intersection": 1351,
     "linked, stronger evidence": 1359,
-    "single gloss, monosemous": 401,
+    "single gloss, monosemous": 388,
     "unlinked": 958
   },
   "triangulation": {

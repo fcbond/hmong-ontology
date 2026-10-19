@@ -910,6 +910,47 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
     keeper.note = "; ".join(dict.fromkeys(notes)) or None
 
 
+#: links made by hand: a speaker's verdict, or a concept set mapped to the index
+HAND_MADE = ("adjudicated", "concepticon")
+
+
+def defer_weak_links(entries: list[Entry]) -> int:
+    """Let a monosemous-gloss link give way to a hand-made one for the same gloss.
+
+    Two senses of one word with the same English gloss usually describe one
+    sense. Where one reached the index only because its gloss has a single
+    candidate after the category filter -- the weakest evidence there is -- and
+    the other through a hand-made concept set or a speaker's verdict, they
+    disagree only because the weak route found the wrong synset: `txiv` 'fruit'
+    filed as a three-dimensional object keeps only 'yield, fruit: an amount of a
+    product', where WOLD's concept set gives the fruit of a plant. The weak sense
+    takes the hand-made ILI, and `dedupe_senses` then merges the two. Two
+    hand-made links that differ are left alone: concept sets that share a gloss
+    can be deliberately distinct (WOLD's 'male' of a person and of an animal).
+    Returns the number of links changed.
+    """
+    changed = 0
+    for entry in entries:
+        strong: dict[str, OntSense] = {}
+        for sense in entry.senses:
+            if sense.ili and sense.method.startswith(HAND_MADE):
+                for gloss in sense.glosses:
+                    strong.setdefault(normalise_gloss(gloss).lower(), sense)
+        for sense in entry.senses:
+            if not sense.ili or not sense.method.startswith("monosemous"):
+                continue
+            for gloss in sense.glosses:
+                other = strong.get(normalise_gloss(gloss).lower())
+                if other is not None and other.ili != sense.ili:
+                    sense.note = "; ".join(n for n in (
+                        sense.note, f"monosemous link {sense.ili} replaced by the "
+                        f"{other.method} link for the same gloss") if n)
+                    sense.ili = other.ili
+                    changed += 1
+                    break
+    return changed
+
+
 def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -> int:
     """Collapse senses of one entry that resolved to the same ILI or KinDiv code.
 
@@ -928,6 +969,7 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
     instead the sense whose part of speech matches the ILI's is the one kept.
     """
     ili_pos = ILI_POS if ili_pos is None else ili_pos
+    defer_weak_links(entries)
     removed = 0
     for entry in entries:
         seen: dict[str, OntSense] = {}

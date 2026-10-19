@@ -1157,5 +1157,24 @@ def test_kinship_alias_merges_duplicate_senses() -> None:
     assert [s.kindiv for s in entry.senses] == ["o;Br", "o;Fa;Br;So"]
 
 
+def test_weak_link_yields_to_hand_made_link_for_same_gloss() -> None:
+    weak = m.OntSense(0, "txiv", ["fruit"], "three_dimensional_object")
+    weak.ili, weak.method = "i61322", "monosemous+category"
+    strong = m.OntSense(-1, "txiv", ["fruit"], "Food and drink")
+    strong.ili, strong.method = "i105676", "concepticon-id"
+    entry = m.Entry("txiv", "n", senses=[weak, strong])
+    assert m.dedupe_senses([entry]) == 1
+    assert [s.ili for s in entry.senses] == ["i105676"]
+
+
+def test_two_hand_made_links_for_one_gloss_stay_apart() -> None:
+    person = m.OntSense(-1, "txiv", ["male"], "Kinship")
+    person.ili, person.method = "i8089", "concepticon-id"
+    animal = m.OntSense(-1, "txiv", ["male"], "Animals")
+    animal.ili, animal.method = "i8088", "concepticon-id"
+    entry = m.Entry("txiv", "a", senses=[person, animal])
+    assert m.dedupe_senses([entry]) == 0
+
+
 if __name__ == "__main__":
     sys.exit(subprocess.call([sys.executable, "-m", "pytest", __file__, "-q"]))

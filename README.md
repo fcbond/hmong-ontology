@@ -73,6 +73,7 @@ Scripts, in the order they are run:
 | `conflicts.py` | writes the senses two linking routes disagree about |
 | `cite_wordnets.py` | the citation, licence and version of every wordnet used |
 | `facts.py` | recomputes every figure the paper cites, into `facts.json` |
+| `facts_tex.py` | writes `facts.json` as LaTeX macros (`\fact{coverage.everything.linked}`) for the paper to `\input` |
 | `test_hmong2lmf.py` | tests for the converter |
 | `hmongnet.py` | WordNet-style access to the ontology (Nathan White's original) |
 | `build.sh` | ontology → WN-LMF, then the lookup databases if Cygnet is there |
@@ -548,6 +549,22 @@ uv run facts.py --data-directory .wn_data --english oewn:2025+ \
     --concepticon ../cldf2wn/data/concepticon-ili.tsv \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH --pristine pristine.xml
 ```
+
+`facts_tex.py` then writes the figures as LaTeX macros, one per number, which the
+paper inputs, so a rebuild updates the text instead of leaving figures to be found
+and retyped by hand:
+
+```sh
+uv run facts_tex.py --out ../paper-hmong/facts.tex
+```
+
+The paper writes `\fact{coverage.everything.linked}` where it would have typed
+1,747. Keys are the `facts.json` paths, with any character other than a letter,
+digit, dot or hyphen turned into a hyphen (`tiers.linked-stronger-evidence`). A key
+missing from the file prints a bold ?? and a LaTeX warning.
+
+`pristine.xml` is the ontology as received, before any of this work:
+`git show f4192de^:hmong_ontology.xml > pristine.xml`.
 
 ## TODO
 

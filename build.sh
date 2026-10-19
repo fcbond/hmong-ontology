@@ -133,6 +133,11 @@ if [[ -d "$WORK_DIR/bin/cygnets_presynth" ]]; then
     find "$WORK_DIR/bin/cygnets_presynth" -maxdepth 1 -name 'oewn-*' \
         ! -name "oewn-${english_version}.xml" \
         ! -name "oewn-${english_version}_log.json" -delete
+    # Cygnet skips converting any input whose output is already here, and the
+    # Hmong lexicons keep the same name and version from build to build, so a
+    # stale conversion would silently stand in for the lexicons just written.
+    # They are small and quick to convert, so always redo them.
+    find "$WORK_DIR/bin/cygnets_presynth" -maxdepth 1 -name 'hmnont-*' -delete
 fi
 if [[ ! -f "$WORK_DIR/bin/raw_wns/$english_file" ]]; then
     if [[ -f "$CYGNET_DIR/bin/raw_wns/$english_file" ]]; then

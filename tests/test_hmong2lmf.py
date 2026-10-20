@@ -1160,11 +1160,69 @@ def test_kinship_alias_merges_duplicate_senses() -> None:
 def test_weak_link_yields_to_hand_made_link_for_same_gloss() -> None:
     weak = m.OntSense(0, "txiv", ["fruit"], "three_dimensional_object")
     weak.ili, weak.method = "i61322", "monosemous+category"
+    # before the category filter, 'fruit' could also reach the fruit of a plant
+    weak.candidate_notes = {"i61322": "an amount of a product",
+                            "i105676": "the ripened reproductive body of a seed plant"}
     strong = m.OntSense(-1, "txiv", ["fruit"], "Food and drink")
     strong.ili, strong.method = "i105676", "concepticon-id"
     entry = m.Entry("txiv", "n", senses=[weak, strong])
+    assert m.defer_weak_links([entry]) == 1
     assert m.dedupe_senses([entry]) == 1
     assert [s.ili for s in entry.senses] == ["i105676"]
+
+
+def test_weak_link_keeps_its_ili_when_the_gloss_only_differs_in_case() -> None:
+    # 'God' reaches only the Supreme Being; WOLD's 'god' is a deity, which the
+    # capitalised gloss could never have reached
+    weak = m.OntSense(0, "Vaj Tswv", ["God"], "religion")
+    weak.ili, weak.method = "i86771", "monosemous"
+    weak.candidate_notes = {"i86771": "the supernatural being conceived as ..."}
+    strong = m.OntSense(-1, "Vaj Tswv", ["god"], "Religion and belief")
+    strong.ili, strong.method = "i86570", "concepticon-id"
+    entry = m.Entry("Vaj Tswv", "n", senses=[weak, strong])
+    assert m.defer_weak_links([entry]) == 0
+    assert m.dedupe_senses([entry]) == 0
+    assert sorted(s.ili for s in entry.senses) == ["i86570", "i86771"]
+
+
+def test_weak_link_does_not_defer_to_hand_made_links_that_disagree() -> None:
+    weak = m.OntSense(0, "txiv", ["male"], "person")
+    weak.ili, weak.method = "i8000", "monosemous"
+    weak.candidate_notes = {"i8000": "", "i8088": "", "i8089": ""}
+    person = m.OntSense(-1, "txiv", ["male"], "Kinship")
+    person.ili, person.method = "i8089", "concepticon-id"
+    animal = m.OntSense(-1, "txiv", ["male"], "Animals")
+    animal.ili, animal.method = "i8088", "concepticon-id"
+    entry = m.Entry("txiv", "n", senses=[weak, person, animal])
+    assert m.defer_weak_links([entry]) == 0
+    assert weak.ili == "i8000"
+
+
+def test_function_word_takes_its_concept_sets_part_of_speech() -> None:
+    five = m.OntSense(-1, "tsib", ["five"], "Quantity", pos_override="x",
+                      concepticon="493")
+    unmapped = m.OntSense(-1, "los", ["or"], "Grammar", pos_override="x",
+                          concepticon="999")
+    retyped = m.type_function_words([five, unmapped], {"493": ("i12006", "a")})
+    assert retyped == 1
+    assert (five.pos, unmapped.pos) == ("a", "x")
+    m.link_senses([five], None, False, False, concepticon_by_id={"493": ("i12006", "a")})
+    assert (five.ili, five.method) == ("i12006", "concepticon-id")
+
+
+def test_function_words_are_not_classifiers(ontology_file) -> None:
+    senses, _, entries = m.read_ontology(ontology_file, "WH")
+    pronoun = m.OntSense(-1, "kuv", ["I"], "Grammar", pos_override="x")
+    m.merge_into_entries(entries, [pronoun])
+    senses.append(pronoun)
+    synset_of = {id(sense): key for key, members in m.build_synsets(senses).items()
+                 for sense in members}
+    relations = m.synset_relations(entries, synset_of, "concept")
+    pronoun_relations = relations.get(synset_of[id(pronoun)], set())
+    assert not any(rel == "exemplifies" for rel, _, _ in pronoun_relations)
+    exemplifies = sum(1 for rs in relations.values() for rel, _, _ in rs
+                      if rel == "exemplifies")
+    assert exemplifies == len({synset_of[id(s)] for s in senses if s.is_classifier})
 
 
 def test_two_hand_made_links_for_one_gloss_stay_apart() -> None:

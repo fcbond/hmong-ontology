@@ -223,14 +223,15 @@
   "contribution": {
     "by_source": {
       "WOLD": {
-        "ilis": 1048,
-        "new": 871
+        "ilis": 1093,
+        "new": 916
       }
     },
     "ontology_ilis": 505
   },
   "coverage": {
     "english_only": {
+      "deferred": 0,
       "ilis": 497,
       "linkable": 1538,
       "linked": 540,
@@ -249,16 +250,17 @@
       "pct": 35.1
     },
     "everything": {
-      "ilis": 1376,
+      "deferred": 12,
+      "ilis": 1421,
       "linkable": 2705,
-      "linked": 1747,
+      "linked": 1797,
       "methods": {
         "adjudicated": 8,
         "adjudicated-unlinked": 3,
         "ambiguous": 215,
         "ambiguous+category": 206,
         "concepticon": 144,
-        "concepticon-id": 1165,
+        "concepticon-id": 1215,
         "intersection": 23,
         "intersection+category": 19,
         "monosemous": 189,
@@ -266,11 +268,12 @@
         "no-ili": 2,
         "no-intersection": 50,
         "no-intersection+category": 91,
-        "nomatch": 391
+        "nomatch": 341
       },
-      "pct": 64.6
+      "pct": 66.4
     },
     "plus_concepticon": {
+      "deferred": 1,
       "ilis": 737,
       "linkable": 1535,
       "linked": 841,
@@ -290,14 +293,15 @@
       "pct": 54.8
     },
     "plus_wordlist": {
-      "ilis": 1373,
+      "deferred": 12,
+      "ilis": 1418,
       "linkable": 2709,
-      "linked": 1747,
+      "linked": 1797,
       "methods": {
         "ambiguous": 218,
         "ambiguous+category": 208,
         "concepticon": 146,
-        "concepticon-id": 1171,
+        "concepticon-id": 1221,
         "intersection": 23,
         "intersection+category": 19,
         "monosemous": 189,
@@ -305,9 +309,9 @@
         "no-ili": 2,
         "no-intersection": 51,
         "no-intersection+category": 91,
-        "nomatch": 392
+        "nomatch": 342
       },
-      "pct": 64.5
+      "pct": 66.3
     }
   },
   "dbnary": {
@@ -367,8 +371,8 @@
     "rows": 29301
   },
   "queue": {
-    "coverage_after_stage1_pct": 69.8,
-    "open": 958,
+    "coverage_after_stage1_pct": 71.6,
+    "open": 908,
     "review_rows": 812,
     "review_sheets": {
       "conflicts": 27,
@@ -379,15 +383,15 @@
     "stage1_binary": 140,
     "stage1_single_gloss": 404,
     "stage2_wiktionary_candidates": 731,
-    "stage4_multiword": 224,
-    "stage4_no_english_lemma": 391
+    "stage4_multiword": 222,
+    "stage4_no_english_lemma": 341
   },
   "relations": {
-    "classified_by": 380,
+    "classified_by": 487,
     "classifier_synsets": 144,
-    "classifies": 380,
+    "classifies": 487,
     "exemplifies": 144,
-    "total": 904
+    "total": 1118
   },
   "settings": {
     "category_filter": true,
@@ -395,8 +399,8 @@
     "concepticon": "../cldf2wn/data/concepticon-ili.tsv",
     "english": "oewn:2025+",
     "morphy": true,
-    "ontology": "hmong_ontology.xml",
-    "pin_file": "/home/bond/git/hmong-ontology/etc/pivots.lock",
+    "ontology": "data/hmong_ontology.xml",
+    "pin_file": "/home/bond/git/hmong-ontology-fixes/etc/pivots.lock",
     "pivot_lexicons": [
       "omw-bg:2.0",
       "omw-ca:2.0",
@@ -445,10 +449,10 @@
   "tiers": {
     "adjudicated by a speaker": 8,
     "classifier (no ILI by design)": 144,
-    "concept-set or gloss intersection": 1351,
-    "linked, stronger evidence": 1359,
+    "concept-set or gloss intersection": 1401,
+    "linked, stronger evidence": 1409,
     "single gloss, monosemous": 388,
-    "unlinked": 958
+    "unlinked": 908
   },
   "triangulation": {
     "candidate_ilis": 495,

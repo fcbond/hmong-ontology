@@ -215,6 +215,7 @@ def main() -> int:
         if cldf and args.cldf:
             directory, language, name = args.cldf.split(":")[:3]
             extra = m.read_cldf(Path(directory), language, name)
+            m.type_function_words(extra, id_map)
             m.merge_into_entries(entries, extra)
             senses.extend(extra)
         if args.kinship_aliases.exists():
@@ -226,6 +227,7 @@ def main() -> int:
             m.apply_adjudications(
                 senses, [v for v in verdicts if v["DIALECT"] == "WH"])
         m.record_ili_pos(senses, english)
+        deferred = m.defer_weak_links(entries)
         m.dedupe_senses(entries)
         senses = [s for e in entries for s in e.senses]
         linkable = [s for s in senses if not s.is_classifier]
@@ -236,7 +238,9 @@ def main() -> int:
             "pct": round(100 * len(linked) / max(len(linkable), 1), 1),
             "ilis": len({s.ili for s in linked}),
             "methods": dict(collections.Counter(s.method for s in linkable)),
+            "deferred": deferred,
             "senses": senses,
+            "entries": entries,
         }
 
     stages = {
@@ -246,6 +250,7 @@ def main() -> int:
         "everything": run(concepticon=True, cldf=True, adjudicated=True),
     }
     full = stages["everything"]["senses"]
+    full_entries = stages["everything"]["entries"]
 
     # ---- the Wiktionary candidates ---------------------------------------
     # Wiktionary's Hmong is elicited through English, so neither of its routes
@@ -284,6 +289,7 @@ def main() -> int:
     }
     for key, value in stages.items():
         value.pop("senses", None)
+        value.pop("entries", None)
         facts.setdefault("coverage", {})[key] = value
 
     # ---- per-source contribution ---------------------------------------
@@ -346,12 +352,15 @@ def main() -> int:
         facts["classifiers"]["already_lemmas"] = len(added & pristine_forms)
 
     # ---- the classifier relations the markup implies ----------------------
-    senses_all, _, entries_all = m.read_ontology(args.ontology, "WH")
-    synset_of = {id(s): f"s{i}" for i, s in enumerate(senses_all)}
-    rels = m.synset_relations(entries_all, synset_of, "concept")
+    # counted in the lexicon as built, grouped into synsets as write_lmf groups
+    # them, since a relation joins synsets and two merged senses share one
+    synset_of = {id(sense): key
+                 for key, members in m.build_synsets(full).items()
+                 for sense in members}
+    rels = m.synset_relations(full_entries, synset_of, "concept")
     flat = [(src, rel, tgt) for src, rs in rels.items() for rel, tgt, _ in rs]
     facts["relations"] = {
-        "classifier_synsets": sum(1 for s in senses_all if s.is_classifier),
+        "classifier_synsets": sum(1 for s in full if s.is_classifier),
         "exemplifies": sum(1 for _, rel, _ in flat if rel == "exemplifies"),
         "classifies": sum(1 for _, rel, _ in flat if rel == "classifies"),
         "classified_by": sum(1 for _, rel, _ in flat if rel == "classified_by"),
@@ -464,6 +473,7 @@ def main() -> int:
     facts["triangulation"]["gm_candidates"] = len(gm_proposed)
     m.link_senses(gm_senses, english, True, True, morphy, gloss_map, id_map)
     m.record_ili_pos(gm_senses, english)
+    m.defer_weak_links(gm_entries)
     m.dedupe_senses(gm_entries)
     gm_all = [x for e in gm_entries for x in e.senses]
     gm_linkable = [x for x in gm_all if not x.is_classifier]

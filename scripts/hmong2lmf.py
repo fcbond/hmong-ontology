@@ -927,25 +927,40 @@ def defer_weak_links(entries: list[Entry]) -> int:
     takes the hand-made ILI, and `dedupe_senses` then merges the two. Two
     hand-made links that differ are left alone: concept sets that share a gloss
     can be deliberately distinct (WOLD's 'male' of a person and of an animal).
+    For the same reason a gloss that two hand-made links disagree on defers to
+    neither.
+
+    Glosses are compared without regard to case, but the hand-made ILI must be
+    one the weak sense's own gloss could reach before the category filter. That
+    is the condition under which the weak route merely chose wrongly; otherwise
+    the two glosses only look alike. `Vaj Tswv` 'God' reaches only 'God, Supreme
+    Being', and WOLD's 'god' is a deity: the same letters, but not a candidate.
     Returns the number of links changed.
     """
     changed = 0
     for entry in entries:
-        strong: dict[str, OntSense] = {}
+        strong: dict[str, set[str]] = defaultdict(set)
+        method: dict[str, str] = {}
         for sense in entry.senses:
             if sense.ili and sense.method.startswith(HAND_MADE):
                 for gloss in sense.glosses:
-                    strong.setdefault(normalise_gloss(gloss).lower(), sense)
+                    key = normalise_gloss(gloss).lower()
+                    strong[key].add(sense.ili)
+                    method.setdefault(key, sense.method)
         for sense in entry.senses:
             if not sense.ili or not sense.method.startswith("monosemous"):
                 continue
             for gloss in sense.glosses:
-                other = strong.get(normalise_gloss(gloss).lower())
-                if other is not None and other.ili != sense.ili:
+                key = normalise_gloss(gloss).lower()
+                ilis = strong.get(key, set())
+                if len(ilis) != 1:
+                    continue
+                ili = next(iter(ilis))
+                if ili != sense.ili and ili in sense.candidate_notes:
                     sense.note = "; ".join(n for n in (
                         sense.note, f"monosemous link {sense.ili} replaced by the "
-                        f"{other.method} link for the same gloss") if n)
-                    sense.ili = other.ili
+                        f"{method[key]} link for the same gloss") if n)
+                    sense.ili = ili
                     changed += 1
                     break
     return changed
@@ -969,7 +984,6 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
     instead the sense whose part of speech matches the ILI's is the one kept.
     """
     ili_pos = ILI_POS if ili_pos is None else ili_pos
-    defer_weak_links(entries)
     removed = 0
     for entry in entries:
         seen: dict[str, OntSense] = {}
@@ -1137,8 +1151,9 @@ def record_ili_pos(senses: list[OntSense], english: wn.Wordnet) -> int:
 
 #: Semantic categories as CLDF wordlists write them, mapped onto WN-LMF parts of
 #: speech. Function words get `x`, "other", which is where WN-LMF puts anything
-#: outside the four open classes; they are still linkable, unlike the classifiers,
-#: which carry no ILI by design.
+#: outside the four open classes. Unlike the classifiers, which carry no ILI by
+#: design, they are linkable: `type_function_words` gives each the part of speech
+#: of its concept set, where that set has one.
 CLDF_POS = {"Noun": "n", "Verb": "v", "Adjective": "a", "Adverb": "r",
             "Function word": "x", "Person/Thing": "n", "Action/Process": "v",
             "Property": "a", "Other": "x", "Number": "n", "Classifier": "x"}
@@ -1214,6 +1229,32 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
                 )
             )
     return merge_speaker_sex(senses)
+
+
+def type_function_words(
+    senses: list[OntSense], by_id: dict[str, tuple[str, str]]
+) -> int:
+    """Give a wordlist's function words the part of speech of their concept set.
+
+    WOLD classes numerals, pronouns and words such as 'up' and 'tomorrow' as
+    function words, which have no WN-LMF part of speech of their own, so they
+    arrive as `x`. Their concept sets are mapped to ILIs like any other: `tsib`
+    'five' to an adjective synset, `saum` 'up' to an adverb one. Linking requires
+    the sense's part of speech to match the mapping's, so left as `x` none of them
+    could link, and every `x` sense would be taken for a classifier when the
+    synset relations are written. This must run before the senses join entries,
+    since an entry's part of speech is fixed when it is made. Returns the number
+    of senses retyped.
+    """
+    retyped = 0
+    for sense in senses:
+        if sense.pos != "x" or sense.is_classifier or not sense.concepticon:
+            continue
+        found = by_id.get(sense.concepticon)
+        if found and found[0] and found[1]:
+            sense.pos_override = found[1]
+            retyped += 1
+    return retyped
 
 
 #: WOLD's in-law meanings are split by the speaker's sex, "the father-in-law (of a
@@ -1455,17 +1496,16 @@ def synset_relations(
     sense of that form is related at a confidence of 0.5, because the source does
     not say which reading it meant.
     """
+    # decided per sense, not by the entry's part of speech: a wordlist's function
+    # words without a concept-set part of speech are also `x`, and are not classifiers
     by_form: dict[str, list[tuple[str, OntSense]]] = defaultdict(list)
-    for entry in entries:
-        if entry.pos == "x":
-            continue
-        for sense in entry.senses:
-            by_form[entry.form].append((synset_of[id(sense)], sense))
     classifier_synsets: dict[str, list[str]] = defaultdict(list)
     for entry in entries:
-        if entry.pos == "x":
-            for sense in entry.senses:
+        for sense in entry.senses:
+            if sense.is_classifier:
                 classifier_synsets[entry.form].append(synset_of[id(sense)])
+            else:
+                by_form[entry.form].append((synset_of[id(sense)], sense))
 
     relations: dict[str, set[tuple[str, str, str | None]]] = defaultdict(set)
 
@@ -1474,9 +1514,9 @@ def synset_relations(
         relations[noun_id].add(("classified_by", classifier_id, confidence))
 
     for entry in entries:
-        if entry.pos != "x":
-            continue
         for sense in entry.senses:
+            if not sense.is_classifier:
+                continue
             source = synset_of[id(sense)]
             relations[source].add(("exemplifies", concept_id, None))
             for noun_form, gloss in sense.classifies:
@@ -1496,9 +1536,9 @@ def synset_relations(
 
     # the converse direction, from the class-noun members that name their classifier
     for entry in entries:
-        if entry.pos == "x":
-            continue
         for sense in entry.senses:
+            if sense.is_classifier:
+                continue
             for classifier_form in sense.classified_by:
                 for classifier_id in classifier_synsets.get(classifier_form, []):
                     relate(classifier_id, synset_of[id(sense)], "1.0")
@@ -1833,11 +1873,13 @@ def main() -> int:
             raise SystemExit(f"{directory}: no forms for language {language!r}")
         for sense in extra:
             sense.dialect = wordlist_dialect
+        retyped = type_function_words(extra, by_id)
         created = merge_into_entries(entries, extra)
         senses.extend(extra)
         print(f"read {len(extra)} {language} senses from {directory} as {name} "
               f"({wordlist_dialect}): {created} new entries, "
-              f"{len(extra) - created} on entries already present")
+              f"{len(extra) - created} on entries already present; "
+              f"{retyped} function words typed by their concept set")
 
     triangulated: set[tuple[str, str, str]] = set()
     if args.pivots:
@@ -1914,6 +1956,10 @@ def main() -> int:
                   file=sys.stderr)
 
     record_ili_pos(senses, english)
+    deferred = defer_weak_links(entries)
+    if deferred:
+        print(f"  replaced {deferred} monosemous links by a hand-made link for the "
+              f"same gloss")
     merged = dedupe_senses(entries)
     if merged:
         print(f"  merged {merged} senses that two sources resolved to the same ILI")

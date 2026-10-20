@@ -56,7 +56,7 @@ fi
 # fails deep inside the library with "no lexicon found".
 if [[ ! -f "$WN_DATA/wn.db" && -n "$CYGNET_DIR" ]]; then
     echo "=== loading the pinned wordnets -> $WN_DATA ==="
-    uv run "$PROJECT_DIR/load_pivots.py" \
+    uv run "$PROJECT_DIR/scripts/load_pivots.py" \
         --data-directory "$WN_DATA" \
         --from "$CYGNET_DIR/bin/raw_wns" \
         --lock "$PIN_FILE" || true
@@ -64,15 +64,15 @@ fi
 if [[ -f "$WN_DATA/wn.db" ]]; then
     route_args+=(--data-directory "$WN_DATA" --pin-file "$PIN_FILE"
                  --english "$ENGLISH")
-    [[ -f "$PROJECT_DIR/dbnary-pivots.tsv" ]] && \
-        route_args+=(--pivots "$PROJECT_DIR/dbnary-pivots.tsv")
-    [[ -f "$PROJECT_DIR/dbnary-hmong.tsv" ]] && \
-        route_args+=(--dbnary "$PROJECT_DIR/dbnary-hmong.tsv")
+    [[ -f "$PROJECT_DIR/data/dbnary-pivots.tsv" ]] && \
+        route_args+=(--pivots "$PROJECT_DIR/data/dbnary-pivots.tsv")
+    [[ -f "$PROJECT_DIR/data/dbnary-hmong.tsv" ]] && \
+        route_args+=(--dbnary "$PROJECT_DIR/data/dbnary-hmong.tsv")
 else
     echo "note: no wordnets are loaded in $WN_DATA, so this build writes no" >&2
     echo "      Wiktionary candidate sheets. The lexicon is the same either way:" >&2
     echo "      Wiktionary only proposes. To write them:" >&2
-    echo "        uv run load_pivots.py --from ../cygnet/bin/raw_wns" >&2
+    echo "        uv run scripts/load_pivots.py --from ../cygnet/bin/raw_wns" >&2
 fi
 if [[ -n "$CLDF" && -d "${CLDF%%:*}" ]]; then
     route_args+=(--cldf "$CLDF")
@@ -87,19 +87,19 @@ for dialect in WH GM; do
         GM) stem=hmnont-gm ;;
     esac
     echo "=== $dialect -> $stem ==="
-    uv run "$PROJECT_DIR/hmong2lmf.py" \
-        --ontology "$PROJECT_DIR/hmong_ontology.xml" \
+    uv run "$PROJECT_DIR/scripts/hmong2lmf.py" \
+        --ontology "$PROJECT_DIR/data/hmong_ontology.xml" \
         --output "$PROJECT_DIR/build/$stem.xml" \
         --report "$PROJECT_DIR/build/$stem-report.tsv" \
         --dialect "$dialect" \
         --version "$VERSION" \
         --license "$LICENSE" \
         --citation "$(tr '\n' ' ' < "$PROJECT_DIR/etc/citation.rst")" \
-        --pivot-review "$PROJECT_DIR/review-triangulation-$dialect.tsv" \
-        --dbnary-review "$PROJECT_DIR/review-wiktionary-$dialect.tsv" \
-        --adjudications "$PROJECT_DIR/adjudications.tsv" \
-        --ili-proposals "$PROJECT_DIR/ili-proposals.tsv" \
-        --kinship-aliases "$PROJECT_DIR/kinship-aliases.tsv" \
+        --pivot-review "$PROJECT_DIR/review/review-triangulation-$dialect.tsv" \
+        --dbnary-review "$PROJECT_DIR/review/review-wiktionary-$dialect.tsv" \
+        --adjudications "$PROJECT_DIR/data/adjudications.tsv" \
+        --ili-proposals "$PROJECT_DIR/data/ili-proposals.tsv" \
+        --kinship-aliases "$PROJECT_DIR/data/kinship-aliases.tsv" \
         "${route_args[@]}"
     gzip -cf "$PROJECT_DIR/build/$stem.xml" > "$WORK_DIR/bin/raw_wns/$stem.xml.gz"
 done
@@ -180,9 +180,9 @@ fi
 # Both are generated from what was actually loaded, so neither the citations nor
 # the figures can drift from the build they describe.
 if [[ -f "$PIN_FILE" ]]; then
-    uv run "$PROJECT_DIR/cite_wordnets.py" \
+    uv run "$PROJECT_DIR/scripts/cite_wordnets.py" \
         --data-directory "$WN_DATA" --pin-file "$PIN_FILE" \
-        --out "$PROJECT_DIR/wordnets-cited.tsv" \
+        --out "$PROJECT_DIR/data/wordnets-cited.tsv" \
         ${PAPER_DIR:+--latex "$PAPER_DIR/wordnets.tex"}
 fi
 

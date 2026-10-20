@@ -17,7 +17,7 @@ against anything else.
 It never touches the user's `~/.wn_data`: the default target is `.wn_data` beside
 this script, and the script refuses to run against the user's home directory.
 
-    uv run load_pivots.py --from ../cygnet/bin/raw_wns
+    uv run scripts/load_pivots.py --from ../cygnet/bin/raw_wns
 """
 
 from __future__ import annotations
@@ -25,15 +25,15 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+import tomllib
 from pathlib import Path
 
-import tomllib
 import wn
 
 #: Where everything lives by default: the data directory, the pin file, and the
 #: Cygnet checkout the pins are read from, all relative to this script rather than
 #: to whatever directory it is run from.
-PROJECT = Path(__file__).resolve().parent
+PROJECT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT / ".wn_data"
 LOCK = PROJECT / "etc" / "pivots.lock"
 #: Our own copy, not a sibling checkout's. Reading the pins from another

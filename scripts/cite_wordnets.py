@@ -13,7 +13,7 @@ recollection of it.
 
 Writes a LaTeX table for the paper's appendix, and the same thing as TSV.
 
-    uv run cite_wordnets.py --latex ../paper-hmong/wordnets.tex
+    uv run scripts/cite_wordnets.py --latex ../paper-hmong/wordnets.tex
 """
 
 from __future__ import annotations
@@ -176,7 +176,7 @@ def main() -> int:
     parser.add_argument("--data-directory", type=Path, default=m.DATA_DIR)
     parser.add_argument("--pin-file", type=Path, default=m.PIN_FILE,
                         help="restrict the list to these lexicons and versions")
-    parser.add_argument("--out", type=Path, default=Path("wordnets-cited.tsv"))
+    parser.add_argument("--out", type=Path, default=Path("data/wordnets-cited.tsv"))
     parser.add_argument("--latex", type=Path,
                         help="also write a LaTeX longtable here")
     args = parser.parse_args()

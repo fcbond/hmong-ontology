@@ -50,8 +50,8 @@ WN-LMF sets the language on the Lexicon, so one run produces one dialect. The
 default is White Hmong, which is what the ontology is.
 
 Usage:
-    uv run hmong2lmf.py --ontology hmong_ontology.xml --output hmn.xml
-    uv run hmong2lmf.py --ontology hmong_ontology.xml --output hnj.xml --dialect GM
+    uv run scripts/hmong2lmf.py --ontology data/hmong_ontology.xml --output hmn.xml
+    uv run scripts/hmong2lmf.py --ontology data/hmong_ontology.xml --output hnj.xml --dialect GM
 """
 
 from __future__ import annotations
@@ -99,8 +99,8 @@ DIALECT_LANGUAGES = {"WH": "mww", "GM": "hnj"}
 #: directory. `load_pivots.py` writes them; nothing here ever reads or writes the
 #: user's `~/.wn_data`, because which releases are installed changes which ILI
 #: triangulation picks and that must not depend on the machine.
-DATA_DIR = Path(__file__).resolve().parent / ".wn_data"
-PIN_FILE = Path(__file__).resolve().parent / "etc" / "pivots.lock"
+DATA_DIR = Path(__file__).resolve().parent.parent / ".wn_data"
+PIN_FILE = Path(__file__).resolve().parent.parent / "etc" / "pivots.lock"
 
 # The ontology's noun categories are a Hmong-specific semantic classification, but
 # they line up closely with Princeton WordNet's lexicographer files. Using them to
@@ -1797,7 +1797,7 @@ def main() -> int:
             f"{args.data_directory}: {error}\n"
             f"Every linking route goes through English WordNet, so the converter "
             f"needs it. Load the pinned wordnets first:\n"
-            f"    uv run load_pivots.py --from ../cygnet/bin/raw_wns\n"
+            f"    uv run scripts/load_pivots.py --from ../cygnet/bin/raw_wns\n"
             f"or point --data-directory at a wn database that already has it."
         ) from error
     lemmatiser = None if args.no_morphy else Morphy(english)

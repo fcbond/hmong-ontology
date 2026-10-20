@@ -14,8 +14,8 @@ digits, dots and hyphens become hyphens, so "tiers.linked, stronger evidence" is
 the file lacks prints a bold ?? and a LaTeX warning, rather than failing quietly.
 
 Usage:
-    uv run facts_tex.py                          # facts.json -> facts.tex
-    uv run facts_tex.py --out ../paper-hmong/facts.tex
+    uv run scripts/facts_tex.py                          # data/facts.json -> facts.tex
+    uv run scripts/facts_tex.py --out ../paper-hmong/facts.tex
 """
 
 from __future__ import annotations
@@ -70,7 +70,7 @@ def render(facts: dict) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--facts", type=Path, default=Path("facts.json"))
+    parser.add_argument("--facts", type=Path, default=Path("data/facts.json"))
     parser.add_argument("--out", type=Path, default=Path("facts.tex"))
     args = parser.parse_args()
     facts = json.loads(args.facts.read_text(encoding="utf8"))

@@ -14,7 +14,7 @@ is in the TSV files below, as editable data rather than as generated output.
 
 What a link rests on is recorded on the synset, and what is still undecided ships as
 three annotation sheets rather than being guessed. Wiktionary's translations are in
-those sheets as candidates only: a speaker's review found too many of them wrong. `IMPROVEMENTS.md` says what would
+those sheets as candidates only: a speaker's review found too many of them wrong. `notes/IMPROVEMENTS.md` says what would
 improve the resource and what each improvement is worth, measured; `facts.json`
 holds every figure, with the settings it depends on. Nothing here has been checked
 by a fluent speaker beyond Nathan White's first review (October 2026), which is the
@@ -27,29 +27,33 @@ International](https://creativecommons.org/licenses/by/4.0/) (see `LICENSE`).
 Please cite the repository when you use it.
 
 Three files are exceptions, derived from share-alike sources and redistributed
-under their terms: `dbnary-hmong.tsv`, `dbnary-pivots.tsv` and the `KINDIV_LABEL`
-column of `kinship-kindiv.tsv`. `COPYRIGHT.md` lists them, and records what is
+under their terms: `data/dbnary-hmong.tsv`, `data/dbnary-pivots.tsv` and the `KINDIV_LABEL`
+column of `data/kinship-kindiv.tsv`. `COPYRIGHT.md` lists them, and records what is
 extracted from the two descriptive publications and on what basis.
 
 ## Files
 
+The data is in `data/`, the annotation sheets for speakers in `review/`, the scripts in
+`scripts/` (run them from the top of the repository, as `uv run scripts/NAME.py`), their
+tests in `tests/`, and working notes in `notes/`. `docs/` is the online lookup.
+
 | File | What it is |
 |---|---|
-| `hmong_ontology.xml` | the lexemes (nouns, verbs and classifiers), their senses and their semantic categories |
-| `classifiers.tsv` | the numeral classifier and quantifier inventory, with class, definition, example nouns and a source for each |
-| `classifiers-white2021.tsv` | the unmerged extraction from chapter 7 of White (2021c) |
-| `class_nouns.tsv` | class nouns and their member compounds, with English glosses |
-| `underspecified.tsv` | the 14 classifier-specified compounds of White's Tables 39–41 |
-| `kinship.tsv` | kinship terms from White's Table 29, both dialects |
-| `kinship-kindiv.tsv` | those terms mapped to KinDiv kin-type concepts |
-| `kindiv-proposals.tsv` | concepts once proposed to KinDiv; withdrawn |
-| `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary; candidates only |
-| `dbnary-pivots.tsv` | the other languages' translations of those same senses, for triangulation |
-| `adjudications.tsv` | a speaker's verdicts on links, which overrule every linking route |
-| `ili-proposals.tsv` | new concepts proposed for CILI where a speaker found no ILI fits; written as `ili="in"` synsets |
-| `stopwords_base.txt` | Hmong stopwords, excluding classifiers and verbal bound roots/affixes |
-| `stopwords_classifiers.txt` | Hmong classifiers |
-| `stopwords_verbal_adjuncts.txt` | Hmong verbal adjuncts, such as bound roots and affixes |
+| `data/hmong_ontology.xml` | the lexemes (nouns, verbs and classifiers), their senses and their semantic categories |
+| `data/classifiers.tsv` | the numeral classifier and quantifier inventory, with class, definition, example nouns and a source for each |
+| `data/classifiers-white2021.tsv` | the unmerged extraction from chapter 7 of White (2021c) |
+| `data/class_nouns.tsv` | class nouns and their member compounds, with English glosses |
+| `data/underspecified.tsv` | the 14 classifier-specified compounds of White's Tables 39–41 |
+| `data/kinship.tsv` | kinship terms from White's Table 29, both dialects |
+| `data/kinship-kindiv.tsv` | those terms mapped to KinDiv kin-type concepts |
+| `data/kindiv-proposals.tsv` | concepts once proposed to KinDiv; withdrawn |
+| `data/dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary; candidates only |
+| `data/dbnary-pivots.tsv` | the other languages' translations of those same senses, for triangulation |
+| `data/adjudications.tsv` | a speaker's verdicts on links, which overrule every linking route |
+| `data/ili-proposals.tsv` | new concepts proposed for CILI where a speaker found no ILI fits; written as `ili="in"` synsets |
+| `data/stopwords_base.txt` | Hmong stopwords, excluding classifiers and verbal bound roots/affixes |
+| `data/stopwords_classifiers.txt` | Hmong classifiers |
+| `data/stopwords_verbal_adjuncts.txt` | Hmong verbal adjuncts, such as bound roots and affixes |
 
 Three annotation sheets, each a question for a speaker with the candidates already
 assembled and glossed. `VERDICT` is theirs to fill in; where a column named
@@ -58,24 +62,24 @@ language, marked as such.
 
 | File | Rows | What is undecided |
 |---|---|---|
-| `review-conflicts-*.tsv` | 27 | the Concepticon link and the Wiktionary candidate name different ILIs |
-| `review-triangulation-*.tsv` | 731 | Wiktionary candidates: 660 where the pivot languages agree, 71 where they split |
-| `review-wiktionary-*.tsv` | 54 | Wiktionary candidates from comparing definitions: 19 proposed, 35 undecided |
+| `review/review-conflicts-*.tsv` | 27 | the Concepticon link and the Wiktionary candidate name different ILIs |
+| `review/review-triangulation-*.tsv` | 731 | Wiktionary candidates: 660 where the pivot languages agree, 71 where they split |
+| `review/review-wiktionary-*.tsv` | 54 | Wiktionary candidates from comparing definitions: 19 proposed, 35 undecided |
 
 Scripts, in the order they are run:
 
 | File | What it does |
 |---|---|
-| `fetch_dbnary.py` | queries DBnary's SPARQL endpoint for the two Wiktionary tables |
-| `load_pivots.py` | loads the pivot wordnets at their pinned releases into `.wn_data`, and writes `etc/pivots.lock` |
-| `add_classifiers.py` | folds the extracted tables into `hmong_ontology.xml`; idempotent |
-| `hmong2lmf.py` | converts the ontology to WN-LMF 1.4, linking senses to the Interlingual Index |
-| `conflicts.py` | writes the senses two linking routes disagree about |
-| `cite_wordnets.py` | the citation, licence and version of every wordnet used |
-| `facts.py` | recomputes every figure the paper cites, into `facts.json` |
-| `facts_tex.py` | writes `facts.json` as LaTeX macros (`\fact{coverage.everything.linked}`) for the paper to `\input` |
-| `test_hmong2lmf.py` | tests for the converter |
-| `hmongnet.py` | WordNet-style access to the ontology (Nathan White's original) |
+| `scripts/fetch_dbnary.py` | queries DBnary's SPARQL endpoint for the two Wiktionary tables |
+| `scripts/load_pivots.py` | loads the pivot wordnets at their pinned releases into `.wn_data`, and writes `etc/pivots.lock` |
+| `scripts/add_classifiers.py` | folds the extracted tables into `hmong_ontology.xml`; idempotent |
+| `scripts/hmong2lmf.py` | converts the ontology to WN-LMF 1.4, linking senses to the Interlingual Index |
+| `scripts/conflicts.py` | writes the senses two linking routes disagree about |
+| `scripts/cite_wordnets.py` | the citation, licence and version of every wordnet used |
+| `scripts/facts.py` | recomputes every figure the paper cites, into `facts.json` |
+| `scripts/facts_tex.py` | writes `facts.json` as LaTeX macros (`\fact{coverage.everything.linked}`) for the paper to `\input` |
+| `tests/test_hmong2lmf.py` | tests for the converter |
+| `scripts/hmongnet.py` | WordNet-style access to the ontology (Nathan White's original) |
 | `build.sh` | ontology → WN-LMF, then the lookup databases if Cygnet is there |
 | `run.sh` | serve `docs/` for a local preview (`online-lookup` branch) |
 
@@ -84,11 +88,11 @@ Scripts, in the order they are run:
 | `etc/pivots.toml` | which release of English and of each of the 28 pivots the linking uses |
 | `etc/pivots.lock` | those pins resolved against what is actually loaded, written by `load_pivots.py` |
 | `etc/wordnets.toml` | which wordnets the browsable lookup merges (`online-lookup` branch) |
-| `facts.json` | every figure the paper cites, with the settings they depend on |
-| `wordnets-cited.tsv` | each wordnet used, with its citation, licence and BibTeX key |
+| `data/facts.json` | every figure the paper cites, with the settings they depend on |
+| `data/wordnets-cited.tsv` | each wordnet used, with its citation, licence and BibTeX key |
 | `COPYRIGHT.md` | the files not covered by `LICENSE`, and why |
-| `RESOURCES.md` | survey of further resources that could enrich the ontology |
-| `IMPROVEMENTS.md` | what would improve the resource, measured and ranked |
+| `notes/RESOURCES.md` | survey of further resources that could enrich the ontology |
+| `notes/IMPROVEMENTS.md` | what would improve the resource, measured and ranked |
 | `correspondence/` | external reviews of this code, with the prompts that produced them |
 
 ## Schema
@@ -216,7 +220,7 @@ Folding in the White Hmong vocabulary of the
 
 ```sh
 git clone --depth 1 https://github.com/lexibank/wold.git ../wold
-uv run hmong2lmf.py --ontology hmong_ontology.xml --output hmn-wh.xml \
+uv run scripts/hmong2lmf.py --ontology data/hmong_ontology.xml --output hmn-wh.xml \
     --concepticon ../cldf2wn/data/concepticon-ili.tsv \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH \
     --license https://creativecommons.org/licenses/by/4.0/
@@ -264,8 +268,8 @@ disambiguation a bare English lemma lacks. [DBnary](http://kaiko.getalp.org/dbna
 SPARQL endpoint, so no scraping is needed and the release is citable.
 
 ```sh
-uv run fetch_dbnary.py                      # writes dbnary-hmong.tsv
-uv run hmong2lmf.py ... --dbnary dbnary-hmong.tsv
+uv run scripts/fetch_dbnary.py                      # writes data/dbnary-hmong.tsv
+uv run scripts/hmong2lmf.py ... --dbnary data/dbnary-hmong.tsv
 ```
 
 One trap worth recording: **DBnary stores the target language as a lexvo URI, not
@@ -293,10 +297,10 @@ White Hmong and Green Mong are separate ISO 639-3 languages and WN-LMF sets the
 language on the lexicon, so one run produces one dialect:
 
 ```sh
-uv run hmong2lmf.py --ontology hmong_ontology.xml --output hmn-wh.xml \
+uv run scripts/hmong2lmf.py --ontology data/hmong_ontology.xml --output hmn-wh.xml \
     --concepticon ../cldf2wn/data/concepticon-ili.tsv \
     --license https://creativecommons.org/licenses/by/4.0/
-uv run hmong2lmf.py --ontology hmong_ontology.xml --output hmn-gm.xml --dialect GM \
+uv run scripts/hmong2lmf.py --ontology data/hmong_ontology.xml --output hmn-gm.xml --dialect GM \
     --license https://creativecommons.org/licenses/by/4.0/
 ```
 
@@ -345,7 +349,7 @@ pinned, and the pins come from Cygnet's `wordnets.toml`, which is the same file 
 online lookup is built from, so the two can never disagree:
 
 ```sh
-uv run load_pivots.py --from ../cygnet/bin/raw_wns
+uv run scripts/load_pivots.py --from ../cygnet/bin/raw_wns
 ```
 
 That reads the release URLs out of **`etc/pivots.toml`** — this repository's own
@@ -381,7 +385,7 @@ the lock file, generated from the loaded lexicons rather than typed, so the cred
 cannot drift from what was actually queried:
 
 ```sh
-uv run cite_wordnets.py --latex ../paper-hmong/wordnets.tex
+uv run scripts/cite_wordnets.py --latex ../paper-hmong/wordnets.tex
 ```
 
 Two lexicons declare no citation of their own (Open English WordNet and the Slovak
@@ -396,7 +400,7 @@ is in the lexicon; the sheet is a check on it, and it is how Nathan White found
 that *nyuj* is cattle, not the female, and *pob* the ball of games:
 
 ```sh
-uv run conflicts.py --data-directory .wn_data \
+uv run scripts/conflicts.py --data-directory .wn_data \
     --concepticon ../cldf2wn/data/concepticon-ili.tsv \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH
 ```
@@ -414,7 +418,7 @@ none of the agreements — 0% agreement, which is what we first measured.
 Run the tests with:
 
 ```sh
-uv run --with pytest --with wn pytest test_hmong2lmf.py -q
+uv run --with pytest --with wn pytest -q
 ```
 
 ## Online lookup
@@ -466,7 +470,7 @@ and needs four things beside it:
 | `../wold/cldf` | `git clone --depth 1 https://github.com/lexibank/wold.git ../wold` |
 
 ```sh
-uv run load_pivots.py --from ../cygnet/bin/raw_wns   # ~29 wordnets into .wn_data
+uv run scripts/load_pivots.py --from ../cygnet/bin/raw_wns   # ~29 wordnets into .wn_data
 ./build.sh
 ./run.sh
 ```
@@ -530,8 +534,8 @@ the classifier tables gave almost no GM content vocabulary.
 so it can be re-run after either file is edited by hand:
 
 ```sh
-uv run add_classifiers.py --class-nouns --underspecified --kinship
-uv run add_classifiers.py --class-nouns --underspecified --kinship --check
+uv run scripts/add_classifiers.py --class-nouns --underspecified --kinship
+uv run scripts/add_classifiers.py --class-nouns --underspecified --kinship --check
 ```
 
 The flags are separable because each adds material from a different table, and
@@ -545,7 +549,7 @@ records the settings — English wordnet, Concepticon file, wordlist, pivot lexi
 — that the figures depend on:
 
 ```sh
-uv run facts.py --data-directory .wn_data --english oewn:2025+ \
+uv run scripts/facts.py --data-directory .wn_data --english oewn:2025+ \
     --concepticon ../cldf2wn/data/concepticon-ili.tsv \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH --pristine pristine.xml
 ```
@@ -555,7 +559,7 @@ paper inputs, so a rebuild updates the text instead of leaving figures to be fou
 and retyped by hand:
 
 ```sh
-uv run facts_tex.py --out ../paper-hmong/facts.tex
+uv run scripts/facts_tex.py --out ../paper-hmong/facts.tex
 ```
 
 The paper writes `\fact{coverage.everything.linked}` where it would have typed

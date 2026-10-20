@@ -13,15 +13,15 @@ here is more permissive than `LICENSE`.
 
 | File | Derived from | Under |
 |---|---|---|
-| `dbnary-hmong.tsv` | [DBnary](http://kaiko.getalp.org/about-dbnary/), itself extracted from English Wiktionary | CC BY-SA 3.0 Unported |
-| `dbnary-pivots.tsv` | the same | CC BY-SA 3.0 Unported |
-| `kinship-kindiv.tsv` | its `KINDIV_LABEL` column is [KinDiv](https://github.com/kinship-diversity/KinDiv)'s concept labels | CC BY-SA 3.0 Unported |
+| `data/dbnary-hmong.tsv` | [DBnary](http://kaiko.getalp.org/about-dbnary/), itself extracted from English Wiktionary | CC BY-SA 3.0 Unported |
+| `data/dbnary-pivots.tsv` | the same | CC BY-SA 3.0 Unported |
+| `data/kinship-kindiv.tsv` | its `KINDIV_LABEL` column is [KinDiv](https://github.com/kinship-diversity/KinDiv)'s concept labels | CC BY-SA 3.0 Unported |
 
 The two DBnary tables hold Wiktionary sense definitions verbatim — 762 and 29,301
 rows of them — so share-alike plainly applies and we do not argue otherwise.
 
 They are kept in the repository rather than regenerated on demand so that nobody
-has to query DBnary's SPARQL endpoint to reproduce this work. `fetch_dbnary.py`
+has to query DBnary's SPARQL endpoint to reproduce this work. `scripts/fetch_dbnary.py`
 will rebuild them for anyone who prefers to, but it is a public service and there
 is no reason for every reader to hit it for data that does not change.
 
@@ -36,9 +36,9 @@ somebody else's work, with a page number on every row:
 
 | File | Extracted from | That source |
 |---|---|---|
-| `classifiers.tsv`, `class_nouns.tsv` | Bisang (1993), Appendices I and II | in copyright, All rights reserved |
-| `classifiers-white2021.tsv`, `underspecified.tsv`, `kinship.tsv` | White (2021), ch. 7 and Tables 29, 39–41 | open access thesis |
-| `hmong_ontology.xml` | the ontology, plus the above folded in | CC BY 4.0, and see above |
+| `data/classifiers.tsv`, `data/class_nouns.tsv` | Bisang (1993), Appendices I and II | in copyright, All rights reserved |
+| `data/classifiers-white2021.tsv`, `data/underspecified.tsv`, `data/kinship.tsv` | White (2021), ch. 7 and Tables 29, 39–41 | open access thesis |
+| `data/hmong_ontology.xml` | the ontology, plus the above folded in | CC BY 4.0, and see above |
 
 Our position is that a classifier inventory and its glosses is a table of facts
 about a language rather than an expressive work, and that recording where each fact
@@ -49,9 +49,9 @@ quotations in the file headers are short and attributed.
 
 ## Generated files
 
-`wordnets-cited.tsv` reproduces, for each wordnet this work queries, the citation
+`data/wordnets-cited.tsv` reproduces, for each wordnet this work queries, the citation
 its own WN-LMF metadata asks for. Those strings are their authors' and are
-reproduced as bibliographic attribution. `facts.json` and the `review-*.tsv` sheets
+reproduced as bibliographic attribution. `data/facts.json` and the `review/review-*.tsv` sheets
 are computed from the files above and inherit whatever applies to their inputs.
 
 ## The lexicons this builds

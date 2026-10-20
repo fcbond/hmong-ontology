@@ -32,9 +32,9 @@ edited by hand.
    'ankle' already present. The classifier a compound takes is recorded with
    `classified_by`, the converse of `classifies`.
 
-    uv run add_classifiers.py                  # classifiers only
-    uv run add_classifiers.py --class-nouns    # classifiers and class nouns
-    uv run add_classifiers.py --check          # report, write nothing
+    uv run scripts/add_classifiers.py                  # classifiers only
+    uv run scripts/add_classifiers.py --class-nouns    # classifiers and class nouns
+    uv run scripts/add_classifiers.py --check          # report, write nothing
 """
 
 from __future__ import annotations
@@ -510,20 +510,20 @@ def add_kinship(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--ontology", type=Path, default=Path("hmong_ontology.xml"))
-    parser.add_argument("--classifiers", type=Path, default=Path("classifiers.tsv"))
-    parser.add_argument("--class-noun-table", type=Path, default=Path("class_nouns.tsv"))
+    parser.add_argument("--ontology", type=Path, default=Path("data/hmong_ontology.xml"))
+    parser.add_argument("--classifiers", type=Path, default=Path("data/classifiers.tsv"))
+    parser.add_argument("--class-noun-table", type=Path, default=Path("data/class_nouns.tsv"))
     parser.add_argument("--class-nouns", action="store_true",
                         help="also add the class nouns of Bisang's Appendix II")
     parser.add_argument("--underspecified", action="store_true",
                         help="also add the classifier-specified compounds of White's "
                              "Tables 39-41")
     parser.add_argument("--underspecified-table", type=Path,
-                        default=Path("underspecified.tsv"))
+                        default=Path("data/underspecified.tsv"))
     parser.add_argument("--kinship", action="store_true",
                         help="also add the kinship terms of White's Table 29")
-    parser.add_argument("--kinship-table", type=Path, default=Path("kinship.tsv"))
-    parser.add_argument("--kindiv-table", type=Path, default=Path("kinship-kindiv.tsv"))
+    parser.add_argument("--kinship-table", type=Path, default=Path("data/kinship.tsv"))
+    parser.add_argument("--kindiv-table", type=Path, default=Path("data/kinship-kindiv.tsv"))
     parser.add_argument("--check", action="store_true", help="report, write nothing")
     args = parser.parse_args()
 

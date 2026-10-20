@@ -1435,7 +1435,7 @@ def link_by_concepticon(
     A Concepticon concept set is a cross-linguistically comparable meaning that
     has already been mapped to a wordnet synset by hand, so a gloss that is also
     a Concepticon gloss resolves without the ambiguity a bare English lemma has:
-    WATER is one concept, whereas "water" is eleven English synsets.
+    WATER is one concept, whereas "water" is ten English synsets.
 
     `by_id` maps the concept set id itself, for sources such as WOLD that already
     carry one. That route is exact: it skips the gloss entirely.

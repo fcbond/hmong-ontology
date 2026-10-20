@@ -16,7 +16,7 @@ lemmas and definitions, and an empty VERDICT column. `ADJUDICATION` and `BY` hol
 a provisional reading and who made it, so that a judgement by someone who does not
 speak the language is never mistaken for a speaker's.
 
-    uv run conflicts.py --data-directory .wn_data \\
+    uv run scripts/conflicts.py --data-directory .wn_data \\
         --concepticon ../cldf2wn/data/concepticon-ili.tsv \\
         --cldf ../wold/cldf:WhiteHmong:WOLD
 """
@@ -129,7 +129,7 @@ def compare(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--ontology", type=Path, default=Path("hmong_ontology.xml"))
+    parser.add_argument("--ontology", type=Path, default=Path("data/hmong_ontology.xml"))
     parser.add_argument("--data-directory", type=Path, default=m.DATA_DIR,
                         help=f"wn data directory (default: {m.DATA_DIR})")
     parser.add_argument("--pin-file", type=Path, default=m.PIN_FILE,
@@ -137,14 +137,14 @@ def main() -> int:
     parser.add_argument("--english", default="oewn:2025+")
     parser.add_argument("--concepticon", type=Path, required=True)
     parser.add_argument("--cldf", metavar="DIR:LANGUAGE:NAME")
-    parser.add_argument("--pivots", type=Path, default=Path("dbnary-pivots.tsv"))
+    parser.add_argument("--pivots", type=Path, default=Path("data/dbnary-pivots.tsv"))
     parser.add_argument("--dialect", default="WH", choices=["WH", "GM"])
     parser.add_argument("--out", type=Path)
     parser.add_argument("--adjudications", type=Path,
                         help="a TSV of FORM, GLOSS, ADJUDICATION, BY to fold in, so "
                              "that a reading already made is not asked for twice")
     args = parser.parse_args()
-    out = args.out or Path(f"review-conflicts-{args.dialect}.tsv")
+    out = args.out or Path(f"review/review-conflicts-{args.dialect}.tsv")
 
     wn.config.data_directory = args.data_directory
     english = wn.Wordnet(lexicon=args.english)

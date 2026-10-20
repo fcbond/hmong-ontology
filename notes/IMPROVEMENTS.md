@@ -5,7 +5,7 @@ after the switch to the `oewn:2025+` edition. `facts.py` produces all of them, a
 settings they depend on alongside them:
 
 ```sh
-uv run facts.py --data-directory .wn_data --english oewn:2025+ \
+uv run scripts/facts.py --data-directory .wn_data --english oewn:2025+ \
     --concepticon ../cldf2wn/data/concepticon-ili.tsv \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH --pristine pristine.xml
 ```

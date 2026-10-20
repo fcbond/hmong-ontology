@@ -24,9 +24,9 @@ several of those languages' wordnets agree on an ILI, that agreement is evidence
 about the concept rather than about how two glosses happen to be worded. The method
 is that of \citet{bond-etal-2008-japanese} and \citet{bond-foster-2013-omw}.
 
-    uv run fetch_dbnary.py                      # both TSVs
-    uv run fetch_dbnary.py --language mww       # one Hmong variety only
-    uv run fetch_dbnary.py --no-pivots          # skip the sibling translations
+    uv run scripts/fetch_dbnary.py                      # both TSVs
+    uv run scripts/fetch_dbnary.py --language mww       # one Hmong variety only
+    uv run scripts/fetch_dbnary.py --no-pivots          # skip the sibling translations
 """
 
 from __future__ import annotations
@@ -159,10 +159,10 @@ def write_tsv(path: Path, rows: list[dict[str, str]], columns: list[str]) -> Non
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=Path("dbnary-hmong.tsv"))
+    parser.add_argument("--out", type=Path, default=Path("data/dbnary-hmong.tsv"))
     parser.add_argument("--language", action="append", choices=sorted(LANGUAGES),
                         help="restrict to one language; repeatable")
-    parser.add_argument("--pivots-out", type=Path, default=Path("dbnary-pivots.tsv"))
+    parser.add_argument("--pivots-out", type=Path, default=Path("data/dbnary-pivots.tsv"))
     parser.add_argument("--no-pivots", action="store_true",
                         help="do not fetch the other languages' translations")
     args = parser.parse_args()

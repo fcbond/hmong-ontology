@@ -49,7 +49,7 @@ class Ontology:
         self._load_ontology_data()
 
     def _load_ontology_data(self):
-        self.tree = ET.parse('hmong_ontology.xml')
+        self.tree = ET.parse('data/hmong_ontology.xml')
         word_set_idx = 3
         self.word_set = self.tree.getroot()[word_set_idx]
 

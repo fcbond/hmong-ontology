@@ -8,7 +8,7 @@
 One command, one file, so that any number in the paper can be checked against the
 data without re-deriving it by hand. Run it after changing anything.
 
-    uv run facts.py --data-directory .wn_data --english oewn:2025+ \\
+    uv run scripts/facts.py --data-directory .wn_data --english oewn:2025+ \\
         --concepticon ../cldf2wn/data/concepticon-ili.tsv \\
         --cldf ../wold/cldf:WhiteHmong:WOLD
 """
@@ -86,7 +86,7 @@ def cites(row: dict[str, str], key: str) -> bool:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--ontology", type=Path, default=Path("hmong_ontology.xml"))
+    parser.add_argument("--ontology", type=Path, default=Path("data/hmong_ontology.xml"))
     parser.add_argument("--pristine", type=Path,
                         help="the ontology before our additions, for growth figures")
     parser.add_argument("--data-directory", type=Path, default=m.DATA_DIR,
@@ -97,21 +97,21 @@ def main() -> int:
                         help="must be the lexicon the converter links against, or "
                              "the figures do not describe the released build")
     parser.add_argument("--stopwords", type=Path, metavar="FILE",
-                        default=Path("stopwords_classifiers.txt"))
+                        default=Path("data/stopwords_classifiers.txt"))
     parser.add_argument("--concepticon", type=Path, required=True)
     parser.add_argument("--cili", type=Path, default=Path("../cygnet/bin/cili.tsv"),
                         help="a CILI release, to tell an invalid ILI from one this "
                              "English release happens not to carry")
     parser.add_argument("--cldf", metavar="DIR:LANGUAGE:NAME")
-    parser.add_argument("--dbnary", type=Path, default=Path("dbnary-hmong.tsv"))
-    parser.add_argument("--pivots", type=Path, default=Path("dbnary-pivots.tsv"))
+    parser.add_argument("--dbnary", type=Path, default=Path("data/dbnary-hmong.tsv"))
+    parser.add_argument("--pivots", type=Path, default=Path("data/dbnary-pivots.tsv"))
     parser.add_argument("--adjudications", type=Path,
-                        default=Path("adjudications.tsv"))
+                        default=Path("data/adjudications.tsv"))
     parser.add_argument("--kinship-aliases", type=Path,
-                        default=Path("kinship-aliases.tsv"))
+                        default=Path("data/kinship-aliases.tsv"))
     parser.add_argument("--ili-proposals", type=Path,
-                        default=Path("ili-proposals.tsv"))
-    parser.add_argument("--out", type=Path, default=Path("facts.json"))
+                        default=Path("data/ili-proposals.tsv"))
+    parser.add_argument("--out", type=Path, default=Path("data/facts.json"))
     args = parser.parse_args()
 
     wn.config.data_directory = args.data_directory
@@ -122,9 +122,10 @@ def main() -> int:
     facts: dict[str, object] = {}
 
     # ---- the sources ----------------------------------------------------
-    # the tables live beside this script, not beside whatever directory it is run
-    # from, so that the figures do not depend on the caller's working directory
-    here = Path(__file__).resolve().parent
+    # the tables live in the repository's data/, not beside whatever directory it is
+    # run from, so that the figures do not depend on the caller's working directory
+    repo = Path(__file__).resolve().parent.parent
+    here = repo / "data"
     classifiers = rows_of(here / "classifiers.tsv")
     class_nouns = rows_of(here / "class_nouns.tsv")
     underspec = rows_of(here / "underspecified.tsv")
@@ -441,9 +442,9 @@ def main() -> int:
     }
     # what a speaker is actually handed: the three annotation sheets
     sheets = {
-        "conflicts": here / "review-conflicts-WH.tsv",
-        "triangulation_candidates": here / "review-triangulation-WH.tsv",
-        "definition_match_candidates": here / "review-wiktionary-WH.tsv",
+        "conflicts": repo / "review" / "review-conflicts-WH.tsv",
+        "triangulation_candidates": repo / "review" / "review-triangulation-WH.tsv",
+        "definition_match_candidates": repo / "review" / "review-wiktionary-WH.tsv",
     }
     rows_in_sheets = {name: max(len(path.read_text(encoding="utf8").splitlines()) - 1, 0)
                       for name, path in sheets.items() if path.exists()}

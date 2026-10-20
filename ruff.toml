@@ -2,10 +2,13 @@
 # same thing to anyone who checks out the repository.
 line-length = 96
 
+# the scripts import one another, so they are first-party wherever ruff is run from
+src = ["scripts"]
+
 # Nathan White's original converter, left as he wrote it: reformatting someone
 # else's committed code to our lint settings would bury the real history of the
 # file in whitespace changes.
-exclude = ["hmongnet.py"]
+exclude = ["scripts/hmongnet.py"]
 
 [lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "RUF"]

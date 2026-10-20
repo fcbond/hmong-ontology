@@ -5,7 +5,7 @@
 # ///
 """Tests for the Hmong ontology to WN-LMF converter.
 
-Run with:  uv run --with pytest --with wn pytest test_hmong2lmf.py -q
+Run with:  uv run --with pytest --with wn pytest tests/test_hmong2lmf.py -q
 
 English WordNet is mocked throughout, so these tests neither need a populated wn
 database nor touch one. The single integration test writes into a temporary wn

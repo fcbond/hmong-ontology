@@ -486,11 +486,37 @@ classifiers display correctly with no extra work. `docs/relations.json` is
 Cygnet's own file with `classifies` and `classified_by` added, since upstream has
 `exemplifies` but not yet the two classifier relations.
 
-Deployment goes through `.github/workflows/pages.yml`: the `.db.gz` files are
-attached to a release and the workflow republishes them through Pages, because a
-browser cannot fetch them from a release URL directly. The repository's
-**Settings → Pages** source has to be **GitHub Actions** rather than "Deploy from
-branch".
+### Releasing and deploying
+
+A release carries four files: the two lookup databases, and the two wordnets as
+compressed WN-LMF, so that they can be loaded with `wn.add` straight from the
+release URL. Build first, then release from the `online-lookup` branch:
+
+```sh
+./build.sh
+gzip -9 -n -c build/hmnont.xml    > build/hmnont.xml.gz
+gzip -9 -n -c build/hmnont-gm.xml > build/hmnont-gm.xml.gz
+gh release create vYYYY-MM-DD --target online-lookup \
+    docs/hmong.db.gz docs/hmong-provenance.db.gz \
+    "build/hmnont.xml.gz#White Hmong wordnet (WN-LMF 1.4)" \
+    "build/hmnont-gm.xml.gz#Green Mong wordnet (WN-LMF 1.4)"
+```
+
+`-n` leaves the timestamp out of the gzip header, so the same lexicon always
+compresses to the same file. To add the wordnets to an existing release, use
+`gh release upload TAG` with the same two files.
+
+Publishing the release deploys the lookup, through `.github/workflows/pages.yml`:
+the workflow downloads the `.db.gz` files from the release and republishes them
+with `docs/` through Pages, because a browser cannot fetch them from a release URL
+directly. Two settings have to be in place first:
+
+- **Settings → Pages**: the source has to be **GitHub Actions** rather than
+  "Deploy from branch".
+- **Settings → Environments → github-pages**: the deployment rules have to allow
+  the release tags (e.g. `v*`), since a release runs the workflow from its tag. To
+  rerun the workflow by hand (`gh workflow run pages.yml --ref online-lookup`), which
+  deploys the latest release, they have to allow the `online-lookup` branch too.
 
 ## Kinship, and KinDiv
 

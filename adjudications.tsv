@@ -1,0 +1,12 @@
+FORM	DIALECT	GLOSS	ILI	BY	NOTE
+# Verdicts from Nathan White's review of 2026-10 (COMMENTS.md on his nathan/comments branch). Where he named the ILI it is his; where he described the meaning, the ILI was chosen by us from that description and is marked "to confirm".
+nyuj	WH	cow	i48233	Nathan White	cattle regardless of sex, not the female (i48238)
+pob	WH	ball	i50388	Nathan White	the ball of games; extension to any spherical object (i109982) unconfirmed
+hu	WH	call		Nathan White	means 'call' (naming, by phone), not 'send for' (i25642); not convinced of 'shout'. No single ILI chosen yet
+mob	WH	be sick	i22102	Nathan White	be in pain / be sick
+tseeb	WH	be true	i13638	Nathan White	true, consistent with fact
+ntev	WH	be long	i7833	Nathan White	spatial long; the temporal i7859 is also possible
+dhau	WH	pass beyond	i32002	Nathan White	move past; i27684 and i31995 also plausible
+vaj	WH	garden	i54178	Nathan White	a plot where plants are cultivated
+tshuab	WH	blow	i21801	Nathan White	directed exhalation; i21801 'exhale hard' (example: 'blow on the soup to cool it down', hypernym exhale) chosen by us from his description and confirmed by him (2026-10-17: "good enough"). Not wind blowing (i35526) nor 'cause air to go in, on, or through' (i32267), which he rejected
+siab	WH	heart		Nathan White	siab is 'liver', used where English uses 'heart' figuratively. Not the organ (i65294), and not i67941 'heart, bosom: the locus of feelings', since siab does not pattern in the same idioms; proposed as a new concept similar to i67941 (ili-proposals.tsv), whose definition he accepted (2026-10-17)

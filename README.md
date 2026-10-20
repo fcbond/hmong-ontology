@@ -5,18 +5,20 @@ A semantic ontology resource for the Hmong language, inspired by WordNet (Fellba
 This resource is intended for data science and natural language processing purposes, such as computational modeling of semantics or cleaning of raw data for deep learning.
 
 It is also, now, a wordnet. `hmong2lmf.py` converts the ontology to WN-LMF 1.4 and
-links its senses to the Collaborative Interlingual Index by six routes, so that a
+links its senses to the Collaborative Interlingual Index, so that a
 Hmong word and an English or Chinese or Thai one reach each other through a shared
-concept: **2,094 of 3,095 White Hmong senses are linked, over 1,592 concepts.** The
+concept: **1,749 of 2,735 White Hmong senses are linked, over 1,380 concepts.** The
 material that makes that possible — a classifier inventory, a kinship paradigm and
 a set of classifier-specified compounds, read out of two descriptive publications —
 is in the TSV files below, as editable data rather than as generated output.
 
 What a link rests on is recorded on the synset, and what is still undecided ships as
-three annotation sheets rather than being guessed. `IMPROVEMENTS.md` says what would
+three annotation sheets rather than being guessed. Wiktionary's translations are in
+those sheets as candidates only: a speaker's review found too many of them wrong. `IMPROVEMENTS.md` says what would
 improve the resource and what each improvement is worth, measured; `facts.json`
 holds every figure, with the settings it depends on. Nothing here has been checked
-by a fluent speaker yet, which is the largest single gap.
+by a fluent speaker beyond Nathan White's first review (October 2026), which is the
+largest single gap.
 
 ## Licence
 
@@ -40,9 +42,11 @@ extracted from the two descriptive publications and on what basis.
 | `underspecified.tsv` | the 14 classifier-specified compounds of White's Tables 39–41 |
 | `kinship.tsv` | kinship terms from White's Table 29, both dialects |
 | `kinship-kindiv.tsv` | those terms mapped to KinDiv kin-type concepts |
-| `kindiv-proposals.tsv` | concepts to add to KinDiv, with Hmong as the evidence |
-| `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary |
+| `kindiv-proposals.tsv` | concepts once proposed to KinDiv; withdrawn |
+| `dbnary-hmong.tsv` | sense-anchored Wiktionary translations, via DBnary; candidates only |
 | `dbnary-pivots.tsv` | the other languages' translations of those same senses, for triangulation |
+| `adjudications.tsv` | a speaker's verdicts on links, which overrule every linking route |
+| `ili-proposals.tsv` | new concepts proposed for CILI where a speaker found no ILI fits; written as `ili="in"` synsets |
 | `stopwords_base.txt` | Hmong stopwords, excluding classifiers and verbal bound roots/affixes |
 | `stopwords_classifiers.txt` | Hmong classifiers |
 | `stopwords_verbal_adjuncts.txt` | Hmong verbal adjuncts, such as bound roots and affixes |
@@ -54,9 +58,9 @@ language, marked as such.
 
 | File | Rows | What is undecided |
 |---|---|---|
-| `review-conflicts-*.tsv` | 28 | two routes reached the sense and named different ILIs |
-| `review-triangulation-*.tsv` | 71 | the pivot languages split |
-| `review-wiktionary-*.tsv` | 35 | the definition comparison found no clear winner |
+| `review-conflicts-*.tsv` | 27 | the Concepticon link and the Wiktionary candidate name different ILIs |
+| `review-triangulation-*.tsv` | 731 | Wiktionary candidates: 660 where the pivot languages agree, 71 where they split |
+| `review-wiktionary-*.tsv` | 54 | Wiktionary candidates from comparing definitions: 19 proposed, 35 undecided |
 
 Scripts, in the order they are run:
 
@@ -69,6 +73,7 @@ Scripts, in the order they are run:
 | `conflicts.py` | writes the senses two linking routes disagree about |
 | `cite_wordnets.py` | the citation, licence and version of every wordnet used |
 | `facts.py` | recomputes every figure the paper cites, into `facts.json` |
+| `facts_tex.py` | writes `facts.json` as LaTeX macros (`\fact{coverage.everything.linked}`) for the paper to `\input` |
 | `test_hmong2lmf.py` | tests for the converter |
 | `hmongnet.py` | WordNet-style access to the ontology (Nathan White's original) |
 | `build.sh` | ontology → WN-LMF, then the lookup databases if Cygnet is there |
@@ -99,7 +104,8 @@ Four elements were added when the classifiers were folded in:
 - `<dialect>` on a lemma: `WH` for White Hmong (Hmoob Dawb, ISO 639-3 `mww`) or
   `GM` for Green Mong (Hmoob Ntsuab, `hnj`). Every lemma carries one.
 - `<function>` on a sense: `classifier`, `quantifier` or `class_noun`, recording
-  Bisang's (1993) three-way distinction. A sense may have more than one, because
+  the three-way distinction Bisang (1993) draws by meaning and White (2021c) by
+  syntax, as classifier / quantifier / class term prefix. A sense may have more than one, because
   several forms do more than one job.
 - `<classifies form="thoob">bucket</classifies>` on a classifier sense: an
   example noun the source gives for that classifier, with its English gloss.
@@ -107,28 +113,30 @@ Four elements were added when the classifiers were folded in:
 
 ## Classifiers
 
-`classifiers.tsv` holds 235 numeral classifiers and quantifiers, 151 White Hmong
-and 84 Green Mong, merged from two independent descriptions.
+`classifiers.tsv` holds 238 numeral classifiers, quantifiers and measure words,
+152 White Hmong and 86 Green Mong, merged from two independent descriptions.
 
 **White is the base analysis and Bisang fleshes it out.** Chapter 7 of White
 (2021c) is the later and fuller treatment, it covers Green Mong as well as White
 Hmong, and it states its disagreements with Bisang explicitly, so its categories
 are the ones `CLASS` follows and `WHITE_CATEGORY` comes before
-`BISANG_CATEGORY`. 118 rows rest on White alone, 45 are described by both, 55 come
-from Bisang alone, and 17 only from `stopwords_classifiers.txt`.
+`BISANG_CATEGORY`. 123 rows rest on White alone, 51 are described by both, 49 come
+from Bisang alone, and 15 only from `stopwords_classifiers.txt`. The two differ more
+in criteria than in substance: Bisang assigns words to classes by meaning, White by
+syntax (p. 486).
 
-What Bisang (1993) adds is of three kinds, and the first two are why this is a
-merge rather than a copy of chapter 7:
+What Bisang (1993) adds is of three kinds:
 
-1. **Measure words**, which White excludes as "not part of the system of noun
-   categorization" (p. 366) and Bisang's Appendix I §2.1 counts. The body-part
-   lengths are his: `ntiv` the width of a finger, `xib` the width of a palm,
-   `taus` the width of one fist. Ten rows, and the single biggest difference
-   between the two inventories.
-2. **Class nouns**, which White rejects outright — see the caveat below.
-3. **Finer categories** inside what White treats as one. White collapses measures,
-   intrinsic quantifiers, collectives and kinds into a single mensural category
-   (pp. 301–302); `BISANG_CATEGORY` preserves the distinction.
+1. **More measure words.** White treats measure words as classifier-like, with the
+   syntax of numeral classifiers, measuring rather than classifying (§7.6.1,
+   pp. 302, 366–367): `dos`/`dlus`, `ntiv`, `tshim`, `xib`, `siab`/`sab`, `laij`,
+   `mev`, `lav`. Bisang's Appendix I §2.1 adds `taus` the width of one fist,
+   `noos` and `daj`.
+2. **Class nouns**, which White sorts by syntax — see the note below.
+3. **Intrinsic quantifiers**, whose unit comes from the object's own shape. White,
+   grouping by syntax, files them with measures as mensural (p. 301), keeping
+   collective, kind, container and time as subclasses (p. 302);
+   `BISANG_CATEGORY` keeps the split.
 
 Running the other way, White's **locational** and **verbal action** classifiers
 have no Bisang category at all, so those rows rest on him alone.
@@ -138,14 +146,14 @@ Each row is classified three ways: in the five-way scheme of Bond and Paik (2000
 and in each source's own. Keeping all three columns makes every remapping
 inspectable and reversible in both directions.
 
-Smaller disagreements are in the `NOTE` column and the file's header: `cov` has
-four analyses and we resolve none of them, and `daig`, `riag`, `nploog`, `ntsug`,
-`ce` and `tug` are tone-melody alternants rather than separate classifiers, so
-they become `<variant>` elements. 29 rows carry such a note.
+Smaller differences are in the `NOTE` column and the file's header: `cov` is
+polyfunctional, a classifier grammaticalised into a quantifier, and the sources
+agree on its functions; `daig`, `riag`, `nploog`, `ntsug`, `ce`, `khaw` and `tug`
+are tone-melody alternants rather than separate classifiers, so they become
+`<variant>` elements.
 
-Twelve rows are deliberately not added, recorded with the evidence in
-`DISPOSITION`: six tone-melody alternants and six forms no source supports as
-classifiers. Five rows are marked `CHECK: Nathan`.
+Nine rows are not added as lemmas, recorded with the evidence in `DISPOSITION`:
+seven tone-melody alternants and two forms no source supports as classifiers.
 
 `classifiers-white2021.tsv` is the unmerged extraction from White's chapter 7,
 kept separately so the merge can be checked or redone; its own header records the
@@ -153,13 +161,13 @@ uncertainties in it.
 
 ## Class nouns
 
-**A caveat on this file.** White (2021c: 359–361) rejects Bisang's class-noun
-analysis of `phau`, `lo` and the rest, arguing that Bisang gives no supporting
-evidence and that the analysis obscures otherwise clear grammatical
-distinctions. Since this file is built on Bisang's Appendix II, that objection is
-about the whole file and not just a label. It is kept because the *members* —
-`ntoo ciab` 'larch', `txiv tsawb` 'banana' — are glossed vocabulary whatever one
-calls their head, but the class-noun relation itself is contested.
+**A note on this file.** It follows Bisang's Appendix II, whose class nouns White
+(2021c: 101, 359–361, 485–486) sorts by syntax: `phau` and `lo` are classifiers,
+`pob-`, `txiv-`, `tub-` and others are class term prefixes, and `chaw`, `kev`,
+`kws` and `lus` are nouns. The *members* — `ntoo ciab` 'larch', `txiv tsawb`
+'banana' — are glossed vocabulary whatever one calls their head, so they are kept.
+Whether prefix-headed words should be entries of their own or the whole word
+entered instead is still open.
 
 `class_nouns.tsv` holds 28 class nouns and 121 member compounds. A class noun is
 an ordinary, referential noun that heads a compound and fixes its semantic class:
@@ -203,8 +211,8 @@ Hmong forms as Green Mong.
 
 Folding in the White Hmong vocabulary of the
 [World Loanword Database](https://wold.clld.org) (Ratliff's contribution, CC BY
-4.0) takes the lexicon from 748 distinct ILIs to **1,358**; WOLD contributes
-**1,019 concepts, 845 of them reached by no other source**:
+4.0) takes the lexicon from 738 distinct ILIs to **1,376**; WOLD contributes
+**1,038 concepts, 870 of them reached by no other source**:
 
 ```sh
 git clone --depth 1 https://github.com/lexibank/wold.git ../wold
@@ -233,12 +241,26 @@ satisfy *every* source folded in. WOLD is CC BY 4.0 and the ontology is CC BY 4.
 so that case is simple; a non-commercial or no-derivatives source would constrain
 the result.
 
-### Folding in Wiktionary, through DBnary
+### Wiktionary, through DBnary: candidates only
 
-Hmong is not a Wiktionary edition, so it appears in Wiktionary only as a
-translation target — but the English edition's translation tables are
-**sense-anchored**, which is exactly the disambiguation a bare English lemma
-lacks. [DBnary](http://kaiko.getalp.org/dbnary) publishes that as RDF with a
+**Nothing from Wiktionary reaches the lexicon.** Both routes below write candidate
+sheets for a speaker to check, and a candidate becomes a link only through
+`adjudications.tsv`. Nathan White's review of the candidates (October 2026) found
+too many of them wrong to use unchecked, and the reason is structural: the pivot is
+English. Hmong appears in Wiktionary only as a translation of an English word, so
+the entries are what a speaker offered when asked for that word — an ad hoc phrase,
+a whole sentence (*kuv hlub koj* 'I love you'), or a word with only partial
+overlap — and the sense is the English word's, not the Hmong one's. *siab* is filed
+under 'heart', but means 'liver' and is used where English uses 'heart'
+figuratively; *thee* 'charcoal' is filed under charcoal as a drawing; *mob* 'be
+sick' under a causative 'hurt'; *nam pa* 'fish sauce' is a Lao/Thai word whose
+place in Hmong is unverified. Triangulation then votes in the other languages'
+wordnets on the *English* sense, so it confirms the English reading rather than
+testing the Hmong one.
+
+The sheets are still worth having. Hmong is not a Wiktionary edition, but the
+English edition's translation tables are **sense-anchored**, which is exactly the
+disambiguation a bare English lemma lacks. [DBnary](http://kaiko.getalp.org/dbnary) publishes that as RDF with a
 SPARQL endpoint, so no scraping is needed and the release is citable.
 
 ```sh
@@ -282,14 +304,38 @@ Add `--report report.tsv` for a per-sense account of what linked, what did not,
 and which candidate ILIs each unlinked sense had, with the English definition of
 each, so that choosing between them is a reading task rather than a lookup task.
 
-Add `--dbnary-review review.tsv` for the Wiktionary translations the definition
-comparison would not decide, and `--pivot-review` for the triangulation groups the
-pivot languages split on — 35 and 71 for White Hmong. Each row has the Hmong form,
-the English lemma, the Wiktionary sense it was filed under, the candidate ILIs with
-their English definitions, and an empty `VERDICT` column. Choosing between two or
+Add `--dbnary-review review.tsv` and `--pivot-review` for the Wiktionary
+candidates: 54 from comparing definitions and 731 from triangulation for White
+Hmong, decided or not, since none is linked. Each row has the Hmong form, the
+English lemma, the Wiktionary sense it was filed under, the candidate ILIs with
+their English lemmas and definitions, and an empty `VERDICT` column. Choosing between two or
 three glossed candidates takes a speaker seconds, and it is work no threshold should
 be doing on their behalf. A run with nothing to review writes a header-only file
 rather than leaving the previous run's sheet in place.
+
+### A speaker's verdicts
+
+`adjudications.tsv` holds verdicts on individual senses, one row each: the form,
+dialect and one gloss pick out the sense, and `ILI` is the concept the speaker
+chose. An empty `ILI` means none fits and the sense stays unlinked. Pass it with
+`--adjudications adjudications.tsv`; a verdict overrules every route, a Concepticon
+identifier included, and is recorded as the method `adjudicated`. A verdict that
+matches no sense is reported, because it usually means the ontology entry changed
+underneath it. The first ten are from Nathan White's review; where he described a
+meaning rather than naming an ILI, the row says the ILI is ours and to be
+confirmed.
+
+Where no ILI fits, the sense stays unlinked and the missing concept goes in
+`ili-proposals.tsv`: a draft definition and its relation to the nearest existing
+concept. The first is *siab* 'liver' as the seat of feeling, similar to i67941
+'heart, bosom: the locus of feelings and intuitions' but not the same concept,
+since *siab* does not occur in the same idioms. Pass the file with
+`--ili-proposals ili-proposals.tsv`: the sense's synset is written `ili="in"`, with
+the draft definition as both its `Definition` and its `ILIDefinition`, which is how
+WN-LMF marks a concept proposed for CILI. The relation to the nearest concept
+cannot be a `SynsetRelation`, since its target is in no synset of this lexicon, so
+it goes in the synset's note and stays in the file for the CILI submission. A
+proposal for a sense that is already linked is reported and ignored.
 
 ### Which wordnets, at which release
 
@@ -343,9 +389,11 @@ wordnet); the script supplies one for each and marks it as our attribution.
 
 ### Where two routes disagree
 
-`conflicts.py` runs the Concepticon and triangulation routes separately and writes
-every sense they both reach but name different ILIs for, with both candidates'
-English lemmas and definitions on one line:
+`conflicts.py` sets the Concepticon links against the Wiktionary triangulation
+candidates and writes every sense both reach but name different ILIs for, with both
+candidates' English lemmas and definitions on one line. Only the Concepticon link
+is in the lexicon; the sheet is a check on it, and it is how Nathan White found
+that *nyuj* is cattle, not the female, and *pob* the ball of games:
 
 ```sh
 uv run conflicts.py --data-directory .wn_data \
@@ -353,7 +401,7 @@ uv run conflicts.py --data-directory .wn_data \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH
 ```
 
-They both reach 190 White Hmong senses and agree on 162 (85.3%). The 28
+They both reach 189 White Hmong senses and agree on 162 (85.7%). The 27
 disagreements are in `review-conflicts-WH.tsv`, with an empty `VERDICT` column for
 a speaker and separate `ADJUDICATION`/`BY` columns so that a reading by someone who
 does not speak the language is never mistaken for a speaker's.
@@ -451,15 +499,18 @@ hypernym proposed, 2 a new concept. The `ILI_STATUS` column records which.
 
 They do not have to be. [KinDiv](https://github.com/kinship-diversity/KinDiv) is a
 database of lexical diversity in the kinship domain — 198 concepts as Murdock kin
-types, 1,904 words in 168 languages, 37,370 recorded gaps — and it gives each
+types, 1,911 words in 168 languages, 37,370 recorded gaps — and it gives each
 concept a stable identifier (`Fa;El;Br` for a father's elder brother) that holds
 across languages **even where the interlingual index does not reach**.
 
-`kinship-kindiv.tsv` maps 28 of our kinship senses onto KinDiv concepts, 24 exactly.
-The remaining four need concepts KinDiv does not yet declare — Hmong `nus`, `muam`,
-`tij laug` and `kwv` name the child of a father's sibling regardless of whether that
-sibling is a brother or a sister — and `kindiv-proposals.tsv` has those six rows
-ready to paste into KinDiv, with their hypernym relations and the Hmong words. The converter emits the code as
+`kinship-kindiv.tsv` maps 28 of our kinship senses onto KinDiv concepts, 26 exactly
+and two to a broader concept. Hmong `nus`, `muam`, `tij laug` and `kwv` extend from
+siblings to the father's *brother's* children (Nathan White confirms they do not
+cover the father's sister's), so they map to KinDiv's existing `Fa;Br;*`
+concepts; `tij laug` and `kwv` also mark the speaker's sex, which KinDiv's
+age-marked concepts do not. An earlier reading had them cover either parent's
+sibling and proposed six concepts to KinDiv; `kindiv-proposals.tsv` keeps those
+rows, marked withdrawn. The converter emits the code as
 `dc:identifier="KinDiv:Fa;El;Br"` on the synset, which is what KinDiv's own build
 does, so an ILI-less kinship synset is still identified:
 
@@ -484,8 +535,8 @@ uv run add_classifiers.py --class-nouns --underspecified --kinship --check
 ```
 
 The flags are separable because each adds material from a different table, and
-each is a judgement a reader might want to decline: `--class-nouns` rests on an
-analysis White rejects, `--underspecified` and `--kinship` on his own tables.
+each is a judgement a reader might want to decline: `--class-nouns` rests on
+Bisang's semantic grouping, which White reassigns by syntax, `--underspecified` and `--kinship` on his own tables.
 Re-running after a table gains a definition, a function or an example folds that
 into the sense already there rather than skipping the row.
 
@@ -498,6 +549,22 @@ uv run facts.py --data-directory .wn_data --english oewn:2025+ \
     --concepticon ../cldf2wn/data/concepticon-ili.tsv \
     --cldf ../wold/cldf:WhiteHmong:WOLD:WH --pristine pristine.xml
 ```
+
+`facts_tex.py` then writes the figures as LaTeX macros, one per number, which the
+paper inputs, so a rebuild updates the text instead of leaving figures to be found
+and retyped by hand:
+
+```sh
+uv run facts_tex.py --out ../paper-hmong/facts.tex
+```
+
+The paper writes `\fact{coverage.everything.linked}` where it would have typed
+1,747. Keys are the `facts.json` paths, with any character other than a letter,
+digit, dot or hyphen turned into a hyphen (`tiers.linked-stronger-evidence`). A key
+missing from the file prints a bold ?? and a LaTeX warning.
+
+`pristine.xml` is the ontology as received, before any of this work:
+`git show f4192de^:hmong_ontology.xml > pristine.xml`.
 
 ## TODO
 
@@ -513,9 +580,10 @@ uv run facts.py --data-directory .wn_data --english oewn:2025+ \
    description.~~ Done, and six of them turned out to be tone-melody alternants
    or not classifiers at all; those are `<variant>` elements or declined rows
    with the evidence in the `DISPOSITION` and `NOTE` columns of
-   `classifiers.tsv`. Five remain marked `CHECK: Nathan`.
-7. Review the senses the converter leaves unlinked. 1,001 for White Hmong, of
-   which 134 are already on the three annotation sheets above; `--report` ranks
+   `classifiers.tsv`. One question remains open: which nouns `cev`, mostly a
+   verbal action classifier, can also classify.
+7. Review the senses the converter leaves unlinked. 992 for White Hmong, of
+   which 133 are already on the three annotation sheets above; `--report` ranks
    the rest, and `IMPROVEMENTS.md` says which stage returns most per row.
 8. Mine the rest of White (2021c). Done: the kinship table (Table 29, p. 288) and
    the noun-to-classifier matrices (Tables 39–41, pp. 381–382). Still to do: the
@@ -554,7 +622,7 @@ White Hmong. *Studies in Language* 45(3).
 White, Nathan M. 2021c. *The Hmong language of North Queensland*. PhD thesis,
 James Cook University. <https://doi.org/10.25903/f5rd-s089>\
 Open access, 742 pages; the first comprehensive grammar of the variety, written
-in Basic Linguistic Theory. **Chapter 7 (pp. 299–381) is a full account of the
+in Basic Linguistic Theory. **Chapter 7 (pp. 299–383) is a full account of the
 classifier system**, and its categories — sortal, mensural (container,
 collective, kind, time), locational, non-singular, possessed and verbal action —
 are the ones `stopwords_classifiers.txt` in this repository is organised by, so
@@ -562,8 +630,8 @@ the stopword list is an index to that chapter rather than an ad-hoc list.
 §1.5.2.1 (p. 25) reviews Bisang (1993), from which `classifiers.tsv` is built,
 and §6.7 (p. 298) gives a noun-subgroup scheme.
 
-White, Nathan M. et al. 2022. The Hmong Medical Corpus: a biomedical corpus for
-a minority language. *Language Resources and Evaluation*.
+White, Nathan M. 2022. The Hmong Medical Corpus: a biomedical corpus for a
+minority language. *Language Resources and Evaluation* 56(4): 1315–1332.
 <https://doi.org/10.1007/s10579-022-09596-2>
 
 White, Nathan M. 2024. Quantifier float in Hmong. *Folia Linguistica*.

@@ -69,9 +69,9 @@ if [[ -f "$WN_DATA/wn.db" ]]; then
     [[ -f "$PROJECT_DIR/dbnary-hmong.tsv" ]] && \
         route_args+=(--dbnary "$PROJECT_DIR/dbnary-hmong.tsv")
 else
-    echo "note: no wordnets are loaded in $WN_DATA, so this build has neither" >&2
-    echo "      triangulation nor the Wiktionary route, which together cost" >&2
-    echo "      about 350 interlingual concepts. To add them:" >&2
+    echo "note: no wordnets are loaded in $WN_DATA, so this build writes no" >&2
+    echo "      Wiktionary candidate sheets. The lexicon is the same either way:" >&2
+    echo "      Wiktionary only proposes. To write them:" >&2
     echo "        uv run load_pivots.py --from ../cygnet/bin/raw_wns" >&2
 fi
 if [[ -n "$CLDF" && -d "${CLDF%%:*}" ]]; then
@@ -97,6 +97,9 @@ for dialect in WH GM; do
         --citation "$(tr '\n' ' ' < "$PROJECT_DIR/etc/citation.rst")" \
         --pivot-review "$PROJECT_DIR/review-triangulation-$dialect.tsv" \
         --dbnary-review "$PROJECT_DIR/review-wiktionary-$dialect.tsv" \
+        --adjudications "$PROJECT_DIR/adjudications.tsv" \
+        --ili-proposals "$PROJECT_DIR/ili-proposals.tsv" \
+        --kinship-aliases "$PROJECT_DIR/kinship-aliases.tsv" \
         "${route_args[@]}"
     gzip -cf "$PROJECT_DIR/build/$stem.xml" > "$WORK_DIR/bin/raw_wns/$stem.xml.gz"
 done
@@ -131,6 +134,11 @@ if [[ -d "$WORK_DIR/bin/cygnets_presynth" ]]; then
     find "$WORK_DIR/bin/cygnets_presynth" -maxdepth 1 -name 'oewn-*' \
         ! -name "oewn-${english_version}.xml" \
         ! -name "oewn-${english_version}_log.json" -delete
+    # Cygnet skips converting any input whose output is already here, and the
+    # Hmong lexicons keep the same name and version from build to build, so a
+    # stale conversion would silently stand in for the lexicons just written.
+    # They are small and quick to convert, so always redo them.
+    find "$WORK_DIR/bin/cygnets_presynth" -maxdepth 1 -name 'hmnont-*' -delete
 fi
 if [[ ! -f "$WORK_DIR/bin/raw_wns/$english_file" ]]; then
     if [[ -f "$CYGNET_DIR/bin/raw_wns/$english_file" ]]; then

@@ -21,12 +21,13 @@
 #                   sortal (7.1), subordinate_sortal (7.1.9), mensural (7.2),
 #                   container (7.2.1), collective (7.2.2), kind (7.2.3),
 #                   time (7.2.4), locational (7.3), non_singular (7.4),
-#                   possessed (7.5), verbal_action (7.6.2).
+#                   possessed (7.5), measure_word (7.6.1),
+#                   verbal_action (7.6.2).
 #   CLASS           mapping onto the five classes of Bond & Paik (2000) used
 #                   by wordnet: sortal, event, mensural, group, taxonomic.
 #                   Mapping applied: sortal / subordinate_sortal / locational /
-#                   possessed -> sortal; mensural / container / time ->
-#                   mensural; collective / non_singular -> group; kind ->
+#                   possessed -> sortal; mensural / container / time /
+#                   measure_word -> mensural; collective / non_singular -> group; kind ->
 #                   taxonomic; verbal_action -> event.
 #   DEFINITION      one clause built from White's own description.
 #   EXAMPLES        semicolon-separated "hmong noun (english gloss)" pairs from
@@ -38,18 +39,17 @@
 #   PAGE            printed page(s) where the form is described.
 #
 # WHERE THE BOND & PAIK MAPPING IS A POOR FIT (flagged here, not in a column)
-#   - li / le (possessed): mapped to sortal, but White states it "lacks a clear
-#     semantic parameter by which to classify" (p. 302) and is a pure default
-#     possessive linker. It classifies nothing; no Bond & Paik class fits.
+#   - li / le (possessed): a classifier by syntax, used only in possessive
+#     constructions (pp. 365-366), and a default with no semantic parameter
+#     (p. 301); historically from Chinese 的. Mapped to sortal, though no Bond &
+#     Paik class fits a classifier that classifies nothing.
 #   - sab/saab, ntav/nta/ntaav/ntaa, tog (locational): mapped to sortal, but
 #     White says they combine "inherent arrangement or configuration" with
 #     "partitivity as a kind of quanta" (p. 350), i.e. they behave more like
 #     mensural/partitive classifiers than like sortal ones.
-#   - cov (non_singular): mapped to group, correct for its older 'bunch, group'
-#     sense, but its dominant modern value is abstract non-singular/definite
-#     with no group semantics - effectively a plural marker (pp. 354-357).
-#   - tej (non_singular): mapped to group, but its value is partitive 'some'
-#     (part of a whole), which is closer to mensural than to group.
+#   - cov and tej (non_singular): mapped to group, which N. White (p.c.) judges
+#     sufficient for both. cov is polyfunctional, a classifier grammaticalised into
+#     a quantifier (pp. 354, 362).
 #   - qhov (sortal): a DEFAULT classifier with no semantic parameter; White
 #     notes it "adopts mensural-like semantics" with mass nouns (p. 326).
 #   - pawg (collective): group with count nouns, but a mensural 'pile'
@@ -62,15 +62,13 @@
 #     (they unitise paper and speech, like nqe, lo, phau, tsab).
 #
 # UNCERTAINTIES AND JUDGEMENT CALLS
-#   - "WH khawv 'CL:BITE'" (Table 34, p. 337) occurs exactly once in the whole
-#     thesis and is never discussed in prose, so the final <v> (and thus the
-#     tone) could not be cross-checked. The repository stopword list has the
-#     form `khaw`. Recorded as White prints it: khawv. UNCLEAR.
-#   - "WH riam/GM rag 'VCL:CHOP'" (Table 38, p. 370). `rag` is very probably
-#     the tone-melody-alternated (Sec. 2.3.1, p. 62) GM form appearing after
-#     tuab- 'single', i.e. the citation form would be GM *ram; on p. 402 the
-#     same item is printed "WH riam/GM riag 'VCL:STRIKE.WITH.KNIFE'", which is
-#     inconsistent with Table 38. Recorded as printed in Table 38. UNCLEAR.
+#   - khawv 'CL:BITE' (Table 34, p. 337) is the citation form; after a numeral
+#     of the -b tone class it alternates to khaw (Sec. 2.3.1): ib khaw N
+#     (N. White, p.c.). The stopword list's `khaw` is that alternant.
+#   - riam/rag 'VCL:CHOP' (Table 38, p. 370): WH riam, realised riag after the
+#     tone melody alternation; the GM citation form is rag, not *ram. The GM riag
+#     printed on p. 402 is a White Hmong-influenced diaspora variant (N. White,
+#     p.c.).
 #   - Forms produced ONLY by the lexical tone melody alternation of Sec. 2.3.1
 #     (<j>,<s>,<m> -> <g>; <v> -> bare; bare -> <s>) are NOT given rows of
 #     their own, because they are inflected variants, not separate classifiers:
@@ -79,11 +77,10 @@
 #     (= cov, p. 354), -zag (= zaj, p. 372), -qho (= qhov, p. 325),
 #     -tse (= tsev, p. 339), -nta/-leeg likewise.
 #   - "family" (pp. 342-343) is an English borrowing that White analyses as a
-#     genuine collective mensural classifier in diaspora Hmong. He does not
-#     label the dialect of examples (596)-(598); recorded as `both`. UNCLEAR.
-#   - zaum: Sec. 7.2.4 (p. 345) lists it unmarked for dialect, but Sec. 8.2.1.8
-#     (p. 409) gives the pair "WH zaum/GM zaus 'CL:TIMES'". Two rows are given
-#     on the authority of p. 409.
+#     genuine collective mensural classifier in diaspora Hmong, in both
+#     varieties (N. White, p.c.).
+#   - zaum: p. 409 misprints "WH zaum/GM zaus 'CL:TIMES'" for "WH zaum/zaus";
+#     the GM form is zag, as on pp. 216 and 465 (N. White, errata).
 #   - phau: White writes "WH phau/GM phau/phoo", i.e. the same form in both
 #     varieties plus a GM variant. Recorded as one `both` row (phau) plus one
 #     GM row (phoo).
@@ -94,12 +91,12 @@
 #     'MW:METER', lav 'MW:KILOMETER', WH dos/GM dlus
 #     'MW:MIDDLE.FINGER.TIP.TO.THUMB.TIP', tshim 'MW:CUBIT', xib
 #     'MW:HAND.WIDTH', WH siab/GM sab 'MW:RICE.MEASURE', laij 'MW:600M2') are
-#     DELIBERATELY EXCLUDED: White states they are "not part of the system of
-#     noun categorization" (p. 366) and they fail his mensural-classifier
-#     criteria (Table 43, p. 383).
+#     included as WHITE_CATEGORY measure_word: they share the syntax of numeral
+#     classifiers (p. 302) though they measure rather than classify (p. 366).
 #   - Classifiers glossed only in the interlinear appendix texts (e.g. npaug
 #     'CL:TIMES' p. 675, vuag 'CL:TIMES' p. 680, tes 'CL:HANDFUL' pp. 95, 402,
-#     511, feem 'CL:PART' p. 385) are excluded as outside ch. 7.
+#     511, feem 'CL:PART' p. 385) are not yet entered. N. White sees no reason
+#     to exclude them; each needs its dialect checked against its text first.
 #   - No source text was OCRed: the PDF carries an embedded text layer, so RPA
 #     tone-bearing final consonants were read directly and cross-checked
 #     against the surrounding prose wherever prose exists.
@@ -193,7 +190,8 @@ nas this	both	time	mensural	a time classifier for a minute, borrowed from Lao		3
 vas thiv	WH	time	mensural	a time classifier for a week, borrowed from Lao		345
 as thiv	GM	time	mensural	a time classifier for a week, borrowed from Lao		345
 zaum	WH	time	mensural	a time classifier counting occasions or repetitions of an event		345, 409
-zaus	GM	time	mensural	a time classifier counting occasions or repetitions of an event		409
+zaus	WH	time	mensural	a White Hmong variant of zaum, a time classifier counting occasions		409 (corrected)
+zag	GM	time	mensural	a time classifier counting occasions or repetitions of an event		409 (corrected); 216, 465
 fos nais	both	time	mensural	a time classifier for a fortnight, borrowed from English in the Australian diaspora		128, 345
 sim	both	time	mensural	a time classifier for a lifetime, the one time classifier attested in all four classifier functions with an overt head noun	neej (human life); niam txiv (parents, couple)	348-349
 txhis	both	time	mensural	a syntactically deficient time classifier occurring only with the number word ib 'one' and never with a head noun, giving ib txhis 'forever'		349
@@ -219,3 +217,13 @@ nplooj	both	mensural	mensural	a classifier for a flat piece, which with ntawv 'p
 kab	WH	mensural	mensural	a classifier for a sentence, one line of writing or speech	ntawv (sentence); lus (sentence)	381-382
 kaab	GM	mensural	mensural	a classifier for a sentence, one line of writing or speech		381-382
 sob	both	mensural	mensural	a classifier for a paragraph of speech	lus (paragraph)	382
+ntiv	both	measure_word	mensural	a measure word: the width of a finger		366-367
+xib	both	measure_word	mensural	a measure word: the width of a hand		366-367
+tshim	both	measure_word	mensural	a measure word: a cubit		366-367
+dos	WH	measure_word	mensural	a measure word: the span from the tip of the middle finger to the tip of the thumb		366-367
+dlus	GM	measure_word	mensural	a measure word: the span from the tip of the middle finger to the tip of the thumb		366-367
+siab	WH	measure_word	mensural	a measure word: a traditional rice measure, based on a container		366-367
+sab	GM	measure_word	mensural	a measure word: a traditional rice measure, based on a container		366-367
+laij	both	measure_word	mensural	a measure word: an area of 600 square metres, taken from Thailand		366-367
+mev	both	measure_word	mensural	a measure word: a metre		366-367
+lav	both	measure_word	mensural	a measure word: a kilometre		366-367

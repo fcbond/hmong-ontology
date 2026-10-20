@@ -474,7 +474,38 @@ def test_concepticon_links_only_exact_relations(tmp_path: Path) -> None:
         "3\tNOTHING\t\tn\tss\n",
         encoding="utf8")
     mapping = m.read_concepticon(table)
-    assert mapping == {"firewood": ("i100", "n")}
+    # inexact or unlinked concepts are known, but carry no link
+    assert mapping == {"firewood": ("i100", "n"), "vulture": ("", ""),
+                       "nothing": ("", "")}
+
+
+def test_concepticon_stops_at_a_known_concept_without_a_link() -> None:
+    """'kill; shoot' must not link to SHOOT because KILL has no exact link."""
+    sense = m.OntSense(0, "tua", ["kill", "shoot"], "verb.contact")
+    m.link_senses([sense], FakeWordnet({}), True, True,
+                  concepticon={"kill": ("", ""), "shoot": ("i27293", "v")})
+    assert sense.ili is None
+    # whereas a 'kill' Concepticon does not know at all is passed over
+    sense = m.OntSense(0, "tua", ["kill", "shoot"], "verb.contact")
+    m.link_senses([sense], FakeWordnet({}), True, True,
+                  concepticon={"shoot": ("i27293", "v")})
+    assert (sense.ili, sense.method) == ("i27293", "concepticon")
+
+
+def test_concepticon_passes_over_a_gloss_it_does_not_know() -> None:
+    sense = m.OntSense(0, "taws", ["kindling", "firewood"], "object")
+    m.link_senses([sense], FakeWordnet({}), True, True,
+                  concepticon={"firewood": ("i100", "n")})
+    assert (sense.ili, sense.method) == ("i100", "concepticon")
+    assert sense.linked_gloss == "firewood"
+
+
+def test_conflicts_key_a_gloss_link_only_by_the_gloss_it_used() -> None:
+    """'law; rule; custom' linked through 'law' says nothing about 'custom'."""
+    import conflicts
+    sense = m.OntSense(0, "cai", ["law", "rule", "custom"], "abstraction")
+    sense.ili, sense.method, sense.linked_gloss = "i81481", "concepticon", "law"
+    assert conflicts.answers([sense], "concepticon") == {("cai", "law"): "i81481"}
 
 
 def test_concepticon_links_what_english_lookup_could_not() -> None:
@@ -801,8 +832,8 @@ def test_triangulation_declines_a_genuine_tie(pivots_file, pivot_wordnets) -> No
 def test_triangulation_counts_languages_not_candidate_producers(
         pivots_file, pivot_wordnets) -> None:
     """Spanish `gato` points at two ILIs, so three languages produce candidates for
-    `miv` but only the winner's backers count. Counting producers instead is the
-    mistake that cost precision in earlier work on this method."""
+    `miv` but only the winner's backers count. Counting producers instead would
+    pass a link backed by one language whenever another proposed something else."""
     senses, _ = m.read_dbnary_pivots(pivots_file, "WH", pivot_wordnets)
     # i-jack is reached by one language only and must not win
     assert senses[0].ili == "i-cat"
@@ -967,6 +998,182 @@ def test_read_pin_file_ignores_comments_and_blanks(tmp_path: Path) -> None:
 def test_read_pin_file_is_empty_when_absent(tmp_path: Path) -> None:
     assert m.read_pin_file(tmp_path / "nothing.lock") == {}
 
+# --- Wiktionary candidates and speaker adjudications --------------------------
+
+
+def test_triangulation_proposals_list_each_decided_sense(
+        pivots_file, pivot_wordnets) -> None:
+    """A decided group becomes a candidate row for a speaker, with its pivots."""
+    proposals: list[dict[str, str]] = []
+    senses, _ = m.read_dbnary_pivots(pivots_file, "WH", pivot_wordnets,
+                                     proposals=proposals)
+    assert [r["FORM"] for r in proposals] == [s.form for s in senses] == ["miv"]
+    assert proposals[0]["WHY"] == "proposed: 3 of 3 languages agree"
+    assert "fra=chat" in proposals[0]["PIVOTS"]
+
+
+def test_describe_candidates_spells_out_each_ili() -> None:
+    class Synset(FakeSynset):
+        def lemmas(self) -> list[str]:
+            return ["cat", "true cat"]
+
+    en = FakeWordnet({("cat", "n"): [Synset("i-cat", "noun.animal", "a feline")]})
+    rows = [{"CANDIDATES": "i-cat(3: fra,ita,spa) | i-jack(1: spa)"}]
+    m.describe_candidates(rows, en)
+    assert rows[0]["CANDIDATES"] == (
+        "i-cat [cat, true cat: a feline](3: fra,ita,spa) | i-jack(1: spa)")
+
+
+def adjudicable() -> list[m.OntSense]:
+    cow = m.OntSense(0, "nyuj", ["cow", "cattle"], "animal")
+    cow.ili, cow.method = "i48238", "concepticon"
+    call = m.OntSense(1, "hu", ["call"], "verb.communication")
+    call.ili, call.method = "i25642", "concepticon-id"
+    return [cow, call]
+
+
+def test_adjudication_overrules_a_concepticon_link() -> None:
+    senses = adjudicable()
+    verdicts = [{"FORM": "nyuj", "DIALECT": "WH", "GLOSS": "cow", "ILI": "i48233",
+                 "BY": "a speaker", "NOTE": "not only the female"}]
+    assert m.apply_adjudications(senses, verdicts) == []
+    assert (senses[0].ili, senses[0].method) == ("i48233", "adjudicated")
+    assert "adjudicated by a speaker" in senses[0].note
+
+
+def test_adjudication_with_no_ili_unlinks_the_sense() -> None:
+    senses = adjudicable()
+    verdicts = [{"FORM": "hu", "DIALECT": "WH", "GLOSS": "call", "ILI": "",
+                 "BY": "a speaker", "NOTE": "not 'send for'"}]
+    m.apply_adjudications(senses, verdicts)
+    assert (senses[1].ili, senses[1].method) == (None, "adjudicated-unlinked")
+
+
+def test_adjudication_reports_a_verdict_that_matches_nothing() -> None:
+    verdicts = [{"FORM": "hu", "DIALECT": "GM", "GLOSS": "call", "ILI": "",
+                 "BY": "", "NOTE": ""}]
+    assert m.apply_adjudications(adjudicable(), verdicts) == verdicts
+
+
+def test_adjudication_outranks_every_route() -> None:
+    assert m.method_rank("adjudicated") < m.method_rank("concepticon-id")
+
+
+def test_read_adjudications_skips_comment_rows(tmp_path: Path) -> None:
+    path = tmp_path / "adjudications.tsv"
+    path.write_text("FORM\tDIALECT\tGLOSS\tILI\tBY\tNOTE\n"
+                    "# a comment\n"
+                    "nyuj\tWH\tcow\ti48233\ta speaker\t\n", encoding="utf8")
+    assert [r["FORM"] for r in m.read_adjudications(path)] == ["nyuj"]
+
+
+def proposal(gloss: str = "heart") -> dict[str, str]:
+    return {"FORM": "siab", "DIALECT": "WH", "GLOSS": gloss, "POS": "n",
+            "DEFINITION": "the liver as the locus of feelings and dispositions",
+            "RELATION": "similar", "TARGET": "i67941", "BY": "a speaker", "NOTE": ""}
+
+
+def test_ili_proposal_marks_an_unlinked_sense() -> None:
+    sense = m.OntSense(0, "siab", ["heart"], "cognition")
+    assert m.apply_ili_proposals([sense], [proposal()]) == []
+    assert sense.ili is None
+    assert sense.ili_definition.startswith("the liver")
+    assert "similar i67941" in sense.note
+
+
+def test_ili_proposal_leaves_a_linked_sense_alone() -> None:
+    sense = m.OntSense(0, "siab", ["heart"], "cognition")
+    sense.ili = "i67941"
+    assert m.apply_ili_proposals([sense], [proposal()]) == [proposal()]
+    assert sense.ili_definition == ""
+
+
+def test_ili_proposal_is_written_as_ili_in(tmp_path: Path) -> None:
+    sense = m.OntSense(0, "siab", ["heart"], "cognition")
+    m.apply_ili_proposals([sense], [proposal()])
+    entry = m.Entry("siab", "n", senses=[sense])
+    out = tmp_path / "out.xml"
+    m.write_lmf(out, [entry], m.build_synsets([sense]), {}, _meta())
+    text = out.read_text(encoding="utf8")
+    assert 'ili="in"' in text
+    assert ("<ILIDefinition>the liver as the locus of feelings and dispositions"
+            "</ILIDefinition>") in text
+    # the rejected gloss does not survive as the synset's definition
+    assert '<Definition language="en">heart</Definition>' not in text
+    assert 'note="proposed new concept, similar i67941"' in text
+
+
+def test_unlexicalized_sense_is_written_as_such(tmp_path: Path) -> None:
+    phrase = m.OntSense(0, "phau ntawv", ["book"], "artifact", lexicalized=False)
+    word = m.OntSense(1, "ntawv", ["paper"], "artifact")
+    entries = [m.Entry("phau ntawv", "n", senses=[phrase]),
+               m.Entry("ntawv", "n", senses=[word])]
+    out = tmp_path / "out.xml"
+    m.write_lmf(out, entries, m.build_synsets([phrase, word]), {}, _meta())
+    lines = out.read_text(encoding="utf8").splitlines()
+    sense_of = {line for line in lines if "<Sense " in line}
+    assert sum('lexicalized="false"' in line for line in sense_of) == 1
+
+
+def test_absorb_keeps_a_word_reading_over_a_phrase() -> None:
+    phrase = m.OntSense(0, "phau ntawv", ["book"], "artifact", lexicalized=False)
+    word = m.OntSense(0, "phau ntawv", ["book"], "artifact")
+    m.absorb(phrase, word)
+    assert phrase.lexicalized
+
+
+@pytest.mark.parametrize("name, expected", [
+    ("the world", ["world"]),
+    ("to eat", ["eat"]),
+    ("the axe/ax", ["axe", "ax"]),
+    ("the fork(2)/pitchfork", ["fork", "pitchfork"]),
+    ("male(1)", ["male"]),
+])
+def test_cldf_glosses_split_alternatives(name: str, expected: list[str]) -> None:
+    assert m.cldf_glosses(name) == expected
+
+
+def test_speaker_sex_variants_of_one_form_merge() -> None:
+    def wold(form: str, gloss: str) -> m.OntSense:
+        return m.OntSense(-1, form, [gloss], "Kinship", concepticon="1")
+    senses = [wold("txiv", "father-in-law (of a man)"),
+              wold("txiv", "father-in-law (of a woman)"),
+              wold("yawg txiv", "father-in-law (of a man)")]
+    merged = m.merge_speaker_sex(senses)
+    assert [(s.form, s.glosses) for s in merged] == [
+        ("txiv", ["father-in-law"]), ("yawg txiv", ["father-in-law (of a man)"])]
+    assert merged[0].concepticon == ""
+
+
+def test_kinship_alias_merges_duplicate_senses() -> None:
+    table29 = m.OntSense(0, "nus", ["brother of a female"], "consanguineal_relation",
+                         kindiv="o;Br")
+    original = m.OntSense(0, "nus", ["females_brother"], "consanguineal_relation")
+    cousin = m.OntSense(0, "nus", ["paternal male cousin of a female"],
+                        "consanguineal_relation", kindiv="o;Fa;Br;So")
+    entry = m.Entry("nus", "n", senses=[original, table29, cousin])
+    assert m.apply_kinship_aliases(entry.senses, {("nus", "females brother"): "o;Br"}) == 1
+    assert m.dedupe_senses([entry]) == 1
+    assert [s.kindiv for s in entry.senses] == ["o;Br", "o;Fa;Br;So"]
+
+
+def test_weak_link_yields_to_hand_made_link_for_same_gloss() -> None:
+    weak = m.OntSense(0, "txiv", ["fruit"], "three_dimensional_object")
+    weak.ili, weak.method = "i61322", "monosemous+category"
+    strong = m.OntSense(-1, "txiv", ["fruit"], "Food and drink")
+    strong.ili, strong.method = "i105676", "concepticon-id"
+    entry = m.Entry("txiv", "n", senses=[weak, strong])
+    assert m.dedupe_senses([entry]) == 1
+    assert [s.ili for s in entry.senses] == ["i105676"]
+
+
+def test_two_hand_made_links_for_one_gloss_stay_apart() -> None:
+    person = m.OntSense(-1, "txiv", ["male"], "Kinship")
+    person.ili, person.method = "i8089", "concepticon-id"
+    animal = m.OntSense(-1, "txiv", ["male"], "Animals")
+    animal.ili, animal.method = "i8088", "concepticon-id"
+    entry = m.Entry("txiv", "a", senses=[person, animal])
+    assert m.dedupe_senses([entry]) == 0
 
 
 if __name__ == "__main__":

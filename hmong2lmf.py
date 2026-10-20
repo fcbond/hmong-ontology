@@ -191,6 +191,9 @@ class OntSense:
     source: str = ""
     #: a KinDiv kin-type code, where the sense is a kinship term mapped to one
     kindiv: str = ""
+    #: False for a compositional phrase that translates a concept but is not a word,
+    #: such as a classifier-specified compound: written as Sense lexicalized="false"
+    lexicalized: bool = True
     #: the source's own definition, where it anchors the sense: Wiktionary numbers
     #: its senses privately, so the definition text is what distinguishes two
     #: translations of one English lemma
@@ -203,8 +206,15 @@ class OntSense:
     # filled in by linking
     ili: str | None = None
     method: str = "unprocessed"
+    #: the one gloss a gloss-matching route linked by, where a sense has several
+    linked_gloss: str = ""
     candidates: set[str] = field(default_factory=set)
     candidate_notes: dict[str, str] = field(default_factory=dict)
+    #: the definition of a new concept proposed for CILI, from ili-proposals.tsv;
+    #: the sense's synset is then written ili="in" with this as its ILIDefinition
+    ili_definition: str = ""
+    #: the proposed concept's relation to the nearest existing one, e.g. "similar i67941"
+    ili_relation: str = ""
 
     @property
     def pos(self) -> str:
@@ -343,7 +353,9 @@ def read_ontology(
             sense = OntSense(index, form, glosses, category, note=sense_note,
                              dialect=lemma_dialect, functions=functions,
                              classifies=classifies, classified_by=classified_by,
-                             kindiv=kindiv)
+                             kindiv=kindiv,
+                             lexicalized=text_of(sense_element.find("lexicalized"))
+                             != "false")
             senses.append(sense)
 
             key = (form, sense.pos, lemma_dialect)
@@ -389,6 +401,7 @@ def read_dbnary(
     threshold: float = 0.12, margin: float = 1.5,
     review: list[dict[str, str]] | None = None,
     already: set[tuple[str, str, str]] | None = None,
+    proposals: list[dict[str, str]] | None = None,
 ) -> list[OntSense]:
     """Senses from the sense-anchored Wiktionary translations in `dbnary-hmong.tsv`.
 
@@ -406,7 +419,9 @@ def read_dbnary(
 
     A declined row is not a dead end: the candidates are there, with their
     definitions, and a speaker could choose between them in seconds. Pass `review`
-    to collect them, and `write_review` turns that into an annotation sheet.
+    to collect them, and `write_review` turns that into an annotation sheet. Pass
+    `proposals` to collect the rows it did decide in the same form: the build lists
+    them as candidates for a speaker to check rather than linking them.
 
     `already` holds the (form, English lemma, Wiktionary definition) triples
     triangulation has decided. Those are skipped, because triangulation is the
@@ -472,6 +487,19 @@ def read_dbnary(
             # the ILI is decided here, not by the gloss routes
             sense.ili, sense.method = str(best[1].ili), "dbnary-sense"
             senses.append(sense)
+            if proposals is not None:
+                proposals.append({
+                    "VERDICT": "",
+                    "FORM": sense.form,
+                    "DIALECT": dialect,
+                    "ENGLISH": row["ENGLISH"],
+                    "POS": pos,
+                    "WHY": f"proposed: best definition match [{best[0]:.2f}]",
+                    "WIKTIONARY_SENSE": row["DEFINITION"],
+                    "CANDIDATES": " | ".join(
+                        f"{c.ili}={(c.definitions() or [''])[0][:70]} [{score:.2f}]"
+                        for score, c in scored[:5]),
+                })
     return senses
 
 
@@ -497,9 +525,119 @@ def write_review(path: Path, rows: list[dict[str, str]]) -> None:
         writer.writerows(rows)
 
 
+#: an ILI at the head of a triangulation candidate, as `i123(4: de,fr)`
+CANDIDATE_ILI = re.compile(r"\b(i[\w-]+)\(")
+
+
+def describe_candidates(rows: list[dict[str, str]], english: wn.Wordnet) -> None:
+    """Spell out each triangulation candidate's English lemmas and definition.
+
+    A bare ILI asks the reviewer to look it up; with the lemmas and definition on
+    the line, choosing between two candidates is a matter of reading them.
+    """
+    def spell(match: re.Match[str]) -> str:
+        found = english.synsets(ili=match.group(1))
+        if not found:
+            return match.group(0)
+        synset = found[0]
+        lemmas = ", ".join(synset.lemmas()[:3])
+        definition = (synset.definitions() or [""])[0][:70]
+        return f"{match.group(1)} [{lemmas}: {definition}]("
+
+    for row in rows:
+        if row.get("CANDIDATES"):
+            row["CANDIDATES"] = CANDIDATE_ILI.sub(spell, row["CANDIDATES"])
+
+
+ADJUDICATION_FIELDS = ["FORM", "DIALECT", "GLOSS", "ILI", "BY", "NOTE"]
+
+
+def read_adjudications(path: Path) -> list[dict[str, str]]:
+    """A speaker's verdicts on links, one row per sense: `adjudications.tsv`.
+
+    `GLOSS` picks out the sense by one of its glosses. An empty `ILI` means the
+    sense has no good concept and must stay unlinked.
+    """
+    with path.open(newline="", encoding="utf8") as handle:
+        return [row for row in csv.DictReader(handle, delimiter="\t")
+                if row.get("FORM") and not row["FORM"].startswith("#")]
+
+
+def apply_adjudications(
+    senses: list[OntSense], verdicts: list[dict[str, str]]
+) -> list[dict[str, str]]:
+    """Overrule the linking routes wherever a speaker has decided the sense.
+
+    A verdict is evidence of a different kind from any route: someone who knows
+    the language read the candidates and chose. So it replaces whatever a route
+    chose, including a Concepticon identifier. Returns the verdicts that matched
+    no sense, which usually means the ontology entry has changed under them.
+    """
+    unmatched = []
+    for verdict in verdicts:
+        hits = [s for s in senses
+                if s.form == normalise_form(verdict["FORM"])
+                and s.dialect == verdict["DIALECT"]
+                and verdict["GLOSS"] in s.glosses]
+        for sense in hits:
+            sense.ili = verdict["ILI"] or None
+            sense.method = "adjudicated" if verdict["ILI"] else "adjudicated-unlinked"
+            sense.note = "; ".join(n for n in (
+                sense.note, f"adjudicated by {verdict['BY']}: {verdict['NOTE']}") if n)
+        if not hits:
+            unmatched.append(verdict)
+    return unmatched
+
+
+ILI_PROPOSAL_FIELDS = ["FORM", "DIALECT", "GLOSS", "POS", "DEFINITION", "RELATION",
+                       "TARGET", "BY", "NOTE"]
+
+
+def read_ili_proposals(path: Path) -> list[dict[str, str]]:
+    """New concepts proposed for CILI, one row per sense: `ili-proposals.tsv`.
+
+    FORM, DIALECT and GLOSS pick out the sense as in `adjudications.tsv`;
+    DEFINITION defines the new concept, and RELATION and TARGET relate it to
+    the nearest concept the index already has.
+    """
+    return read_adjudications(path)
+
+
+def apply_ili_proposals(
+    senses: list[OntSense], proposals: list[dict[str, str]]
+) -> list[dict[str, str]]:
+    """Mark each proposed sense as a new concept, with its draft definition.
+
+    Only an unlinked sense can be proposed: a sense with an ILI already has a
+    concept, and a proposal that finds it linked means the two files disagree.
+    The relation to the nearest concept goes into the note, because its target
+    is in no synset of this lexicon. Returns the proposals that matched no
+    unlinked sense.
+    """
+    unmatched = []
+    for proposal in proposals:
+        hits = [s for s in senses
+                if s.form == normalise_form(proposal["FORM"])
+                and s.dialect == proposal["DIALECT"]
+                and proposal["GLOSS"] in s.glosses
+                and not s.ili]
+        relation = " ".join(x for x in (proposal["RELATION"], proposal["TARGET"]) if x)
+        for sense in hits:
+            sense.ili_definition = proposal["DEFINITION"]
+            sense.ili_relation = relation
+            sense.note = "; ".join(n for n in (
+                sense.note,
+                f"proposed as a new concept by {proposal['BY']}"
+                + (f", {relation}" if relation else "")) if n)
+        if not hits:
+            unmatched.append(proposal)
+    return unmatched
+
+
 def read_dbnary_pivots(
     path: Path, dialect: str, pivots: dict[str, wn.Wordnet],
     source: str = "triangulated", min_support: int = 2,
+    proposals: list[dict[str, str]] | None = None,
 ) -> tuple[list[OntSense], list[dict[str, str]]]:
     r"""Link Hmong senses by intersecting other languages' translations of the same
     English sense.
@@ -519,10 +657,12 @@ def read_dbnary_pivots(
 
     `min_support` counts the languages backing the *winning* ILI, not the languages
     that produced any candidate at all. That distinction matters: counting the
-    latter is a mistake we made in earlier work on this method, and fixing it moved
-    precision from 85.4% to 90.7%.
+    latter would pass a link backed by one language whenever a second language
+    proposed something else.
 
     Returns the senses it could link, and a review row for every group it could not.
+    Pass `proposals` to collect a row for each linked sense as well, in the same
+    form: the build lists those as candidates for a speaker to check.
     """
     groups: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
     with path.open(newline="", encoding="utf8") as handle:
@@ -582,6 +722,20 @@ def read_dbnary_pivots(
             senses[-1].ili = best
             senses[-1].method = f"triangulated-{len(support)}"
             senses[-1].pos_override = pos_of_ili(best, pivots) or "n"
+            if proposals is not None:
+                proposals.append({
+                    "VERDICT": "",
+                    "FORM": normalise_form(form),
+                    "DIALECT": dialect,
+                    "ENGLISH": english,
+                    "WHY": f"proposed: {len(support)} of {len(words)} languages agree",
+                    "WIKTIONARY_SENSE": definition,
+                    "PIVOTS": "; ".join(f"{iso}={'/'.join(sorted(w))}"
+                                        for iso, w in sorted(words.items()))[:300],
+                    "CANDIDATES": " | ".join(
+                        f"{ili}({len(langs)}: {','.join(sorted(langs))})"
+                        for ili, langs in ranked[:5]),
+                })
         else:
             review.append({
                 "VERDICT": "",
@@ -692,6 +846,7 @@ def merge_into_entries(entries: list[Entry], senses: list[OntSense]) -> int:
 #: Only the prefix is compared, so `triangulated-7` and `intersection+category`
 #: are ranked by their route.
 METHOD_STRENGTH = (
+    "adjudicated",        # a speaker's verdict, from adjudications.tsv
     "concepticon-id",     # a hand-mapped concept set identifier
     "triangulated",       # several other languages' lexicographers agreeing
     "concepticon",        # a gloss that is also a Concepticon gloss
@@ -733,6 +888,8 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
         if form not in keeper.classified_by:
             keeper.classified_by.append(form)
     keeper.kindiv = keeper.kindiv or loser.kindiv
+    # a second source attesting the form as a word outweighs a phrase reading
+    keeper.lexicalized = keeper.lexicalized or loser.lexicalized
     keeper.concepticon = keeper.concepticon or loser.concepticon
     keeper.definition = keeper.definition or loser.definition
     keeper.candidates |= loser.candidates
@@ -745,6 +902,7 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
     if method_rank(loser.method) < method_rank(keeper.method):
         other = keeper.source
         keeper.method = loser.method
+        keeper.linked_gloss = loser.linked_gloss
         keeper.source = loser.source or keeper.source
     notes = [n for n in (keeper.note, loser.note, note) if n]
     if other and other != keeper.source:
@@ -752,8 +910,49 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
     keeper.note = "; ".join(dict.fromkeys(notes)) or None
 
 
+#: links made by hand: a speaker's verdict, or a concept set mapped to the index
+HAND_MADE = ("adjudicated", "concepticon")
+
+
+def defer_weak_links(entries: list[Entry]) -> int:
+    """Let a monosemous-gloss link give way to a hand-made one for the same gloss.
+
+    Two senses of one word with the same English gloss usually describe one
+    sense. Where one reached the index only because its gloss has a single
+    candidate after the category filter -- the weakest evidence there is -- and
+    the other through a hand-made concept set or a speaker's verdict, they
+    disagree only because the weak route found the wrong synset: `txiv` 'fruit'
+    filed as a three-dimensional object keeps only 'yield, fruit: an amount of a
+    product', where WOLD's concept set gives the fruit of a plant. The weak sense
+    takes the hand-made ILI, and `dedupe_senses` then merges the two. Two
+    hand-made links that differ are left alone: concept sets that share a gloss
+    can be deliberately distinct (WOLD's 'male' of a person and of an animal).
+    Returns the number of links changed.
+    """
+    changed = 0
+    for entry in entries:
+        strong: dict[str, OntSense] = {}
+        for sense in entry.senses:
+            if sense.ili and sense.method.startswith(HAND_MADE):
+                for gloss in sense.glosses:
+                    strong.setdefault(normalise_gloss(gloss).lower(), sense)
+        for sense in entry.senses:
+            if not sense.ili or not sense.method.startswith("monosemous"):
+                continue
+            for gloss in sense.glosses:
+                other = strong.get(normalise_gloss(gloss).lower())
+                if other is not None and other.ili != sense.ili:
+                    sense.note = "; ".join(n for n in (
+                        sense.note, f"monosemous link {sense.ili} replaced by the "
+                        f"{other.method} link for the same gloss") if n)
+                    sense.ili = other.ili
+                    changed += 1
+                    break
+    return changed
+
+
 def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -> int:
-    """Collapse senses of one entry that resolved to the same ILI.
+    """Collapse senses of one entry that resolved to the same ILI or KinDiv code.
 
     Two sources describing the same word and the same concept are describing one
     sense, not two. Without this the merged lexicon lists the same lemma twice in a
@@ -770,17 +969,21 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
     instead the sense whose part of speech matches the ILI's is the one kept.
     """
     ili_pos = ILI_POS if ili_pos is None else ili_pos
+    defer_weak_links(entries)
     removed = 0
     for entry in entries:
         seen: dict[str, OntSense] = {}
         keep: list[OntSense] = []
         for sense in entry.senses:
-            if not sense.ili:
+            # a KinDiv code identifies a concept as an ILI does, so two unlinked
+            # senses with the same code are one sense
+            key = sense.ili or (f"KinDiv:{sense.kindiv}" if sense.kindiv else "")
+            if not key:
                 keep.append(sense)
                 continue
-            first = seen.get(sense.ili)
+            first = seen.get(key)
             if first is None:
-                seen[sense.ili] = sense
+                seen[key] = sense
                 keep.append(sense)
                 continue
             absorb(first, sense)
@@ -861,13 +1064,17 @@ def read_concepticon(path: Path) -> dict[str, tuple[str, str]]:
     Concepticon conceptlist. Only rows the conceptlist marks `ss`, a genuine
     synonym link, are used: its `ui` and `iu` rows are deliberately inexact and
     would put a sense in the wrong synset.
+
+    A concept set with no exact link maps to `("", "")` rather than being left
+    out: the gloss route needs to know that Concepticon has the concept, and only
+    lacks a link for it, so that it does not fall through to a later gloss.
     """
     mapping: dict[str, tuple[str, str]] = {}
     with path.open(newline="", encoding="utf8") as handle:
         for row in csv.DictReader(handle, delimiter="\t"):
-            if row.get("RELATION") != "ss" or not row.get("ILI"):
-                continue
-            mapping[normalise_gloss(row["GLOSS"]).lower()] = (row["ILI"], row["POS"] or "")
+            exact = row.get("RELATION") == "ss" and row.get("ILI")
+            mapping[normalise_gloss(row["GLOSS"]).lower()] = (
+                (row["ILI"], row["POS"] or "") if exact else ("", ""))
     return mapping
 
 
@@ -937,6 +1144,24 @@ CLDF_POS = {"Noun": "n", "Verb": "v", "Adjective": "a", "Adverb": "r",
             "Property": "a", "Other": "x", "Number": "n", "Classifier": "x"}
 
 
+def cldf_glosses(name: str) -> list[str]:
+    """The English glosses in a CLDF meaning name.
+
+    WOLD names meanings as phrases ("the world", "to eat"), numbers homonymous
+    names ("fork(2)", "male(1)"), and joins spelling variants and synonyms with a
+    slash ("the axe/ax", "the shop/store"). Each alternative becomes a gloss of
+    its own, so that two of them can intersect on one synset as any pair of
+    glosses does; left joined, "axe/ax" is no English lemma and links nothing.
+    """
+    name = re.sub(r"^(the|a|an|to) ", "", name.strip())
+    glosses = []
+    for part in name.split("/"):
+        part = re.sub(r"\(\d+\)", "", part).strip()
+        if part and part not in glosses:
+            glosses.append(part)
+    return glosses
+
+
 def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntSense]:
     """Senses from a CLDF wordlist, for one of its languages.
 
@@ -967,8 +1192,7 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
             parameter = parameters.get(row["Parameter_ID"])
             if parameter is None:
                 continue
-            # meanings are named as phrases: "the world", "to eat"
-            gloss = re.sub(r"^(the|a|an|to) ", "", parameter["Name"].strip())
+            glosses = cldf_glosses(parameter["Name"])
             notes = []
             if row.get("Borrowed") and not row["Borrowed"].startswith("5."):
                 notes.append(f"{source} borrowing: {row['Borrowed']}")
@@ -978,7 +1202,7 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
                 OntSense(
                     lemma_index=-1,
                     form=normalise_form(row["Form"]),
-                    glosses=[gloss],
+                    glosses=glosses,
                     category=parameter.get("Semantic_field", ""),
                     note="; ".join(notes) or None,
                     dialect="WH",
@@ -989,6 +1213,72 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
                     source=source,
                 )
             )
+    return merge_speaker_sex(senses)
+
+
+#: WOLD's in-law meanings are split by the speaker's sex, "the father-in-law (of a
+#: man)" and "(of a woman)", a distinction some languages lexicalise
+SPEAKER_SEX = re.compile(r"^(?P<base>.+?) \(of a (?:man|woman)\)$")
+
+
+def read_kinship_aliases(path: Path) -> dict[tuple[str, str], str]:
+    """Further glosses for KinDiv-mapped kinship senses: `kinship-aliases.tsv`.
+
+    Keyed by (form, normalised gloss); the value is the KinDiv kin-type code.
+    """
+    with path.open(newline="", encoding="utf8") as handle:
+        return {(normalise_form(row["FORM"]), normalise_gloss(row["GLOSS"]).lower()):
+                row["KINDIV"]
+                for row in csv.DictReader(handle, delimiter="\t")
+                if row.get("FORM") and not row["FORM"].startswith("#")}
+
+
+def apply_kinship_aliases(
+    senses: list[OntSense], aliases: dict[tuple[str, str], str]
+) -> int:
+    """Give a KinDiv code to each sense whose gloss is a listed alias.
+
+    Returns the number of senses that received one.
+    """
+    count = 0
+    for sense in senses:
+        if sense.kindiv:
+            continue
+        for gloss in sense.glosses:
+            code = aliases.get((sense.form, normalise_gloss(gloss).lower()))
+            if code:
+                sense.kindiv = code
+                count += 1
+                break
+    return count
+
+
+def merge_speaker_sex(senses: list[OntSense]) -> list[OntSense]:
+    """Collapse a form given for both speaker-sex variants of one meaning.
+
+    A word listed for both "father-in-law (of a man)" and "(of a woman)" does not
+    mark the speaker's sex, so it has one sense, the general one: Hmong `txiv` for
+    both is 'father-in-law', where `yawg txiv` and `txiv yawg`, each listed for
+    one, keep the specific meaning. The merged sense takes the bare gloss
+    ("father-in-law") and no concept set, since both of the source's concept sets
+    are the specific ones.
+    """
+    groups: dict[tuple[str, str], list[OntSense]] = defaultdict(list)
+    for sense in senses:
+        match = SPEAKER_SEX.match(sense.glosses[0]) if sense.glosses else None
+        if match:
+            groups[(sense.form, match["base"])].append(sense)
+    for (_, base), group in groups.items():
+        if len(group) < 2:
+            continue
+        keeper = group[0]
+        keeper.glosses = [base]
+        keeper.concepticon = ""
+        keeper.note = "; ".join(n for n in (
+            keeper.note, f"given for both '{base} (of a man)' and "
+            f"'{base} (of a woman)'") if n)
+        for other in group[1:]:
+            senses.remove(other)
     return senses
 
 
@@ -1121,11 +1411,18 @@ def link_by_concepticon(
             if found and found[1] == sense.pos:
                 sense.ili, sense.method = found[0], "concepticon-id"
                 continue
+        # a sense's glosses are tried in order, but only past glosses Concepticon
+        # does not know. Where it has the concept and no exact link for it, a
+        # later gloss names a different concept: `tua` 'kill; shoot' must not
+        # link to SHOOT because Borin's KILL is inexact
         for gloss in sense.glosses:
             found = concepticon.get(normalise_gloss(gloss).lower())
-            if found and found[1] == sense.pos:
+            if found is None:
+                continue
+            if found[0] and found[1] == sense.pos:
                 sense.ili, sense.method = found[0], "concepticon"
-                break
+                sense.linked_gloss = gloss
+            break
 
 
 def build_synsets(senses: list[OntSense]) -> dict[str, list[OntSense]]:
@@ -1286,6 +1583,7 @@ def write_lmf(
                     [
                         ("id", f"{entry_id}-{position}"),
                         ("synset", synset_of[id(sense)]),
+                        ("lexicalized", None if sense.lexicalized else "false"),
                         ("note", sense.note),
                     ]
                 )
@@ -1319,6 +1617,17 @@ def write_lmf(
         # where the interlingual index has no entry for it, so it goes on the synset
         # as dc:identifier, which is what KinDiv's own build does
         kindiv = sorted({s.kindiv for s in members if s.kindiv})
+        # a proposed new concept carries ili="in" and its own definition in place
+        # of the gloss, which for these senses is the reading a speaker rejected
+        proposal = next((s for s in members if s.ili_definition), None)
+        if proposal and not ili:
+            ili = "in"
+            glosses = [proposal.ili_definition]
+        if ili == "in":
+            note = "proposed new concept" + (
+                f", {proposal.ili_relation}" if proposal.ili_relation else "")
+        else:
+            note = f"linked by {members[0].method}" if ili else members[0].method
         # id and ili are #REQUIRED; an unlinked synset carries ili="".
         lines.append(
             "    <Synset"
@@ -1330,7 +1639,7 @@ def write_lmf(
                     ("dc:type", ", ".join(functions) or None),
                     ("dc:identifier",
                      f"KinDiv:{kindiv[0]}" if len(kindiv) == 1 else None),
-                    ("note", f"linked by {members[0].method}" if ili else members[0].method),
+                    ("note", note),
                 ]
             )
             + ">"
@@ -1338,6 +1647,9 @@ def write_lmf(
         lines.append(
             f'      <Definition language="en">{escape("; ".join(glosses))}</Definition>'
         )
+        if ili == "in":
+            lines.append(f"      <ILIDefinition>{escape(proposal.ili_definition)}"
+                         "</ILIDefinition>")
         for rel_type, target, confidence in sorted(relations.get(synset_id, set())):
             lines.append(
                 "      <SynsetRelation"
@@ -1419,15 +1731,25 @@ def main() -> int:
                              "same senses, for triangulation. Needs the pivot "
                              "wordnets in the wn data directory")
     parser.add_argument("--pivot-review", type=Path, metavar="FILE",
-                        help="write the triangulation groups that did not decide")
+                        help="write the triangulation candidates, decided or not, "
+                             "as an annotation sheet")
     parser.add_argument("--allow-missing-pivots", action="store_true",
                         help="triangulate even though some pivot wordnets are not "
                              "loaded. The links then depend on which wordnets happen "
                              "to be installed, so this is for exploration, not for "
                              "any run whose figures are reported")
     parser.add_argument("--dbnary-review", type=Path, metavar="FILE",
-                        help="write the Wiktionary candidates the definition "
-                             "comparison could not decide, as an annotation sheet")
+                        help="write the Wiktionary definition-match candidates, "
+                             "decided or not, as an annotation sheet")
+    parser.add_argument("--adjudications", type=Path, metavar="FILE",
+                        help="adjudications.tsv: a speaker's verdicts on links, "
+                             "which overrule every route")
+    parser.add_argument("--kinship-aliases", type=Path, metavar="FILE",
+                        help="kinship-aliases.tsv: further glosses for KinDiv-mapped "
+                             "kinship senses, so that duplicates merge")
+    parser.add_argument("--ili-proposals", type=Path, metavar="FILE",
+                        help="ili-proposals.tsv: new concepts proposed for CILI, "
+                             "written as ili=\"in\" synsets")
     parser.add_argument("--dbnary", type=Path, metavar="FILE",
                         help="dbnary-hmong.tsv, the sense-anchored Wiktionary "
                              "translations produced by fetch_dbnary.py")
@@ -1483,7 +1805,8 @@ def main() -> int:
     if args.concepticon:
         concepticon = read_concepticon(args.concepticon)
         by_id = read_concepticon_ids(args.concepticon)
-        print(f"read {len(concepticon)} exact Concepticon links from {args.concepticon}")
+        exact = sum(1 for ili, _ in concepticon.values() if ili)
+        print(f"read {exact} exact Concepticon links from {args.concepticon}")
 
     for spec in args.cldf or []:
         if not by_id:
@@ -1535,35 +1858,60 @@ def main() -> int:
         if missing_pivots:
             print(f"warning: triangulating without {len(missing_pivots)} pivot "
                   f"wordnets: {' '.join(missing_pivots)}", file=sys.stderr)
+        # Wiktionary's Hmong is elicited from English, so its translations and the
+        # English senses they hang on are candidates for a speaker to check, never
+        # links: nothing from this route reaches the lexicon
+        proposed: list[dict[str, str]] = []
         extra, pivot_review = read_dbnary_pivots(
             args.pivots, args.dialect if args.dialect != "all" else "WH",
-            pivot_wordnets)
+            pivot_wordnets, proposals=proposed)
         triangulated = {(s.form, s.glosses[0], s.definition) for s in extra}
-        created = merge_into_entries(entries, extra)
-        senses.extend(extra)
-        print(f"triangulated {len(extra)} senses through {len(pivot_wordnets)} pivot "
-              f"wordnets: {created} new entries, {len(extra) - created} on entries "
-              f"already present; {len(pivot_review)} groups undecided")
+        print(f"triangulation proposed {len(extra)} candidate senses through "
+              f"{len(pivot_wordnets)} pivot wordnets; {len(pivot_review)} groups "
+              f"undecided. None is linked until a speaker checks it")
         if args.pivot_review:
-            write_review(args.pivot_review, pivot_review)
-            print(f"  wrote {args.pivot_review}")
+            sheet = proposed + pivot_review
+            describe_candidates(sheet, english)
+            write_review(args.pivot_review, sheet)
+            print(f"  wrote {args.pivot_review}: {len(sheet)} candidates")
 
     if args.dbnary:
         review: list[dict[str, str]] = []
+        proposed = []
         extra = read_dbnary(args.dbnary, english,
                             args.dialect if args.dialect != "all" else "WH",
-                            review=review, already=triangulated)
-        created = merge_into_entries(entries, extra)
-        senses.extend(extra)
-        print(f"read {len(extra)} sense-anchored translations from {args.dbnary}: "
-              f"{created} new entries, {len(extra) - created} on entries already present")
+                            review=review, already=triangulated, proposals=proposed)
+        print(f"the Wiktionary definition match proposed {len(extra)} candidate "
+              f"senses and declined {len(review)}; none is linked")
         if args.dbnary_review:
-            write_review(args.dbnary_review, review)
-            print(f"  wrote {args.dbnary_review}: {len(review)} declined candidates "
-                  f"for a speaker to choose between")
+            write_review(args.dbnary_review, proposed + review)
+            print(f"  wrote {args.dbnary_review}: {len(proposed) + len(review)} "
+                  f"candidates for a speaker to choose between")
 
+    if args.kinship_aliases:
+        coded = apply_kinship_aliases(senses, read_kinship_aliases(args.kinship_aliases))
+        print(f"gave {coded} kinship senses a KinDiv code from {args.kinship_aliases}")
     link_senses(senses, english, not args.no_stative_adjective,
                 not args.no_category_filter, lemmatiser, concepticon, by_id)
+    if args.adjudications:
+        verdicts = [v for v in read_adjudications(args.adjudications)
+                    if args.dialect in ("all", v["DIALECT"])]
+        unmatched = apply_adjudications(senses, verdicts)
+        print(f"applied {len(verdicts) - len(unmatched)} of {len(verdicts)} "
+              f"adjudications from {args.adjudications}")
+        for verdict in unmatched:
+            print(f"  warning: no sense {verdict['FORM']} '{verdict['GLOSS']}' "
+                  f"({verdict['DIALECT']}) to adjudicate", file=sys.stderr)
+    if args.ili_proposals:
+        proposals = [p for p in read_ili_proposals(args.ili_proposals)
+                     if args.dialect in ("all", p["DIALECT"])]
+        unmatched = apply_ili_proposals(senses, proposals)
+        print(f"proposed {len(proposals) - len(unmatched)} of {len(proposals)} "
+              f"new concepts from {args.ili_proposals}")
+        for proposal in unmatched:
+            print(f"  warning: no unlinked sense {proposal['FORM']} "
+                  f"'{proposal['GLOSS']}' ({proposal['DIALECT']}) to propose",
+                  file=sys.stderr)
 
     record_ili_pos(senses, english)
     merged = dedupe_senses(entries)

@@ -61,11 +61,16 @@ def answers(senses: list[m.OntSense], prefix: str) -> dict[tuple[str, str], str]
     The gloss has to be part of the key. `cua` is 'wind' in the ontology and 'air'
     in Wiktionary, `hli` is 'month' and 'moon': keying on the form alone compares
     two different senses and manufactures a disagreement.
+
+    Where a route records the one gloss it linked by, only that gloss is a key.
+    `cai` 'law; rule; custom' links to LAW through 'law'; filing that answer under
+    'custom' as well would set it against triangulation's answer for 'custom' and
+    manufacture a disagreement the same way.
     """
     found: dict[tuple[str, str], str] = {}
     for sense in senses:
         if sense.ili and sense.method.startswith(prefix):
-            for gloss in sense.glosses:
+            for gloss in [sense.linked_gloss] if sense.linked_gloss else sense.glosses:
                 found.setdefault((sense.form, m.normalise_gloss(gloss).lower()),
                                  str(sense.ili))
     return found

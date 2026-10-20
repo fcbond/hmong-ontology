@@ -12,6 +12,7 @@
     "added": 229,
     "already_lemmas": 63,
     "bisang_only": 49,
+    "bisang_only_measures": 37,
     "both": 51,
     "by_class": {
       "event": 24,
@@ -346,8 +347,14 @@
     },
     "kindiv_exact": 26,
     "kindiv_mapped": 28,
+    "kindiv_origin": {
+      "KinDiv": 6,
+      "Murdock": 14,
+      "extension": 8
+    },
     "kindiv_proposed": 0,
     "no_english_lemma": 23,
+    "no_english_lemma_in_kindiv": 19,
     "senses": 37,
     "with_gm": 16
   },

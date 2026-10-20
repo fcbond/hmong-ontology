@@ -131,6 +131,7 @@ def main() -> int:
     underspec = rows_of(here / "underspecified.tsv")
     kinship = rows_of(here / "kinship.tsv")
     kindiv = rows_of(here / "kinship-kindiv.tsv")
+    kindiv_code = {(r["WH"], r["GLOSS"]): (r["KINDIV"], r["ORIGIN"]) for r in kindiv}
     kindiv_proposals = tables_of(here / "kindiv-proposals.tsv")
     dbnary = list(csv.DictReader(args.dbnary.open(encoding="utf8"), delimiter="\t"))
     pivots = list(csv.DictReader(args.pivots.open(encoding="utf8"), delimiter="\t"))
@@ -141,6 +142,9 @@ def main() -> int:
         "gm": sum(1 for r in classifiers if r["DIALECT"] == "GM"),
         "bisang_only": sum(1 for r in classifiers
                            if cites(r, "B") and not cites(r, "W")),
+        "bisang_only_measures": sum(1 for r in classifiers
+                                    if cites(r, "B") and not cites(r, "W")
+                                    and r["BISANG_CATEGORY"] == "measure"),
         "white_only": sum(1 for r in classifiers
                           if cites(r, "W") and not cites(r, "B")),
         "both": sum(1 for r in classifiers if cites(r, "W") and cites(r, "B")),
@@ -172,6 +176,13 @@ def main() -> int:
         "kindiv_mapped": len(kindiv),
         "kindiv_exact": sum(1 for r in kindiv if r["RELATION"] == "exact"),
         "kindiv_proposed": sum(1 for r in kindiv if r["RELATION"] == "proposed"),
+        # where each code comes from: Murdock's kin types, KinDiv's own additions,
+        # or our extension, which the published KinDiv does not have
+        "kindiv_origin": dict(collections.Counter(r["ORIGIN"] for r in kindiv)),
+        "no_english_lemma_in_kindiv": sum(
+            1 for r in kinship if r["ILI_STATUS"].startswith("propose")
+            and kindiv_code.get((r["WH"], r["GLOSS"]), ("", ""))[1]
+            in ("Murdock", "KinDiv")),
     }
     facts["dbnary"] = {
         "sense_anchored": len(dbnary),

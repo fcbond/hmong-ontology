@@ -59,7 +59,7 @@ BIBKEYS = {
                "Abouenour:Bouzoubaa:Rosso:2013",
     "omw-bg": "Simov:Osenova:2010",
     "omw-ca": "Gonzalez-Agirre:Laparra:Rigau:2012",
-    "omw-cmn": "Wang:Bond:2013",
+    "cow": "Wang:Bond:2013",
     "omw-da": "Pedersen:2009",
     "omw-el": "Stamou:Nenadic:Christodoulakis:2004",
     "oewn": "mccrae-etal-2019-english",
@@ -70,10 +70,10 @@ BIBKEYS = {
     "omw-gl": "Gonzalez-Agirre:Laparra:Rigau:2012",
     "omw-he": "Ordan:Wintner:2007",
     "omw-hr": "Oliver:Sojat:Srebacic:2015",
-    "omw-id": "Noor:Sapuan:Bond:2011",
+    "wnb-id": "Noor:Sapuan:Bond:2011",
     "omw-is": "Sigmundsson:1985",
     "omw-it": "Pianta:Bentivogli:Girardi:2002",
-    "omw-ja": "Isahara:Bond:Uchimoto:Utiyama:Kanzaki:2008",
+    "wnja": "Isahara:Bond:Uchimoto:Utiyama:Kanzaki:2008",
     "omw-lt": "Garabik:Pileckyte:2013",
     "omw-nb": "Fjeld:Nygaard:2009",
     "omw-nl": "Postma:Miltenburg:Segers:Schoen:Vossen:2016",
@@ -85,7 +85,7 @@ BIBKEYS = {
     "omw-sv": "Borin:Forsberg:Lonngren:2013",
     "omw-th": "Thoongsup:Charoenporn:Robkop:Sinthurahat:Mokarat:"
               "Sornlertlamvanich:Isahara:2009",
-    "omw-zsm": "Noor:Sapuan:Bond:2011",
+    "wnb-zsm": "Noor:Sapuan:Bond:2011",
 }
 
 #: TeX's reserved characters, so a citation that contains one does not break the

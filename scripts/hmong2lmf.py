@@ -215,6 +215,9 @@ class OntSense:
     ili_definition: str = ""
     #: the proposed concept's relation to the nearest existing one, e.g. "similar i67941"
     ili_relation: str = ""
+    #: the part of speech a speaker gave the word in an adjudication; it decides
+    #: which entry keeps the sense when two parts of speech reach one ILI
+    speaker_pos: str = ""
 
     @property
     def pos(self) -> str:
@@ -556,11 +559,21 @@ def read_adjudications(path: Path) -> list[dict[str, str]]:
     """A speaker's verdicts on links, one row per sense: `adjudications.tsv`.
 
     `GLOSS` picks out the sense by one of its glosses. An empty `ILI` means the
-    sense has no good concept and must stay unlinked.
+    sense has no good concept and must stay unlinked; `*` means the verdict is
+    not about the concept, and the link the routes made stands. An optional
+    `LEXICALIZED` column set to `false` records that the speaker judged the form
+    a phrase rather than a word (`da dej` 'bathe', literally 'bathe water'), and
+    an optional `POS` gives the part of speech the speaker assigns the word
+    (`liab` 'red' is a stative verb, `v`).
     """
     with path.open(newline="", encoding="utf8") as handle:
         return [row for row in csv.DictReader(handle, delimiter="\t")
                 if row.get("FORM") and not row["FORM"].startswith("#")]
+
+
+#: an adjudication's ILI that leaves the routes' link alone, for a verdict about
+#: something else, such as whether the form is a word
+KEEP_LINK = "*"
 
 
 def apply_adjudications(
@@ -580,8 +593,14 @@ def apply_adjudications(
                 and s.dialect == verdict["DIALECT"]
                 and verdict["GLOSS"] in s.glosses]
         for sense in hits:
-            sense.ili = verdict["ILI"] or None
-            sense.method = "adjudicated" if verdict["ILI"] else "adjudicated-unlinked"
+            if verdict["ILI"] != KEEP_LINK:
+                sense.ili = verdict["ILI"] or None
+                sense.method = ("adjudicated" if verdict["ILI"]
+                                else "adjudicated-unlinked")
+            if verdict.get("LEXICALIZED") == "false":
+                sense.lexicalized = False
+            if verdict.get("POS"):
+                sense.speaker_pos = verdict["POS"]
             sense.note = "; ".join(n for n in (
                 sense.note, f"adjudicated by {verdict['BY']}: {verdict['NOTE']}") if n)
         if not hits:
@@ -788,7 +807,7 @@ def open_pivots(
     wanted = set()
     with path.open(newline="", encoding="utf8") as handle:
         for row in csv.DictReader(handle, delimiter="\t"):
-            if row.get("PIVOT_LEXICON", "").startswith("omw-"):
+            if row.get("PIVOT_LEXICON"):
                 wanted.add(row["PIVOT_LEXICON"])
     available = {lexicon.id: lexicon for lexicon in wn.lexicons()}
     opened: dict[str, wn.Wordnet] = {}
@@ -891,6 +910,7 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
     # a second source attesting the form as a word outweighs a phrase reading
     keeper.lexicalized = keeper.lexicalized or loser.lexicalized
     keeper.concepticon = keeper.concepticon or loser.concepticon
+    keeper.speaker_pos = keeper.speaker_pos or loser.speaker_pos
     keeper.definition = keeper.definition or loser.definition
     keeper.candidates |= loser.candidates
     for ili, why in loser.candidate_notes.items():
@@ -980,8 +1000,10 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
     correspond to English adjectives, so the ontology may class a word as
     `verb.stative` where a wordlist classes it as an adjective; both then reach the
     same ILI, and the merged synset would list the written form twice. One ILI is one
-    concept and so should be one synset, which rules out splitting by part of speech;
-    instead the sense whose part of speech matches the ILI's is the one kept.
+    concept and so should be one synset, which rules out splitting by part of speech.
+    An ILI has no part of speech of its own, so the kept sense is the one whose part
+    of speech a speaker gave in an adjudication (`liab` 'red' is a stative verb), or
+    failing that the part of speech of the English synset linked to the same ILI.
     """
     ili_pos = ILI_POS if ili_pos is None else ili_pos
     removed = 0
@@ -1013,16 +1035,39 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
     for (_, ili), found in by_form_ili.items():
         if len(found) < 2:
             continue
-        # prefer the reading whose part of speech the ILI itself is recorded under
-        found.sort(key=lambda pair: pair[1].pos != (ili_pos.get(ili) or pair[1].pos))
-        keeper = found[0][1]
+        # a speaker's part of speech first, then the linked English synset's, with
+        # an English satellite adjective counting as an adjective
+        wanted = (next((s.speaker_pos for _, s in found if s.speaker_pos), "")
+                  or {"s": "a"}.get(ili_pos.get(ili, ""), ili_pos.get(ili, "")))
+        found.sort(key=lambda pair: pair[1].pos != (wanted or pair[1].pos))
+        keeper_entry, keeper = found[0]
         for entry, sense in found[1:]:
             absorb(keeper, sense,
                    f"also analysed as {sense.pos}"
                    + (f" by {sense.source}" if sense.source else ""))
             entry.senses.remove(sense)
             removed += 1
+            if not entry.senses:
+                fold_entry(keeper_entry, entry)
+    # an entry whose only sense moved would be written as a LexicalEntry with no
+    # Sense, which wn warns about (W201); its data has been folded into the keeper
+    entries[:] = [entry for entry in entries if entry.senses]
     return removed
+
+
+def fold_entry(keeper: Entry, loser: Entry) -> None:
+    """Carry an emptied entry's variants, sources, notes and loan flag to the keeper.
+
+    These belong to the written form rather than to a sense, so they stay true
+    when the form's only sense of one part of speech merges into another:
+    `kim`'s Chinese loan source must not vanish with its verb entry.
+    """
+    for name in ("variants", "sources", "notes"):
+        kept = getattr(keeper, name)
+        for item in getattr(loser, name):
+            if item not in kept:
+                kept.append(item)
+    keeper.foreign = keeper.foreign or loser.foreign
 
 
 def lexfiles_for(category: str) -> tuple[str, ...]:
@@ -1123,21 +1168,22 @@ def read_concepticon_ids(path: Path) -> dict[str, tuple[str, str]]:
     return mapping
 
 
-#: ILI -> part of speech. Pre-filled from the Concepticon mapping when one is
-#: given, then completed from English WordNet by `record_ili_pos`, which is the
-#: authority: the Concepticon file covers only the concepts it maps, so relying on
-#: it alone left the tie-break below undecided for most ILIs.
-#: Used only to break a tie when two entries reach the same ILI.
+#: ILI -> the part of speech of the English synset linked to it (an ILI has none
+#: of its own). Pre-filled from the Concepticon mapping when one is given, then
+#: completed from English WordNet by `record_ili_pos`, which is the authority:
+#: the Concepticon file covers only the concepts it maps, so relying on it alone
+#: left the tie-break below undecided for most ILIs. Used only to break a tie
+#: when two entries reach the same ILI and no speaker has given a part of speech.
 ILI_POS: dict[str, str] = {}
 
 
 def record_ili_pos(senses: list[OntSense], english: wn.Wordnet) -> int:
     """Record the part of speech English WordNet gives each linked ILI.
 
-    `dedupe_senses` keeps the reading whose part of speech matches the ILI's own,
-    so it needs that part of speech for every ILI two entries might share --- not
-    only for the ones a Concepticon mapping happens to cover. Returns how many
-    were added.
+    Unless a speaker has said otherwise, `dedupe_senses` keeps the reading whose
+    part of speech matches that synset's, so it needs it for every ILI two entries
+    might share --- not only for the ones a Concepticon mapping happens to cover.
+    Returns how many were added.
     """
     added = 0
     for sense in senses:

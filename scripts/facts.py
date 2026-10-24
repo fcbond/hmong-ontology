@@ -33,6 +33,7 @@ from wn.morphy import Morphy
 
 import conflicts
 import hmong2lmf as m
+import merge_nw_classifiers
 
 
 #: First column of each header row in a file that holds several tables one after
@@ -131,27 +132,37 @@ def main() -> int:
     underspec = rows_of(here / "underspecified.tsv")
     kinship = rows_of(here / "kinship.tsv")
     kindiv = rows_of(here / "kinship-kindiv.tsv")
+    nw_rows = merge_nw_classifiers.read_nw(here / "classifiers-nw.tsv")
     kindiv_code = {(r["WH"], r["GLOSS"]): (r["KINDIV"], r["ORIGIN"]) for r in kindiv}
     kindiv_proposals = tables_of(here / "kindiv-proposals.tsv")
     dbnary = list(csv.DictReader(args.dbnary.open(encoding="utf8"), delimiter="\t"))
     pivots = list(csv.DictReader(args.pivots.open(encoding="utf8"), delimiter="\t"))
+
+    def white(row: dict[str, str]) -> bool:
+        """Whether a row cites White's thesis (W) or his 2019 chapter (W19)."""
+        return cites(row, "W") or cites(row, "W19")
 
     facts["classifiers"] = {
         "rows": len(classifiers),
         "wh": sum(1 for r in classifiers if r["DIALECT"] == "WH"),
         "gm": sum(1 for r in classifiers if r["DIALECT"] == "GM"),
         "bisang_only": sum(1 for r in classifiers
-                           if cites(r, "B") and not cites(r, "W")),
+                           if cites(r, "B") and not white(r)),
         "bisang_only_measures": sum(1 for r in classifiers
-                                    if cites(r, "B") and not cites(r, "W")
+                                    if cites(r, "B") and not white(r)
                                     and r["BISANG_CATEGORY"] == "measure"),
         "white_only": sum(1 for r in classifiers
-                          if cites(r, "W") and not cites(r, "B")),
-        "both": sum(1 for r in classifiers if cites(r, "W") and cites(r, "B")),
+                          if white(r) and not cites(r, "B")),
+        "white_2019": sum(1 for r in classifiers if cites(r, "W19")),
+        # rows merge_nw_classifiers.py added from Nathan White's own inventory,
+        # whose definitions it writes as "a ... classifier glossed '...' by White"
+        "from_nw_inventory": sum(1 for r in classifiers
+                                 if r["DEFINITION"].endswith("' by White")),
+        "both": sum(1 for r in classifiers if white(r) and cites(r, "B")),
         "speaker_only": sum(1 for r in classifiers if cites(r, "NW")
-                            and not cites(r, "W") and not cites(r, "B")),
+                            and not white(r) and not cites(r, "B")),
         "stopword_only": sum(1 for r in classifiers
-                             if not any(cites(r, k) for k in ("W", "B", "NW"))),
+                             if not any(cites(r, k) for k in ("W", "W19", "B", "NW"))),
         "with_examples": sum(1 for r in classifiers if r["EXAMPLES"]),
         "variants": sum(1 for r in classifiers
                         if r["DISPOSITION"].startswith("variant")),
@@ -291,6 +302,7 @@ def main() -> int:
     facts["adjudications"] = {
         "verdicts": len(verdicts),
         "unlinked": sum(1 for v in verdicts if not v["ILI"]),
+        "phrases": sum(1 for v in verdicts if v.get("LEXICALIZED") == "false"),
     }
     proposals = (m.read_ili_proposals(args.ili_proposals)
                  if args.ili_proposals.exists() else [])
@@ -338,6 +350,11 @@ def main() -> int:
         "stopword_forms": len(set(stopwords)),
         "bisang_classifiers": sum(1 for r in classifiers if cites(r, "B")),
         "white_classifiers": sum(1 for r in classifiers if cites(r, "W")),
+        # Nathan White's own list, as he wrote it: a CO row is one form for both
+        # varieties, so this counts forms, not the per-dialect rows of the merge
+        "nw_classifiers": len(nw_rows),
+        "nw_sandhi": sum(1 for r in nw_rows if "sandhi" in r["NOTE"]),
+        "nw_cited": sum(1 for r in nw_rows if r["CITATION"]),
         # as read from the wordlist, and as many as survive deduplication
         "wold_senses_read": len(m.read_cldf(
             Path(args.cldf.split(":")[0]), args.cldf.split(":")[1],

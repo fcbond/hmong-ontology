@@ -1,7 +1,8 @@
 {
   "adjudications": {
+    "phrases": 3,
     "unlinked": 2,
-    "verdicts": 10
+    "verdicts": 25
   },
   "class_nouns": {
     "heads": 28,
@@ -9,26 +10,28 @@
     "new": 98
   },
   "classifiers": {
-    "added": 229,
-    "already_lemmas": 63,
-    "bisang_only": 49,
-    "bisang_only_measures": 37,
-    "both": 51,
+    "added": 279,
+    "already_lemmas": 71,
+    "bisang_only": 45,
+    "bisang_only_measures": 35,
+    "both": 55,
     "by_class": {
-      "event": 24,
-      "group": 22,
-      "mensural": 152,
-      "sortal": 34,
+      "event": 25,
+      "group": 24,
+      "mensural": 209,
+      "sortal": 38,
       "taxonomic": 6
     },
-    "gm": 86,
-    "omitted": 2,
-    "rows": 238,
-    "speaker_only": 1,
-    "stopword_only": 14,
-    "variants": 7,
-    "wh": 152,
-    "white_only": 123,
+    "from_nw_inventory": 64,
+    "gm": 117,
+    "omitted": 0,
+    "rows": 302,
+    "speaker_only": 7,
+    "stopword_only": 5,
+    "variants": 23,
+    "wh": 185,
+    "white_2019": 62,
+    "white_only": 190,
     "with_examples": 143
   },
   "concepticon": {
@@ -53,8 +56,8 @@
     "unresolved": 2792
   },
   "concepticon_vs_triangulation": {
-    "agree": 165,
-    "both_reached": 192,
+    "agree": 166,
+    "both_reached": 194,
     "disagreements": [
       {
         "concepticon": "i29513",
@@ -109,6 +112,12 @@
         "form": "hu",
         "gloss": "call",
         "triangulated": "i26178"
+      },
+      {
+        "concepticon": "i59671",
+        "form": "kev",
+        "gloss": "street",
+        "triangulated": "i59672"
       },
       {
         "concepticon": "i56021",
@@ -219,16 +228,16 @@
         "triangulated": "i2502"
       }
     ],
-    "pct": 85.9
+    "pct": 85.6
   },
   "contribution": {
     "by_source": {
       "WOLD": {
-        "ilis": 1093,
-        "new": 916
+        "ilis": 1090,
+        "new": 911
       }
     },
-    "ontology_ilis": 505
+    "ontology_ilis": 509
   },
   "coverage": {
     "english_only": {
@@ -251,17 +260,17 @@
       "pct": 35.1
     },
     "everything": {
-      "deferred": 12,
-      "ilis": 1421,
-      "linkable": 2705,
+      "deferred": 11,
+      "ilis": 1420,
+      "linkable": 2702,
       "linked": 1797,
       "methods": {
-        "adjudicated": 8,
+        "adjudicated": 18,
         "adjudicated-unlinked": 3,
-        "ambiguous": 215,
+        "ambiguous": 214,
         "ambiguous+category": 206,
         "concepticon": 144,
-        "concepticon-id": 1215,
+        "concepticon-id": 1205,
         "intersection": 23,
         "intersection+category": 19,
         "monosemous": 189,
@@ -269,9 +278,9 @@
         "no-ili": 2,
         "no-intersection": 50,
         "no-intersection+category": 91,
-        "nomatch": 341
+        "nomatch": 339
       },
-      "pct": 66.4
+      "pct": 66.5
     },
     "plus_concepticon": {
       "deferred": 1,
@@ -321,16 +330,16 @@
     "sense_anchored": 761
   },
   "definition_match": {
-    "candidates": 19,
+    "candidates": 20,
     "declined": 35
   },
   "gm": {
     "concepts": 4,
-    "lemmas": 99,
+    "lemmas": 124,
     "linkable": 16,
     "linked": 4,
-    "ontology_lemmas": 99,
-    "senses": 101
+    "ontology_lemmas": 124,
+    "senses": 126
   },
   "ili_proposals": {
     "concepts": 1,
@@ -360,16 +369,16 @@
   },
   "ontology": {
     "after": {
-      "gm": 99,
-      "lemmas": 1568,
-      "senses": 1791
+      "gm": 124,
+      "lemmas": 1610,
+      "senses": 1841
     },
     "before": {
       "gm": 0,
       "lemmas": 1263,
       "senses": 1404
     },
-    "lemma_growth_pct": 24.1
+    "lemma_growth_pct": 27.5
   },
   "pivots": {
     "groups": 743,
@@ -378,27 +387,27 @@
     "rows": 29301
   },
   "queue": {
-    "coverage_after_stage1_pct": 71.6,
-    "open": 908,
-    "review_rows": 812,
+    "coverage_after_stage1_pct": 71.7,
+    "open": 905,
+    "review_rows": 814,
     "review_sheets": {
-      "conflicts": 27,
-      "definition_match_candidates": 54,
+      "conflicts": 28,
+      "definition_match_candidates": 55,
       "triangulation_candidates": 731
     },
-    "stage1_ambiguous": 421,
+    "stage1_ambiguous": 420,
     "stage1_binary": 140,
-    "stage1_single_gloss": 404,
+    "stage1_single_gloss": 403,
     "stage2_wiktionary_candidates": 731,
-    "stage4_multiword": 222,
-    "stage4_no_english_lemma": 341
+    "stage4_multiword": 220,
+    "stage4_no_english_lemma": 339
   },
   "relations": {
     "classified_by": 487,
-    "classifier_synsets": 144,
+    "classifier_synsets": 169,
     "classifies": 487,
-    "exemplifies": 144,
-    "total": 1118
+    "exemplifies": 169,
+    "total": 1143
   },
   "settings": {
     "category_filter": true,
@@ -407,11 +416,11 @@
     "english": "oewn:2025+",
     "morphy": true,
     "ontology": "data/hmong_ontology.xml",
-    "pin_file": "/home/bond/git/hmong-ontology-fixes/etc/pivots.lock",
+    "pin_file": "/home/bond/git/hmong-ontology-nathan/etc/pivots.lock",
     "pivot_lexicons": [
+      "cow:1.1",
       "omw-bg:2.0",
       "omw-ca:2.0",
-      "omw-cmn:2.0",
       "omw-da:2.0",
       "omw-el:2.0",
       "omw-es:2.0",
@@ -420,10 +429,8 @@
       "omw-fr:2.0",
       "omw-gl:2.0",
       "omw-he:2.0",
-      "omw-id:2.0",
       "omw-is:2.0",
       "omw-it:2.0",
-      "omw-ja:2.0",
       "omw-lt:2.0",
       "omw-nb:2.0",
       "omw-nl:2.0",
@@ -433,7 +440,9 @@
       "omw-sk:2.0",
       "omw-sq:2.0",
       "omw-sv:2.0",
-      "omw-th:2.0"
+      "omw-th:2.0",
+      "wnb-id:1.4",
+      "wnja:2.1"
     ],
     "stative_adjective": true
   },
@@ -442,11 +451,14 @@
     "kindiv_proposal_concepts": 6,
     "kindiv_proposal_relations": 6,
     "kindiv_proposal_words": 5,
+    "nw_cited": 174,
+    "nw_classifiers": 184,
+    "nw_sandhi": 19,
     "ontology_categories": 53,
     "ontology_categories_now": 61,
     "stopword_forms": 82,
-    "white_classifiers": 174,
-    "wold_forms": 1456,
+    "white_classifiers": 236,
+    "wold_forms": 1452,
     "wold_senses_read": 1470
   },
   "supersense": {
@@ -454,19 +466,19 @@
     "senses_rescued": 159
   },
   "tiers": {
-    "adjudicated by a speaker": 8,
-    "classifier (no ILI by design)": 144,
-    "concept-set or gloss intersection": 1401,
+    "adjudicated by a speaker": 18,
+    "classifier (no ILI by design)": 169,
+    "concept-set or gloss intersection": 1391,
     "linked, stronger evidence": 1409,
     "single gloss, monosemous": 388,
-    "unlinked": 908
+    "unlinked": 905
   },
   "triangulation": {
     "candidate_ilis": 495,
     "candidates": 660,
     "gm_candidates": 26,
     "multiword_forms": 245,
-    "on_forms_in_lexicon": 472,
+    "on_forms_in_lexicon": 475,
     "undecided": 71
   },
   "underspecified": {

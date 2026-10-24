@@ -1,12 +1,28 @@
-FORM	DIALECT	GLOSS	ILI	BY	NOTE
+FORM	DIALECT	GLOSS	ILI	BY	NOTE	LEXICALIZED	POS
 # Verdicts from Nathan White's review of 2026-10 (COMMENTS.md on his nathan/comments branch). Where he named the ILI it is his; where he described the meaning, the ILI was chosen by us from that description and is marked "to confirm".
-nyuj	WH	cow	i48233	Nathan White	cattle regardless of sex, not the female (i48238)
-pob	WH	ball	i50388	Nathan White	the ball of games; extension to any spherical object (i109982) unconfirmed
-hu	WH	call		Nathan White	means 'call' (naming, by phone), not 'send for' (i25642); not convinced of 'shout'. No single ILI chosen yet
-mob	WH	be sick	i22102	Nathan White	be in pain / be sick
-tseeb	WH	be true	i13638	Nathan White	true, consistent with fact
-ntev	WH	be long	i7833	Nathan White	spatial long; the temporal i7859 is also possible
-dhau	WH	pass beyond	i32002	Nathan White	move past; i27684 and i31995 also plausible
-vaj	WH	garden	i54178	Nathan White	a plot where plants are cultivated
-tshuab	WH	blow	i21801	Nathan White	directed exhalation; i21801 'exhale hard' (example: 'blow on the soup to cool it down', hypernym exhale) chosen by us from his description and confirmed by him (2026-10-17: "good enough"). Not wind blowing (i35526) nor 'cause air to go in, on, or through' (i32267), which he rejected
-siab	WH	heart		Nathan White	siab is 'liver', used where English uses 'heart' figuratively. Not the organ (i65294), and not i67941 'heart, bosom: the locus of feelings', since siab does not pattern in the same idioms; proposed as a new concept similar to i67941 (ili-proposals.tsv), whose definition he accepted (2026-10-17)
+# ILI '*' keeps the link the routes made, for a verdict that is about something else; LEXICALIZED 'false' marks a form the speaker judged a phrase rather than a word, written as Sense lexicalized="false". POS gives the part of speech the speaker assigns the word, which decides the entry a merged sense is kept in.
+nyuj	WH	cow	i48233	Nathan White	cattle regardless of sex, not the female (i48238)		
+pob	WH	ball	i50388	Nathan White	the ball of games; extension to any spherical object (i109982) unconfirmed		
+hu	WH	call		Nathan White	means 'call' (naming, by phone), not 'send for' (i25642); not convinced of 'shout'. No single ILI chosen yet		
+mob	WH	be sick	i22102	Nathan White	be in pain / be sick		
+tseeb	WH	be true	i13638	Nathan White	true, consistent with fact		
+ntev	WH	be long	i7833	Nathan White	spatial long; the temporal i7859 is also possible		
+dhau	WH	pass beyond	i32002	Nathan White	move past; i27684 and i31995 also plausible		
+vaj	WH	garden	i54178	Nathan White	a plot where plants are cultivated		
+tshuab	WH	blow	i21801	Nathan White	directed exhalation; i21801 'exhale hard' (example: 'blow on the soup to cool it down', hypernym exhale) chosen by us from his description and confirmed by him (2026-10-17: "good enough"). Not wind blowing (i35526) nor 'cause air to go in, on, or through' (i32267), which he rejected		
+siab	WH	heart		Nathan White	siab is 'liver', used where English uses 'heart' figuratively. Not the organ (i65294), and not i67941 'heart, bosom: the locus of feelings', since siab does not pattern in the same idioms; proposed as a new concept similar to i67941 (ili-proposals.tsv), whose definition he accepted (2026-10-17)		
+cais	WH	separate	i31896	Nathan White	make two things be apart, or one thing apart from others: neither i29513 'force apart' nor i34058 'separate into portions' fits; i24985 'distinguish' is also attested (2026-10-24)		
+da dej	WH	bathe	i21956	Nathan White	a phrase: the verb is da 'bathe' and dej is 'water'. ILI chosen by us: WOLD's i21944 is not in OEWN 2025, which gives the concept as i21956, as for da (2026-10-24)	false	
+deb	WH	far	i18771	Nathan White	distance in space; he has no data for time (2026-10-24)		
+nqi	WH	price	i106591	Nathan White	i64022 'monetary value' also works, as in nqe kub 'the price of gold' (2026-10-24)		
+ntse	WH	sharp	i4410	Nathan White	both i4410 'sharp' and i2474 'smart' are senses of ntse (2026-10-24)		
+ze	WH	near	i20949	Nathan White	canonically near in space, but also in time and in kinship (2026-10-24)		
+faus	WH	bury	i34003	Nathan White	i27798 'place in the earth and cover with soil' is also a sense; 'embed' is not (2026-10-24)		
+zaub mov	WH	food	*	Nathan White	a coordinate compound, literally 'vegetable rice': not syntactically a word, since fixed constructions can separate its parts (White 2020: 255). The link is left as Concepticon made it (2026-10-24)	false	
+tsev neeg	WH	family	*	Nathan White	a phrase (first pass). The link is left as Concepticon made it (2026-10-24)	false	
+liab	WH	red	i2130	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63054) is not a reading of the word (2026-10-24)		v
+liab	WH	be red	i2130	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63054) is not a reading of the word; the ontology's stative verb takes the same ILI (2026-10-24)		v
+daj	WH	yellow	i2170	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63075) is not a reading of the word (2026-10-24)		v
+daj	WH	be yellow	i2170	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63075) is not a reading of the word; the ontology's stative verb takes the same ILI (2026-10-24)		v
+ntsuab	WH	green	i2084	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63086) is not a reading of the word (2026-10-24)		v
+ntsuab	WH	be green	i2084	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63086) is not a reading of the word; the ontology's stative verb takes the same ILI (2026-10-24)		v

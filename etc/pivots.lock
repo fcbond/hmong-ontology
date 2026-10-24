@@ -3,11 +3,11 @@
 # hmong2lmf.py refuses to triangulate against any other version.
 #
 # lexicon	version
+cow	1.1
 oewn	2025+
 omw-arb	2.0
 omw-bg	2.0
 omw-ca	2.0
-omw-cmn	2.0
 omw-da	2.0
 omw-el	2.0
 omw-es	2.0
@@ -17,10 +17,8 @@ omw-fr	2.0
 omw-gl	2.0
 omw-he	2.0
 omw-hr	2.0
-omw-id	2.0
 omw-is	2.0
 omw-it	2.0
-omw-ja	2.0
 omw-lt	2.0
 omw-nb	2.0
 omw-nl	2.0
@@ -31,4 +29,6 @@ omw-sk	2.0
 omw-sq	2.0
 omw-sv	2.0
 omw-th	2.0
-omw-zsm	2.0
+wnb-id	1.4
+wnb-zsm	1.4
+wnja	2.1

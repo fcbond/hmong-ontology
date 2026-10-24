@@ -20,11 +20,13 @@
 # plain edition does not have.
 en = ["https://en-word.net/static/english-wordnet-2025-plus.xml.gz"]
 
-# The 28 Open Multilingual Wordnet pivots, by their ISO 639-3 code.
+# The 28 pivots, by their ISO 639-3 code: Open Multilingual Wordnet 2.0, except
+# that Chinese, Japanese, Indonesian and Malay use the newer standalone releases
+# Cygnet adopted on 2026-10-24 (COW 1.1, wnja 2.1 and Wordnet Bahasa 1.4).
 arb = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-arb-2.0.tar.xz"]
 bg = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-bg-2.0.tar.xz"]
 ca = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-ca-2.0.tar.xz"]
-cmn = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-cmn-2.0.tar.xz"]
+cmn = ["https://github.com/bond-lab/cow/releases/download/v1.1/cow-1.1.tar.xz"]
 da = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-da-2.0.tar.xz"]
 el = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-el-2.0.tar.xz"]
 es = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-es-2.0.tar.xz"]
@@ -34,10 +36,10 @@ fr = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-fr-2.0.tar.xz
 gl = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-gl-2.0.tar.xz"]
 he = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-he-2.0.tar.xz"]
 hr = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-hr-2.0.tar.xz"]
-id = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-id-2.0.tar.xz"]
+id = ["https://github.com/bond-lab/Bahasa-Wordnet/releases/download/v1.4/wnb-id-1.4.tar.xz"]
 is = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-is-2.0.tar.xz"]
 it = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-it-2.0.tar.xz"]
-ja = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-ja-2.0.tar.xz"]
+ja = ["https://github.com/bond-lab/wnja/releases/download/v2.1/wnja-2.1.tar.xz"]
 lt = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-lt-2.0.tar.xz"]
 nb = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-nb-2.0.tar.xz"]
 nl = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-nl-2.0.tar.xz"]
@@ -48,4 +50,4 @@ sk = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-sk-2.0.tar.xz
 sq = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-sq-2.0.tar.xz"]
 sv = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-sv-2.0.tar.xz"]
 th = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-th-2.0.tar.xz"]
-zsm = ["https://github.com/omwn/omw-data/releases/download/v2.0/omw-zsm-2.0.tar.xz"]
+zsm = ["https://github.com/bond-lab/Bahasa-Wordnet/releases/download/v1.4/wnb-zsm-1.4.tar.xz"]

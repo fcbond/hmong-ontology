@@ -46,16 +46,16 @@ LANGUAGES = {"mww": "WH", "hnj": "GM"}
 
 #: Pivot languages: ISO 639-3 as DBnary writes it -> the `wn` lexicon that covers
 #: it. Only languages whose wordnet is linked to the Interlingual Index are useful,
-#: because the whole point is to intersect ILIs. Every one of these ships in the
-#: Open Multilingual Wordnet release.
+#: because the whole point is to intersect ILIs. The release of each is pinned in
+#: etc/pivots.toml.
 PIVOTS = {
-    "fra": "omw-fr", "cmn": "omw-cmn", "jpn": "omw-ja", "spa": "omw-es",
+    "fra": "omw-fr", "cmn": "cow", "jpn": "wnja", "spa": "omw-es",
     "ita": "omw-it", "fin": "omw-fi", "cat": "omw-ca", "eus": "omw-eu",
     "ell": "omw-el", "bul": "omw-bg", "dan": "omw-da", "glg": "omw-gl",
-    "heb": "omw-he", "hrv": "omw-hr", "ind": "omw-id", "isl": "omw-is",
+    "heb": "omw-he", "hrv": "omw-hr", "ind": "wnb-id", "isl": "omw-is",
     "lit": "omw-lt", "nld": "omw-nl", "nob": "omw-nb", "nno": "omw-nn",
     "pol": "omw-pl", "ron": "omw-ro", "slk": "omw-sk", "sqi": "omw-sq",
-    "swe": "omw-sv", "tha": "omw-th", "zsm": "omw-zsm", "arb": "omw-arb",
+    "swe": "omw-sv", "tha": "omw-th", "zsm": "wnb-zsm", "arb": "omw-arb",
 }
 
 QUERY = """

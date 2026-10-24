@@ -47,21 +47,23 @@ WORDNETS_TOML = PROJECT / "etc" / "pivots.toml"
 #: versions are not here: they come from `etc/pivots.toml`, so that there is one
 #: place where a release is declared.
 PIVOTS = [
-    "omw-arb", "omw-bg", "omw-ca", "omw-cmn", "omw-da", "omw-el", "omw-es",
-    "omw-eu", "omw-fi", "omw-fr", "omw-gl", "omw-he", "omw-hr", "omw-id",
-    "omw-is", "omw-it", "omw-ja", "omw-lt", "omw-nb", "omw-nl", "omw-nn",
-    "omw-pl", "omw-ro", "omw-sk", "omw-sq", "omw-sv", "omw-th", "omw-zsm",
+    "omw-arb", "omw-bg", "omw-ca", "cow", "omw-da", "omw-el", "omw-es",
+    "omw-eu", "omw-fi", "omw-fr", "omw-gl", "omw-he", "omw-hr", "wnb-id",
+    "omw-is", "omw-it", "wnja", "omw-lt", "omw-nb", "omw-nl", "omw-nn",
+    "omw-pl", "omw-ro", "omw-sk", "omw-sq", "omw-sv", "omw-th", "wnb-zsm",
 ]
 
 #: Release archive basenames, mapped to the lexicon id and version `wn` will
-#: report once the file is loaded. Two shapes cover everything we pin: the Open
-#: Multilingual Wordnet's `omw-<code>-<version>.tar.xz`, and Open English
-#: WordNet's `english-wordnet-<year>[-plus].xml.gz`, whose lexicon id is `oewn`.
+#: report once the file is loaded. Two shapes cover everything we pin:
+#: `<lexicon>-<version>.tar.xz`, as the Open Multilingual Wordnet
+#: (`omw-fr-2.0`), COW (`cow-1.1`), wnja (`wnja-2.1`) and Wordnet Bahasa
+#: (`wnb-id-1.4`) name their releases, and Open English WordNet's
+#: `english-wordnet-<year>[-plus].xml.gz`, whose lexicon id is `oewn`.
 #: The "plus" edition reports its version as `<year>+`, and it is a different
 #: wordnet for our purposes: it carries some 13,000 proper-name synsets the plain
 #: edition leaves out, among them the Moon and the Sun.
 ARCHIVE_PATTERNS = (
-    (re.compile(r"^(omw-[a-z]{2,3})-(\d[\w.]*)\.tar\.xz$"), lambda m: (m[1], m[2])),
+    (re.compile(r"^([a-z][a-z-]*?)-(\d[\w.]*)\.tar\.xz$"), lambda m: (m[1], m[2])),
     (re.compile(r"^english-wordnet-(\d{4})(-plus)?\.xml\.gz$"),
      lambda m: ("oewn", m[1] + ("+" if m[2] else ""))),
 )
@@ -170,7 +172,10 @@ def main() -> int:
             failed += 1
             continue
         candidates = [Path(name)] if Path(name).exists() else [
-            args.source / f"{name}{suffix}"
+            args.source / f"{stem}{suffix}"
+            # Cygnet writes the OMW 2.0 lexicons as omw-fr.xml, newer releases
+            # with their version, as cow-1.1.xml
+            for stem in (name, f"{name}-{pinned[name]}")
             for suffix in (".xml", ".xml.gz", ".xml.xz")
         ]
         # Open English WordNet's file is named after its release, not its lexicon,

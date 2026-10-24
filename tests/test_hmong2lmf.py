@@ -1157,6 +1157,69 @@ def test_kinship_alias_merges_duplicate_senses() -> None:
     assert [s.kindiv for s in entry.senses] == ["o;Br", "o;Fa;Br;So"]
 
 
+def test_cross_entry_merge_drops_the_emptied_entry_and_keeps_its_data() -> None:
+    verb = m.OntSense(0, "kim", ["be expensive"], "verb.stative")
+    verb.ili, verb.method = "i5", "intersection"
+    adjective = m.OntSense(-1, "kim", ["expensive"], "Possession", pos_override="a")
+    adjective.ili, adjective.method = "i5", "concepticon-id"
+    verb_entry = m.Entry("kim", "v", senses=[verb], sources=["Chinese"],
+                         variants=["kiem"])
+    adj_entry = m.Entry("kim", "a", senses=[adjective], sources=["WOLD"])
+    entries = [verb_entry, adj_entry]
+    assert m.dedupe_senses(entries, {"i5": "a"}) == 1
+    assert entries == [adj_entry]
+    assert adj_entry.sources == ["WOLD", "Chinese"]
+    assert adj_entry.variants == ["kiem"]
+
+
+def test_speakers_part_of_speech_decides_which_entry_keeps_the_sense() -> None:
+    verb = m.OntSense(0, "liab", ["be red"], "verb.stative")
+    adjective = m.OntSense(-1, "liab", ["red"], "Sense perception", pos_override="a")
+    verdicts = [{"FORM": "liab", "DIALECT": "WH", "GLOSS": gloss, "ILI": "i2130",
+                 "BY": "a speaker", "NOTE": "a stative verb", "POS": "v"}
+                for gloss in ("red", "be red")]
+    m.apply_adjudications([verb, adjective], verdicts)
+    verb_entry = m.Entry("liab", "v", senses=[verb])
+    adj_entry = m.Entry("liab", "a", senses=[adjective], sources=["WOLD"])
+    entries = [adj_entry, verb_entry]
+    # English gives the synset as a (satellite) adjective; the speaker says verb
+    assert m.dedupe_senses(entries, {"i2130": "s"}) == 1
+    assert entries == [verb_entry]
+    assert verb_entry.senses[0].glosses == ["be red", "red"]
+    assert verb_entry.sources == ["WOLD"]
+
+
+def test_english_satellite_counts_as_adjective_without_a_speaker() -> None:
+    verb = m.OntSense(0, "liab", ["be red"], "verb.stative")
+    verb.ili, verb.method = "i2130", "intersection"
+    adjective = m.OntSense(-1, "liab", ["red"], "Sense perception", pos_override="a")
+    adjective.ili, adjective.method = "i2130", "concepticon-id"
+    verb_entry = m.Entry("liab", "v", senses=[verb])
+    adj_entry = m.Entry("liab", "a", senses=[adjective])
+    entries = [verb_entry, adj_entry]
+    assert m.dedupe_senses(entries, {"i2130": "s"}) == 1
+    assert entries == [adj_entry]
+
+
+def test_adjudication_can_mark_a_phrase_and_keep_the_link() -> None:
+    phrase = m.OntSense(-1, "zaub mov", ["food"], "Food and drink")
+    phrase.ili, phrase.method = "i76470", "concepticon-id"
+    verdict = {"FORM": "zaub mov", "DIALECT": "WH", "GLOSS": "food", "ILI": "*",
+               "BY": "a speaker", "NOTE": "a coordinate compound",
+               "LEXICALIZED": "false"}
+    assert m.apply_adjudications([phrase], [verdict]) == []
+    assert (phrase.ili, phrase.method, phrase.lexicalized) == (
+        "i76470", "concepticon-id", False)
+
+
+def test_adjudication_without_lexicalized_column_leaves_a_word() -> None:
+    word = m.OntSense(-1, "deb", ["far"], "Spatial relations")
+    verdict = {"FORM": "deb", "DIALECT": "WH", "GLOSS": "far", "ILI": "i18771",
+               "BY": "a speaker", "NOTE": "spatial"}
+    m.apply_adjudications([word], [verdict])
+    assert (word.ili, word.method, word.lexicalized) == ("i18771", "adjudicated", True)
+
+
 def test_weak_link_yields_to_hand_made_link_for_same_gloss() -> None:
     weak = m.OntSense(0, "txiv", ["fruit"], "three_dimensional_object")
     weak.ili, weak.method = "i61322", "monosemous+category"

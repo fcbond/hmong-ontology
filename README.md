@@ -42,6 +42,7 @@ tests in `tests/`, and working notes in `notes/`. `docs/` is the online lookup.
 | `data/hmong_ontology.xml` | the lexemes (nouns, verbs and classifiers), their senses and their semantic categories |
 | `data/classifiers.tsv` | the numeral classifier and quantifier inventory, with class, definition, example nouns and a source for each |
 | `data/classifiers-white2021.tsv` | the unmerged extraction from chapter 7 of White (2021c) |
+| `data/classifiers-nw.tsv` | Nathan White's own classifier inventory with citations, merged into `classifiers.tsv` by `scripts/merge_nw_classifiers.py` |
 | `data/class_nouns.tsv` | class nouns and their member compounds, with English glosses |
 | `data/underspecified.tsv` | the 14 classifier-specified compounds of White's Tables 39–41 |
 | `data/kinship.tsv` | kinship terms from White's Table 29, both dialects |
@@ -73,6 +74,7 @@ Scripts, in the order they are run:
 | `scripts/fetch_dbnary.py` | queries DBnary's SPARQL endpoint for the two Wiktionary tables |
 | `scripts/load_pivots.py` | loads the pivot wordnets at their pinned releases into `.wn_data`, and writes `etc/pivots.lock` |
 | `scripts/add_classifiers.py` | folds the extracted tables into `hmong_ontology.xml`; idempotent |
+| `scripts/merge_nw_classifiers.py` | merges Nathan White's inventory (`classifiers-nw.tsv`) into `classifiers.tsv`; rerunnable |
 | `scripts/hmong2lmf.py` | converts the ontology to WN-LMF 1.4, linking senses to the Interlingual Index |
 | `scripts/conflicts.py` | writes the senses two linking routes disagree about |
 | `scripts/cite_wordnets.py` | the citation, licence and version of every wordnet used |

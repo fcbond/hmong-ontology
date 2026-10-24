@@ -1,0 +1,204 @@
+# Nathan White's own classifier inventory, written by hand with citations.
+# Copied unchanged (apart from this header) from classifiers_sources.tsv in
+# https://github.com/nathanmwhite/hmong-ontology, commit of 2026-10-24 13:04 UTC.
+# scripts/merge_nw_classifiers.py merges it into classifiers.tsv; rerun it when
+# the list grows.
+#
+# COLUMNS
+#   FORM      the classifier in RPA.
+#   DIALECT   WH, GM, or CO for a form common to both varieties.
+#   GLOSS     his gloss: cl: a classifier, mw: a measure word, vcl: a verbal
+#             action classifier.
+#   CATEGORY  his subclass, as in White (2021) ch. 7, e.g. mensural:time.
+#   CITATION  White 2019:<pages> and/or White 2021:<pages>, ;-separated. Empty
+#             for forms from his field notes.
+#   NOTE      sandhi form, variant, or the source of a borrowing.
+#
+#   White, Nathan M. 2019. [chapter on Hmong classifiers -- full reference to come]
+#   White, Nathan M. 2021. The Hmong language of North Queensland. PhD thesis,
+#             James Cook University. DOI 10.25903/f5rd-s089.
+FORM	DIALECT	GLOSS	CATEGORY	CITATION	NOTE
+as thiv	GM	cl:week	mensural:time	White 2021:345	Lao borrowing
+chaav	GM	cl:room	mensural	White 2021:333,337	
+chav	WH	cl:room	mensural	White 2021:333,337	
+co	CO	cl:pa	non-singular	White 2021:190	sandhi form
+cov	CO	cl:pa	non-singular	White 2019:224,226,235,236;White 2021:302,354	
+cuam	CO	cl:time	mensural:time	White 2021:445	
+daig	WH	cl:2d	sortal	White 2019:241,243;White 2021:174	sandhi form
+daim	WH	cl:2d	sortal	White 2019:227,243;White 2021:304,381	
+diav	WH	cl:spoon	mensural:container		
+dlaim	GM	cl:2d	sortal	White 2021:304,381	
+dlav	GM	cl:spoon	mensural:container	White 2021:593	
+dlus	CO	mw:middle.finger.tip.to.thumb.tip	measure word	White 2021:367	
+dos	CO	mw:middle.finger.tip.to.thumb.tip	measure word	White 2021:367	
+dos las	WH	cl:dollar	mensural	White 2021:411	
+family	CO	cl:family	mensural:collective	White 2021:342	English borrowing
+feeb	CO	cl:minute,second	mensural:time	White 2021:591,612	
+feem	CO	cl:part,portion	mensural	White 2021:385,392,395,407	
+fos nais	CO	cl:fortnight	mensural:time	White 2019:235;White 2021:345	English borrowing
+fwj	CO	cl:bottle	mensural:container	White 2021:340	
+haiv	CO	cl:nationality	mensural	White 2021:135	
+hli	CO	cl:month	mensural:time	White 2019:226;White 2021:345	
+hmo	WH	cl:night	mensural:time	White 2019:238;White 2021:345	
+hnab	WH	cl:bag	mensural:container	White 2021:302,338,340	
+hnoob	WH	cl:day	mensural:time	White 2021:302,345	
+hnub	WH	cl:day	mensural:time	White 2019:239;White 2021:302,345	
+hom	CO	cl:kind	mensural:kind	White 2019:228;White 2021:302,343	
+hoob	CO	cl:room	mensural	White 2021:159	Lao borrowing
+hwj	CO	cl:bottle	mensural:container		variant of fwj
+kaab	GM	cl:sentence	mensural	White 2021:381,382	
+kab	WH	cl:sentence	mensural	White 2021:381,382	
+kaug	WH	vcl:bite	verbal action	White 2021:538	sandhi form
+kauj	CO	cl:spool	mensural	White 2021:334,337	
+khawv	WH	cl:bite	mensural	White 2021:337	
+khob	CO	cl:cup	mensural:container	White 2021:340	
+khw	CO	cl:week	mensural:time	White 2021:345	
+kuam	CO	cl:half.hand	mensural	White 2021:335,358	
+laij	CO	mw:600m2	measure word	White 2021:367	
+lauj kaub	WH	cl:pot	mensural:container	White 2019:233	
+lav	CO	mw:kilometer	measure word	White 2021:367	
+le	GM	cl:poss	possessed	White 2021:302,365	
+leeg	CO	cl:human	subordinate sortal	White 2019:233,239	sandhi form
+leej	CO	cl:human	subordinate sortal	White 2019:227,240;White 2021:302,329	
+li	WH	cl:poss	possessed	White 2021:302,365	
+lis piam	GM	cl:week	mensural:time	White 2021:345	
+lis tiam	WH	cl:week	mensural:time	White 2021:345	
+lo	WH	cl:mouthful	mensural	White 2021:302,334,337,359	
+lu	GM	cl:mouthful	mensural	White 2021:302,334,337	
+lub	WH	cl:Gener	sortal	White 2019:225,227;White 2021:302	
+lwm	CO	vcl:circular.action	verbal action	White 2021:368,370	
+maj	WH	cl:coin.denomination	mensural	White 2019:234	
+mev	CO	mw:meter	measure word	White 2021:302,367	
+miles	WH	cl:miles	measure word	White 2019:234	English borrowing
+mo	GM	cl:night	mensural:time	White 2021:345	
+moo	CO	cl:hour	mensural:time	White 2021:345	Lao borrowing
+moos	CO	cl:hour	mensural:time	White 2021:244	variant; Lao borrowing
+naab	GM	cl:bag	mensural:container	White 2021:302,338,340	
+nas this	CO	cl:minute	mensural:time	White 2021:345	Lao borrowing
+ncig	CO	vcl:circular.action	verbal action	White 2021:302,370	
+niaj	WH	cl:time	mensural:time	White 2021:649	
+nkawm	CO	cl:natural.pair	mensural:collective	White 2021:342	
+npaj	WH	cl:baht	mensural	White 2021:120	Thai/Lao borrowing
+npaug	CO	cl:times	mensural:time	White 2021:675	
+npib	WH	cl:coin.denomination	mensural	White 2019:234	
+nplooj	CO	cl:flat.piece	mensural	White 2021:381	
+nqai	GM	cl:section	mensural	White 2021:333,337	
+nqe	WH	cl:section	mensural	White 2021:333,337	
+nta	WH	cl:midpoint	locational	White 2019:231;White 2021:351,353	sometimes sandhi form, sometimes standalone
+ntaa	GM	cl:midpoint	locational	White 2021:351,353	
+ntaav	GM	cl:midpoint	locational	White 2021:351,353	
+ntav	WH	cl:midpoint	locational	White 2021:351,353	
+nti	CO	cl:finger	mensural	White 2021:525	variant form
+ntiv	CO	mw:finger-width	measure word	White 2021:302,367	
+ntiv	CO	cl:finger	mensural		
+ntsis	CO	cl:bit	mensural:time	White 2021:247	
+ntsuj	CO	cl:tract	mensural	White 2021:333,337	
+ntu	CO	cl:segment	mensural	White 2021:336,337	
+nub	GM	cl:day	mensural:time	White 2021:302,345	
+paab	GM	cl:anim.group	mensural:collective	White 2021:342	
+paas	GM	cl:gulp	mensural	White 2021:334,337	
+pab	WH	cl:anim.group	mensural:collective	White 2019:228,238;White 2021:342	
+pas	WH	cl:gulp	mensural	White 2021:334,337	
+pawg	CO	cl:group	mensural:collective	White 2019:234;White 2021:302,342	
+pawg	CO	cl:pile	mensural	White 2021:276,277	
+phau	CO	cl:book	mensural	White 2019:236;White 2021:302,333,337,359,381,382	
+phaum	CO	cl:season	mensural	White 2021:335,337	
+phaum	CO	cl:generation	mensural	White 2021:648	
+phom	CO	vcl:gunshot	verbal action	White 2021:302,370	
+phoo	GM	cl:book	mensural	White 2021:302,333,337,381,382	
+plaag	GM	cl:tract	mensural	White 2021:337	
+plag	WH	cl:tract	mensural		sandhi form
+plas	WH	cl:tract	mensural	White 2021:337	
+plhaw	CO	vcl:jump	verbal action	White 2021:370	
+pliag	WH	cl:while	mensural:time	White 2021:73	
+pluag	WH	cl:serving	mensural		sandhi form
+pluag	GM	cl:serving	mensural	White 2021:334,337	
+pluas	CO	cl:serving	mensural	White 2021:334,337  base form corrected	
+pob	WH	cl:ball	mensural	White 2019:240	
+poom	CO	cl:can	mensural:container	White 2021:592	Lao borrowing
+qais	CO	cl:small.spool	mensural	White 2019:228;White 2021:302,334,335	
+qho	CO	cl:default	sortal	White 2021:136	sandhi form
+qhov	CO	cl:default	sortal	White 2021:304,325	
+raab	GM	cl:tool	sortal	White 2021:302,304	
+rab	WH	cl:tool	sortal	White 2019:227,240;White 2021:302,304	
+rag	GM	vcl:chop	verbal action	White 2021:370	
+rev	CO	cl:bunch	mensural	White 2021:334	
+riag	GM	vcl:strike.with.knife	verbal action	White 2021:402	variant form
+riag	WH	vcl:chop	verbal action	White 2019:243;White 2021:369	sandhi form
+riam	WH	vcl:chop	verbal action	White 2021:370	
+rooj	CO	cl:table	mensural:container	White 2021:340	
+saab	GM	cl:side	locational	White 2019:225;White 2021:302,350,353	
+sab	WH	cl:side	locational	White 2019:232;White 2021:302,350,353	
+sab	GM	mw:rice.measure	measure word	White 2019:225;White 2021:367	
+siab	WH	mw:rice.measure	measure word	White 2021:367	
+sim	CO	cl:lifetime	mensural:time	White 2021:345	
+sob	CO	cl:paragraph	mensural	White 2021:382	
+suab	CO	vcl:voice	verbal action	White 2021:369	
+taag kis	WH	cl:morning	mensural:time	White 2021:345	
+taam sim	GM	cl:time	mensural:time	White 2021:176	
+taav su	GM	cl:midday	mensural:time	White 2021:345	
+tag kis	WH	cl:morning	mensural:time	White 2019:238;White 2021:345,376	
+taig	GM	cl:bowl	mensural:container	White 2021:340	
+tais	WH	cl:bowl	mensural:container	White 2021:340	
+tam	GM	cl:generation	mensural:collective	White 2021:342	
+tam sim	WH	cl:time	mensural:time	White 2021:239	
+tav su	WH	cl:midday	mensural:time	White 2021:345	
+tawb	CO	cl:basket	mensural:container	White 2021:340	
+teem	CO	cl:drop	mensural	White 2021:151	
+teev	CO	cl:hour	mensural:time	White 2021:345	
+teg	WH	cl:handful	mensural	White 2021:95	sandhi form
+teg	GM	cl:handful	mensural		
+tej	CO	cl:some	non-singular	White 2019:225,235;White 2021:302,354	
+tes	WH	cl:handful	mensural	White 2021:95	
+thaaj	GM	cl:field	mensural	White 2021:337	
+thaj	WH	cl:field,paddy	mensural	White 2021:109,333,337	
+theem	CO	cl:level	mensural	White 2021:668	
+thij	CO	cl:hand	mensural	White 2021:335	
+thoob	CO	cl:bucket	mensural:container	White 2019:228;White 2021:340	
+thooj	CO	cl:chunk	mensural	White 2021:333	
+tiam	WH	cl:generation	mensural:collective	White 2021:342	
+tog	CO	cl:halfway	locational	White 2019:232;White 2021:302,382	
+tog	CO	cl:halfway	locational	White 2021:351,353	
+tsaab	GM	cl:volume,document	mensural	White 2021:333,337,381	
+tsaav	GM	cl:human.kind	mensural:kind	White 2021:344	
+tsab	WH	cl:volume,document	mensural	White 2021:333,337,381	
+tsam	WH	cl:later	mensural:time	White 2021:213	
+tsav	WH	cl:human.kind	mensural:kind	White 2021:344	
+tse	CO	cl:house	mensural:container	White 2019:233	sandhi form
+tsev	CO	cl:house	mensural:container	White 2019:233;White 2021:302,340	
+tshim	CO	mw:cubit	measure word	White 2021:367	
+tsob	CO	cl:plant	mensural	White 2019:228;White 2021:333,335,337	
+tsoom	CO	cl:crowd	mensural	White 2021:671	
+tug	WH	cl:1d-rigid;anim	sortal	White 2019:224,230,231,243;White 2021:303	sandhi form
+tug	GM	cl:1d-rigid;anim	sortal	White 2021:382  	
+tus	WH	cl:1d-rigid;anim	sortal	White 2019:224,227,230,243;White 2021:303,304,382	
+txhais	CO	cl:member.of.pair	sortal	White 2019:227;White 2021:304	
+txhia	WH	cl:some.count	mensural	White 2021:158,159,277	
+txhis	CO	cl:forever	mensural:time	White 2021:349	
+txog	WH	cl:1d.nr	sortal	White 2019:243	sandhi form
+txoj	WH	cl:1d.nr	sortal	White 2019:227,243;White 2021:304	
+txug	GM	cl:1d.nr	sortal		sandhi form  
+txuj	GM	cl:1d.nr	sortal	White 2021:304	
+vas thiv	WH	cl:week	mensural:time	White 2021:345	Lao borrowing
+vuag	CO	cl:times	mensural:time	White 2021:680	
+xib	CO	mw:hand.width	measure word	White 2021:367	
+xyoo	CO	cl:year	mensural:time	White 2019:226;White 2021:302	
+xyoo	CO	cl:year	mensural:time	White 2019:233;White 2021:345	
+xyoos	CO	cl:year	mensural:time	White 2021:137,138	sandhi form
+yaam	GM	cl:kind	mensural:kind	White 2021:302,343	
+yaav	GM	cl:period	mensural:time	White 2021:486	
+yam	WH	cl:kind	mensural:kind	White 2019:228;White 2021:302,343	
+yav	WH	cl:period	mensural:time	White 2021:438	
+yawg	CO	cl:male.human	subordinate sortal	White 2019:234;White 2021:302,329,330	
+yim	CO	cl:family	mensural:collective	White 2019:225,236;White 2021:302,342	
+zaaj	GM	cl:discourse.unit	mensural	White 2021:333,337,382	
+zag	WH	cl:discourse.unit	mensural	White 2021:372	sandhi form
+zag	GM	cl:time	mensural:time		
+zaj	WH	cl:discourse.unit	mensural	White 2021:333,337,371,382	
+zaug	WH	cl:time	mensural:time		sandhi form
+zaug	WH	cl:time	mensural:time	White 2021:163	sandhi form
+zaum	WH	cl:time	mensural:time	White 2019:239;White 2021:345,409	
+zaus	WH	cl:time	mensural:time	White 2021:359,409,510	dialect corrected
+zog	WH	cl:village	mensural:container		sandhi form
+zog	GM	cl:village	mensural:container	White 2021:340	
+zos	WH	cl:village	mensural:container	White 2021:340  	

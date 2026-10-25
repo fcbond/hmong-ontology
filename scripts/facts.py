@@ -108,6 +108,8 @@ def main() -> int:
     parser.add_argument("--pivots", type=Path, default=Path("data/dbnary-pivots.tsv"))
     parser.add_argument("--adjudications", type=Path,
                         default=Path("data/adjudications.tsv"))
+    parser.add_argument("--withheld", type=Path, default=Path("data/withheld.tsv"),
+                        help="forms left out of the wordnet, and so of the figures")
     parser.add_argument("--kinship-aliases", type=Path,
                         default=Path("data/kinship-aliases.tsv"))
     parser.add_argument("--ili-proposals", type=Path,
@@ -132,6 +134,10 @@ def main() -> int:
     underspec = rows_of(here / "underspecified.tsv")
     kinship = rows_of(here / "kinship.tsv")
     kindiv = rows_of(here / "kinship-kindiv.tsv")
+    # a withheld form is not in the wordnet, so it is not in the figures either
+    withheld = (m.read_withheld(args.withheld) if args.withheld.exists() else set())
+    kinship = [r for r in kinship if (r["WH"], "WH") not in withheld]
+    kindiv = [r for r in kindiv if (r["WH"], "WH") not in withheld]
     nw_rows = merge_nw_classifiers.read_nw(here / "classifiers-nw.tsv")
     kindiv_code = {(r["WH"], r["GLOSS"]): (r["KINDIV"], r["ORIGIN"]) for r in kindiv}
     kindiv_proposals = tables_of(here / "kindiv-proposals.tsv")
@@ -244,6 +250,7 @@ def main() -> int:
             m.type_function_words(extra, id_map)
             m.merge_into_entries(entries, extra)
             senses.extend(extra)
+        m.withhold(entries, senses, withheld)
         if args.kinship_aliases.exists():
             m.apply_kinship_aliases(senses, m.read_kinship_aliases(args.kinship_aliases))
         m.link_senses(senses, english, True, True, morphy,
@@ -252,6 +259,7 @@ def main() -> int:
         if adjudicated:
             m.apply_adjudications(
                 senses, [v for v in verdicts if v["DIALECT"] == "WH"])
+        m.restate_adjectives(entries)
         m.record_ili_pos(senses, english)
         deferred = m.defer_weak_links(entries)
         m.dedupe_senses(entries)

@@ -699,6 +699,22 @@ def test_restate_adjectives_keeps_a_speakers_adjective_and_the_numerals() -> Non
     assert [e.pos for e in entries] == ["a", "a", "v"]
 
 
+def test_withhold_drops_a_form_from_every_source_and_empties_its_entry() -> None:
+    """npawg goes whether the ontology or WOLD gave it; npaws 'fever' and the
+    Green Mong form stay unless listed."""
+    ontology = m.OntSense(0, "npawg", ["nonpaternal cousin"], "consanguineal_relation")
+    wold = m.OntSense(-1, "npawg", ["cousin"], "Kinship", source="WOLD")
+    fever = m.OntSense(-1, "npaws", ["fever"], "The body", source="WOLD")
+    gm = m.OntSense(0, "npawg", ["cousin"], "consanguineal_relation", dialect="GM")
+    senses = [ontology, wold, fever, gm]
+    entries = [m.Entry("npawg", "n", senses=[ontology, wold]),
+               m.Entry("npaws", "n", senses=[fever]),
+               m.Entry("npawg", "n", dialect="GM", senses=[gm])]
+    assert m.withhold(entries, senses, {("npawg", "WH")}) == 2
+    assert senses == [fever, gm]
+    assert [(e.form, e.dialect) for e in entries] == [("npaws", "WH"), ("npawg", "GM")]
+
+
 # --- DBnary sense-anchored translations --------------------------------------
 
 

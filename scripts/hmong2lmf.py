@@ -574,6 +574,36 @@ def read_adjudications(path: Path) -> list[dict[str, str]]:
                 if row.get("FORM") and not row["FORM"].startswith("#")]
 
 
+def read_withheld(path: Path) -> set[tuple[str, str]]:
+    """Forms left out of the wordnet for now: `withheld.tsv`, as (form, dialect)."""
+    with path.open(newline="", encoding="utf8") as handle:
+        return {(normalise_form(row["FORM"]), row["DIALECT"])
+                for row in csv.DictReader(handle, delimiter="\t")
+                if row.get("FORM") and not row["FORM"].startswith("#")}
+
+
+def withhold(entries: list[Entry], senses: list[OntSense],
+             withheld: set[tuple[str, str]]) -> int:
+    """Drop every sense of a withheld form, whichever source gave it.
+
+    A word under review (`npawg`, whose meaning two descriptions disagree on)
+    must not reach the wordnet from the ontology, WOLD or the kinship table
+    while it is reviewed, and the sources themselves stay as they are. Runs
+    before linking, so nothing is linked that is then thrown away. Returns the
+    number of senses dropped.
+    """
+    if not withheld:
+        return 0
+    kept = [s for s in senses if (s.form, s.dialect) not in withheld]
+    dropped = len(senses) - len(kept)
+    senses[:] = kept
+    for entry in entries:
+        entry.senses = [s for s in entry.senses
+                        if (s.form, s.dialect) not in withheld]
+    entries[:] = [entry for entry in entries if entry.senses]
+    return dropped
+
+
 #: an adjudication's ILI that leaves the routes' link alone, for a verdict about
 #: something else, such as whether the form is a word
 KEEP_LINK = "*"
@@ -1893,6 +1923,8 @@ def main() -> int:
     parser.add_argument("--adjudications", type=Path, metavar="FILE",
                         help="adjudications.tsv: a speaker's verdicts on links, "
                              "which overrule every route")
+    parser.add_argument("--withheld", type=Path, metavar="FILE",
+                        help="withheld.tsv: forms left out of the wordnet for now")
     parser.add_argument("--kinship-aliases", type=Path, metavar="FILE",
                         help="kinship-aliases.tsv: further glosses for KinDiv-mapped "
                              "kinship senses, so that duplicates merge")
@@ -2039,6 +2071,9 @@ def main() -> int:
             print(f"  wrote {args.dbnary_review}: {len(proposed) + len(review)} "
                   f"candidates for a speaker to choose between")
 
+    if args.withheld:
+        dropped = withhold(entries, senses, read_withheld(args.withheld))
+        print(f"withheld {dropped} senses of the forms in {args.withheld}")
     if args.kinship_aliases:
         coded = apply_kinship_aliases(senses, read_kinship_aliases(args.kinship_aliases))
         print(f"gave {coded} kinship senses a KinDiv code from {args.kinship_aliases}")

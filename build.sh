@@ -98,6 +98,7 @@ for dialect in WH GM; do
         --pivot-review "$PROJECT_DIR/review/review-triangulation-$dialect.tsv" \
         --dbnary-review "$PROJECT_DIR/review/review-wiktionary-$dialect.tsv" \
         --adjudications "$PROJECT_DIR/data/adjudications.tsv" \
+        --withheld "$PROJECT_DIR/data/withheld.tsv" \
         --ili-proposals "$PROJECT_DIR/data/ili-proposals.tsv" \
         --kinship-aliases "$PROJECT_DIR/data/kinship-aliases.tsv" \
         "${route_args[@]}"

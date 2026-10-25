@@ -149,10 +149,10 @@ We propose two senses: size (i7530) and importance (i6968).
 |---|---|---|---|---|
 | [ ] | **i7552** | huge, immense, vast | unusually great in size or amount or degree or especially extent or scope | *huge government spending* |
 | [ ] | **i6968** | important, of import | of great significance or value | *important people* |
-| [ ] | **i6047** | mere | being nothing more than specified | *a mere child* |
 | [ ] | **i6173** | bad | having undesirable or negative qualities | *a bad report card* |
 | [ ] | i4954 | contemptible | deserving of contempt or scorn | |
 | [ ] | i7530 | large, big | above average in size or number or quantity or magnitude or extent | *a large city* |
+| [ ] | i6047 | mere | being nothing more than specified | *a mere child* |
 
 Mottin's insults suggest the 'bad' reading expresses contempt (i4954) more than
 poor quality (i6173). No concept here covers the familiar use in address
@@ -172,9 +172,9 @@ poor quality (i6173). No concept here covers the familiar use in address
 | ✓ | ILI | Lemmas | Definition | Example |
 |---|---|---|---|---|
 | [ ] | **i7579** | small, little | limited or below average in number or quantity or magnitude or extent | *a little dining room* |
-| [ ] | **i6968** | important, of import | of great significance or value | *important people* |
-| [ ] | **i2748** | especial, exceptional, particular, special | surpassing what is common or usual or expected | *he paid especial attention to her* |
-| [ ] | **i6173** | bad | having undesirable or negative qualities | *a bad report card* |
+| [ ] | i6968 | important, of import | of great significance or value | *important people* |
+| [ ] | i2748 | especial, exceptional, particular, special | surpassing what is common or usual or expected | *he paid especial attention to her* |
+| [ ] | i6173 | bad | having undesirable or negative qualities | *a bad report card* |
 | [ ] | i7582 | bantam, diminutive, lilliputian, midget, petite | very small | |
 | [ ] | i7584 | dinky, insignificant | small and unimpressive | |
 

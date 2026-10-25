@@ -895,7 +895,7 @@
 				<category>sortal_classifier</category>
 				<function>classifier</function>
 				<classifies form="Hmoob_Tsab">Chang clan man</classifies>
-				<note>attestation: W:329-332; White's category: subordinate_sortal</note>
+				<note>attestation: W:329-332; W19:234; White's category: subordinate_sortal</note>
 			</sense>
 			<sense>
 				<meaning>paternal grandfather</meaning>
@@ -1292,7 +1292,7 @@
 				<meaning>a mensural classifier of length: the width of a finger</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; W:366-367; White's category: measure_word; Bisang's category: measure</note>
+				<note>attestation: B:35; W:366-367; NW:p.c.; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1417,6 +1417,7 @@
 		<lemma>
 			<form>tsev</form>
 			<dialect>WH</dialect>
+			<variant>tse</variant>
 			<sense>
 				<meaning>house</meaning>
 				<category>three_dimensional_object</category>
@@ -1427,7 +1428,7 @@
 				<function>classifier</function>
 				<classifies form="neeg">human being</classifies>
 				<classifies form="tuab_neeg">human being</classifies>
-				<note>attestation: W:339-340; White's category: container</note>
+				<note>attestation: W:339-340; W19:233; White's category: container</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1483,6 +1484,7 @@
 		<lemma>
 			<form>zos</form>
 			<dialect>WH</dialect>
+			<variant>zog</variant>
 			<sense>
 				<meaning>village</meaning>
 				<category>place</category>
@@ -1528,7 +1530,7 @@
 				<classifies form="ntsev">lump of salt</classifies>
 				<classifies form="ntawv">roll of paper</classifies>
 				<classifies form="khaub_ncaws">pile of garments</classifies>
-				<note>attestation: B:20,22; W:331; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
+				<note>attestation: B:20,22; W:331; W19:240; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1583,7 +1585,7 @@
 				<function>quantifier</function>
 				<classifies form="hauj_lwm">work</classifies>
 				<classifies form="kev">road, hence a day's travel</classifies>
-				<note>attestation: B:36; W:345-349; White's category: time; Bisang's category: measure</note>
+				<note>attestation: B:36; W:345-349; W19:239; White's category: time; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -1605,7 +1607,7 @@
 				<meaning>a time classifier for a night or evening, also glossed CL:EVENING</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:345-347; White's category: time</note>
+				<note>attestation: W:345-347; W19:238; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -2159,9 +2161,16 @@
 		<lemma>
 			<form>tes</form>
 			<dialect>WH</dialect>
+			<variant>teg</variant>
 			<sense>
 				<meaning>hand</meaning>
 				<category>paired_body_part</category>
+			</sense>
+			<sense>
+				<meaning>a mensural classifier glossed 'handful' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:95; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -2442,6 +2451,7 @@
 		<lemma>
 			<form>qhov</form>
 			<dialect>WH</dialect>
+			<variant>qho</variant>
 			<sense>
 				<meaning>hole</meaning>
 				<category>three_dimensional_space</category>
@@ -2613,6 +2623,7 @@
 		<lemma>
 			<form>xyoo</form>
 			<dialect>WH</dialect>
+			<variant>xyoos</variant>
 			<sense>
 				<meaning>year</meaning>
 				<category>time</category>
@@ -2621,7 +2632,7 @@
 				<meaning>a mensural classifier of time: one year</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:36; W:345-346; White's category: time; Bisang's category: measure</note>
+				<note>attestation: B:36; W:345-346; W19:226; W19:233; White's category: time; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -2738,7 +2749,7 @@
 				<meaning>a mensural classifier of capacity: one bottle</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35-36; Bisang's category: measure</note>
+				<note>attestation: B:35-36; NW:p.c.; White's category: container; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -3231,6 +3242,12 @@
 				<meaning>comb</meaning>
 				<category>object</category>
 			</sense>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'bit' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:247; White's category: time</note>
+			</sense>
 		</lemma>
 		<lemma>
 			<form>plhaub</form>
@@ -3457,6 +3474,12 @@
 				<category>plant</category>
 				<note>may need to revisit category</note>
 			</sense>
+			<sense>
+				<meaning>a mensural classifier glossed 'coin denomination' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W19:234; White's category: mensural</note>
+			</sense>
 		</lemma>
 		<lemma>
 			<form>taub</form>
@@ -3637,7 +3660,7 @@
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
 				<classifies form="dej">water</classifies>
-				<note>attestation: B:35-36; W:340; White's category: container; Bisang's category: measure</note>
+				<note>attestation: B:35-36; W:340; W19:228; White's category: container; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -3732,7 +3755,7 @@
 				<meaning>a time classifier for a month</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:345; White's category: time</note>
+				<note>attestation: W:345; W19:226; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -4189,6 +4212,12 @@
 				<meaning>spoon</meaning>
 				<category>tool</category>
 			</sense>
+			<sense>
+				<meaning>a container classifier glossed 'spoon' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: container</note>
+			</sense>
 		</lemma>
 		<lemma>
 			<form>riam</form>
@@ -4259,7 +4288,7 @@
 				<meaning>a mensural classifier of length: the width of one fist</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; NW:p.c.; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -4339,7 +4368,7 @@
 				<function>quantifier</function>
 				<classifies form="plaub_hau">lock of hair</classifies>
 				<classifies form="tw_nees">hairs from a horse's tail</classifies>
-				<note>attestation: B:13,37; W:334-336; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
+				<note>attestation: B:13,37; W:334-336; W19:228; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -4848,6 +4877,7 @@
 		<lemma>
 			<form>plas</form>
 			<dialect>WH</dialect>
+			<variant>plag</variant>
 			<sense>
 				<meaning>owl</meaning>
 				<category>animal</category>
@@ -4979,6 +5009,12 @@
 				<meaning>time_period</meaning>
 				<category>time</category>
 				<function>class_noun</function>
+			</sense>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'period' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:438; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -5721,7 +5757,7 @@
 				<classifies form="kev">road, way</classifies>
 				<classifies form="xyoo">year</classifies>
 				<classifies form="lus">side of the story</classifies>
-				<note>attestation: L; W:350-353, 382; White's category: locational</note>
+				<note>attestation: L; W:350-353, 382; W19:232; White's category: locational</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -6514,6 +6550,12 @@
 			<sense>
 				<meaning>gibbon</meaning>
 				<category>animal</category>
+			</sense>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'time' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:445; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -7615,7 +7657,7 @@
 				<classifies form="qaib">brood of chickens</classifies>
 				<classifies form="npua">litter of pigs</classifies>
 				<classifies form="hluas">group of young people</classifies>
-				<note>attestation: B:11,40; Bisang's category: collective</note>
+				<note>attestation: B:11,40; W:372; White's category: mensural; Bisang's category: collective</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -7986,6 +8028,7 @@
 		<lemma>
 			<form>daj</form>
 			<dialect>WH</dialect>
+			<variant>dag</variant>
 			<sense>
 				<meaning>be yellow</meaning>
 				<category>verb.change</category>
@@ -7994,7 +8037,7 @@
 				<meaning>a mensural classifier of length: the distance from fingertip to fingertip with the arms outstretched</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; NW:p.c.; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -8745,7 +8788,7 @@
 				<function>quantifier</function>
 				<classifies form="mov">mouthful of rice</classifies>
 				<classifies form="dej">mouthful of water</classifies>
-				<note>attestation: B:36; Bisang's category: measure</note>
+				<note>attestation: B:36; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -9114,6 +9157,12 @@
 			<sense>
 				<meaning>prepare</meaning>
 				<category>verb.change</category>
+			</sense>
+			<sense>
+				<meaning>a mensural classifier glossed 'baht' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:120; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -9718,7 +9767,7 @@
 				<classifies form="yaj">flock of sheep</classifies>
 				<classifies form="npua_npoj">group of wild boars</classifies>
 				<classifies form="qaib">brood of chickens</classifies>
-				<note>attestation: B:39; W:342; White's category: collective; Bisang's category: collective</note>
+				<note>attestation: B:39; W:342; W19:228,238; White's category: collective; Bisang's category: collective</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -9853,7 +9902,7 @@
 				<category>mensural_classifier</category>
 				<function>classifier</function>
 				<classifies form="tshais">breakfast</classifies>
-				<note>attestation: L; W:334, 337; White's category: mensural</note>
+				<note>attestation: L; W:334, 337; NW:p.c.; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -10301,7 +10350,7 @@
 				<classifies form="roob">mountain</classifies>
 				<classifies form="pas_dej">lake</classifies>
 				<classifies form="Thaib_Teb">Thailand</classifies>
-				<note>attestation: L; W:350-353; White's category: locational</note>
+				<note>attestation: L; W:350-353; W19:232; White's category: locational</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -11169,7 +11218,7 @@
 				<classifies form="ncej_puab">thigh</classifies>
 				<classifies form="ko_taw">foot</classifies>
 				<classifies form="npab">arm</classifies>
-				<note>attestation: B:34-35; W:322-323; White's category: sortal; Bisang's category: classifier</note>
+				<note>attestation: B:34-35; W:322-323; W19:227; White's category: sortal; Bisang's category: classifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -11621,7 +11670,7 @@
 				<meaning>an event classifier used to count occasions</meaning>
 				<category>event_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L</note>
+				<note>attestation: L; W:359,409,510; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -11866,6 +11915,12 @@
 				<meaning>harrow</meaning>
 				<meaning>till</meaning>
 				<category>verb.change</category>
+			</sense>
+			<sense>
+				<meaning>a mensural classifier glossed 'nationality' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:135; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12395,7 +12450,7 @@
 				<classifies form="npe">name</classifies>
 				<classifies form="lis_piam">week</classifies>
 				<classifies form="neej">life</classifies>
-				<note>attestation: B:31-32; W:305-308; White's category: sortal; Bisang's category: classifier</note>
+				<note>attestation: B:31-32; W:305-308; W19:225,227; White's category: sortal; Bisang's category: classifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12421,13 +12476,14 @@
 				<classifies form="yuam_sij">key</classifies>
 				<classifies form="ntaiv">ladder</classifies>
 				<classifies form="nqe">price</classifies>
-				<note>attestation: B:32; W:309-316; White's category: sortal; Bisang's category: classifier</note>
+				<note>attestation: B:32; W:309-316; W19:224,227,230,243; White's category: sortal; Bisang's category: classifier</note>
 				<function>class_noun</function>
 			</sense>
 		</lemma>
 		<lemma>
 			<form>leej</form>
 			<dialect>WH</dialect>
+			<variant>leeg</variant>
 			<sense>
 				<meaning>a sortal classifier used only with humans, more explicit than tus, and often used with no following noun</meaning>
 				<category>sortal_classifier</category>
@@ -12435,7 +12491,7 @@
 				<classifies form="neeg">person</classifies>
 				<classifies form="txiv">father</classifies>
 				<classifies form="niam">mother</classifies>
-				<note>attestation: B:33; W:329-331; White's category: subordinate_sortal; Bisang's category: classifier</note>
+				<note>attestation: B:33; W:329-331; W19:227,240; White's category: subordinate_sortal; Bisang's category: classifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12457,12 +12513,13 @@
 				<classifies form="taus">axe</classifies>
 				<classifies form="kaw">saw</classifies>
 				<classifies form="liag">sickle</classifies>
-				<note>attestation: B:34; W:324-325; White's category: sortal; Bisang's category: classifier</note>
+				<note>attestation: B:34; W:324-325; W19:227,240; White's category: sortal; Bisang's category: classifier</note>
 			</sense>
 		</lemma>
 		<lemma>
 			<form>txoj</form>
 			<dialect>WH</dialect>
+			<variant>txog</variant>
 			<sense>
 				<meaning>a sortal classifier used with long one-dimensional objects, with kev 'way', and with abstracts derived from it</meaning>
 				<category>sortal_classifier</category>
@@ -12476,7 +12533,7 @@
 				<classifies form="sia">life</classifies>
 				<classifies form="hmoov">fortune</classifies>
 				<classifies form="cai">law</classifies>
-				<note>attestation: B:34; W:316-319; White's category: sortal; Bisang's category: classifier</note>
+				<note>attestation: B:34; W:316-319; W19:227,243; White's category: sortal; Bisang's category: classifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12496,7 +12553,7 @@
 				<classifies form="tiab">gown</classifies>
 				<classifies form="sev">apron</classifies>
 				<classifies form="pam">cover</classifies>
-				<note>attestation: B:34; W:319-321, 329; White's category: sortal; Bisang's category: classifier</note>
+				<note>attestation: B:34; W:319-321, 329; W19:227,243; White's category: sortal; Bisang's category: classifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12562,7 +12619,7 @@
 				<meaning>a mensural classifier of length: the distance between the end of the thumb and the end of the extended first finger</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; NW:p.c.; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12722,7 +12779,7 @@
 				<meaning>a mensural classifier of capacity: one batch or brew of liquor</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35-36; Bisang's category: measure</note>
+				<note>attestation: B:35-36; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12748,7 +12805,7 @@
 				<classifies form="lus">word</classifies>
 				<classifies form="mov">mouthful of rice</classifies>
 				<classifies form="dej">mouthful of water</classifies>
-				<note>attestation: B:10,22,36; W:334, 337, 382; White's category: mensural; Bisang's category: measure</note>
+				<note>attestation: B:10,22,36; W:334, 337, 382; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12774,7 +12831,7 @@
 				<meaning>a mensural classifier of time: one second</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:36; Bisang's category: measure</note>
+				<note>attestation: B:36; W:73; White's category: time; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12814,7 +12871,7 @@
 				<meaning>a mensural classifier of time: a while, more than one hour</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:36; Bisang's category: measure</note>
+				<note>attestation: B:36; W:213; White's category: time; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12854,7 +12911,7 @@
 				<meaning>a mensural classifier of time: a period of two to three months</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:36; Bisang's category: measure</note>
+				<note>attestation: B:36; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12869,7 +12926,7 @@
 				<classifies form="xyooj">bamboo plant</classifies>
 				<classifies form="nroj">tuft of grass</classifies>
 				<classifies form="pos">briar</classifies>
-				<note>attestation: B:13,37; W:333, 337; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
+				<note>attestation: B:13,37; W:333, 337; W19:228; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12882,7 +12939,7 @@
 				<classifies form="ntawv">book</classifies>
 				<classifies form="ris_tsho">pile of garments</classifies>
 				<classifies form="nyiaj">bundle of bank notes</classifies>
-				<note>attestation: B:22,37; W:333-337; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
+				<note>attestation: B:22,37; W:333-337; W19:236; White's category: mensural; Bisang's category: intrinsic_quantifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12931,7 +12988,7 @@
 				<function>quantifier</function>
 				<classifies form="nag">cloud-burst</classifies>
 				<classifies form="cua">gust of wind</classifies>
-				<note>attestation: B:38; Bisang's category: intrinsic_quantifier</note>
+				<note>attestation: B:38; W:680; White's category: time; Bisang's category: intrinsic_quantifier</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13018,7 +13075,7 @@
 				<function>quantifier</function>
 				<classifies form="Hmoob">Hmong family</classifies>
 				<classifies form="neeg">household</classifies>
-				<note>attestation: B:39; W:340-342; White's category: collective; Bisang's category: collective</note>
+				<note>attestation: B:39; W:340-342; W19:225,236; White's category: collective; Bisang's category: collective</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13058,7 +13115,7 @@
 				<classifies form="tsiaj_txhu">species of animal</classifies>
 				<classifies form="hauj_lwm">kind of work</classifies>
 				<classifies form="lus">the same thing said</classifies>
-				<note>attestation: B:40-41; W:343-344; White's category: kind; Bisang's category: kind</note>
+				<note>attestation: B:40-41; W:343-344; W19:228; White's category: kind; Bisang's category: kind</note>
 				<function>classifier</function>
 			</sense>
 		</lemma>
@@ -13073,7 +13130,7 @@
 				<classifies form="xov">kind of news</classifies>
 				<classifies form="zoo">something good</classifies>
 				<classifies form="tshiab">something new</classifies>
-				<note>attestation: B:11,41; W:343-344; White's category: kind; Bisang's category: kind</note>
+				<note>attestation: B:11,41; W:343-344; W19:228; White's category: kind; Bisang's category: kind</note>
 				<function>classifier</function>
 			</sense>
 		</lemma>
@@ -13089,7 +13146,7 @@
 				<classifies form="tis">wing</classifies>
 				<classifies form="ntuj">sky</classifies>
 				<classifies form="roob">mountain</classifies>
-				<note>attestation: L; W:350-353; White's category: locational</note>
+				<note>attestation: L; W:350-353; W19:225; White's category: locational</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13100,7 +13157,7 @@
 				<category>sortal_classifier</category>
 				<function>classifier</function>
 				<classifies form="roob">mountain</classifies>
-				<note>attestation: L; W:350-353; White's category: locational</note>
+				<note>attestation: L; W:350-353; W19:231; White's category: locational</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13146,7 +13203,7 @@
 				<meaning>a mensural classifier used with single meals and single doses</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L</note>
+				<note>attestation: L; W:334,337baseformcorrected; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13174,6 +13231,7 @@
 		<lemma>
 			<form>cov</form>
 			<dialect>WH</dialect>
+			<variant>co</variant>
 			<sense>
 				<meaning>a non-singular classifier whose older and more concrete value is 'bunch, group' and whose usual modern value is an abstract non-singular with implications of definiteness; it unitizes mass nouns and has grammaticalized into the quantifier NS</meaning>
 				<category>group_classifier</category>
@@ -13186,7 +13244,7 @@
 				<classifies form="ntoo">tree</classifies>
 				<classifies form="qe">egg</classifies>
 				<classifies form="cwj_mem">pen</classifies>
-				<note>attestation: L; W:354-357, 362-365; White's category: non_singular</note>
+				<note>attestation: L; W:354-357, 362-365; W19:224,226,235,236; White's category: non_singular</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13201,7 +13259,7 @@
 				<classifies form="Hmoob">Hmong</classifies>
 				<classifies form="kwv_tij">brothers, consanguineal relatives</classifies>
 				<classifies form="xuab_zeb">sand</classifies>
-				<note>attestation: L; W:340-342, 371-372; White's category: collective</note>
+				<note>attestation: L; W:340-342, 371-372; W19:234; White's category: collective</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13232,7 +13290,7 @@
 				<meaning>an event classifier used to count occasions</meaning>
 				<category>event_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L</note>
+				<note>attestation: L; NW:p.c.; W:163; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13242,7 +13300,7 @@
 				<meaning>an event classifier used to count occasions</meaning>
 				<category>event_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L; W:345, 409; White's category: time</note>
+				<note>attestation: L; W:345, 409; W19:239; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13252,7 +13310,7 @@
 				<meaning>an event classifier used to count moments</meaning>
 				<category>event_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L</note>
+				<note>attestation: L; W:239; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13262,7 +13320,7 @@
 				<meaning>an event classifier used to count moments</meaning>
 				<category>event_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L</note>
+				<note>attestation: L; W:176; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13326,6 +13384,7 @@
 		<lemma>
 			<form>txuj</form>
 			<dialect>GM</dialect>
+			<variant>txug</variant>
 			<sense>
 				<meaning>a sortal classifier used with long one-dimensional objects, with kev 'way', and with abstracts derived from it</meaning>
 				<category>sortal_classifier</category>
@@ -13484,6 +13543,7 @@
 		<lemma>
 			<form>cov</form>
 			<dialect>GM</dialect>
+			<variant>co</variant>
 			<sense>
 				<meaning>a non-singular classifier whose older and more concrete value is 'bunch, group' and whose usual modern value is an abstract non-singular with implications of definiteness; it unitizes mass nouns and has grammaticalized into the quantifier NS</meaning>
 				<category>group_classifier</category>
@@ -13496,7 +13556,7 @@
 				<classifies form="ntoo">tree</classifies>
 				<classifies form="qe">egg</classifies>
 				<classifies form="cwj_mem">pen</classifies>
-				<note>attestation: W:354-357, 362-365; White's category: non_singular</note>
+				<note>attestation: W:354-357, 362-365; W19:224,226,235,236; White's category: non_singular</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13528,7 +13588,7 @@
 				<meaning>a time classifier for a fortnight, borrowed from English in the Australian diaspora</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:128, 345; White's category: time</note>
+				<note>attestation: W:128, 345; W19:235; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13538,12 +13598,13 @@
 				<meaning>a time classifier for a fortnight, borrowed from English in the Australian diaspora</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:128, 345; White's category: time</note>
+				<note>attestation: W:128, 345; W19:235; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
 			<form>fwj</form>
 			<dialect>GM</dialect>
+			<variant>hwj</variant>
 			<sense>
 				<meaning>a container classifier of arrangement, for a bottle of liquid</meaning>
 				<category>mensural_classifier</category>
@@ -13574,7 +13635,7 @@
 				<meaning>a time classifier for a month</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:345; White's category: time</note>
+				<note>attestation: W:345; W19:226; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13594,7 +13655,7 @@
 				<meaning>a kind classifier of quanta in Allan's instance-classifier sense, indicating a kind or type of thing; the older of the two general kind classifiers</meaning>
 				<category>taxonomic_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:343-344; White's category: kind</note>
+				<note>attestation: W:343-344; W19:228; White's category: kind</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13655,6 +13716,7 @@
 		<lemma>
 			<form>leej</form>
 			<dialect>GM</dialect>
+			<variant>leeg</variant>
 			<sense>
 				<meaning>a subordinate sortal classifier for human referents, semantically a more specific version of tus/tug CL:ANIM, often used with a number word alone to count individuals and in the apportioning construction</meaning>
 				<category>sortal_classifier</category>
@@ -13663,7 +13725,7 @@
 				<classifies form="tub_sab">thief</classifies>
 				<classifies form="niam">mother</classifies>
 				<classifies form="tub">son</classifies>
-				<note>attestation: W:329-331; White's category: subordinate_sortal</note>
+				<note>attestation: W:329-331; W19:227,240; White's category: subordinate_sortal</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13859,7 +13921,7 @@
 				<category>mensural_classifier</category>
 				<function>classifier</function>
 				<classifies form="kev">road, way</classifies>
-				<note>attestation: W:334-337; White's category: mensural</note>
+				<note>attestation: W:334-337; NW:p.c.; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13897,7 +13959,7 @@
 				<classifies form="Hmoob">Hmong</classifies>
 				<classifies form="kwv_tij">brothers, consanguineal relatives</classifies>
 				<classifies form="xuab_zeb">sand</classifies>
-				<note>attestation: W:340-342, 371-372; White's category: collective</note>
+				<note>attestation: W:340-342, 371-372; W19:234; White's category: collective</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13910,7 +13972,7 @@
 				<classifies form="ntawv">paper, hence book</classifies>
 				<classifies form="Vaj_lus_kub">Christian Bible</classifies>
 				<classifies form="duab">photograph, hence photo album</classifies>
-				<note>attestation: W:333-337; White's category: mensural</note>
+				<note>attestation: W:333-337; W19:236; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13978,12 +14040,13 @@
 				<category>mensural_classifier</category>
 				<function>classifier</function>
 				<classifies form="xov">thread</classifies>
-				<note>attestation: W:334-336; White's category: mensural</note>
+				<note>attestation: W:334-336; W19:228; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
 			<form>qhov</form>
 			<dialect>GM</dialect>
+			<variant>qho</variant>
 			<sense>
 				<meaning>the default sortal classifier, used with nouns that do not fit the semantics of the other sortal classifiers, with semantically vague and abstract nouns including recent English borrowings, with unspecified referents, and in nominalizations</meaning>
 				<category>sortal_classifier</category>
@@ -14118,7 +14181,7 @@
 				<meaning>a time classifier for a morning</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:345-347, 376; White's category: time</note>
+				<note>attestation: W:345-347, 376; W19:238; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14185,7 +14248,7 @@
 				<classifies form="cooj_qaib">chicken coop</classifies>
 				<classifies form="tsiaj_qus">wild animal</classifies>
 				<classifies form="dej">water</classifies>
-				<note>attestation: W:357-365; White's category: non_singular</note>
+				<note>attestation: W:357-365; W19:225,235; White's category: non_singular</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14198,7 +14261,7 @@
 				<classifies form="cooj_qaib">chicken coop</classifies>
 				<classifies form="tsiaj_qus">wild animal</classifies>
 				<classifies form="dej">water</classifies>
-				<note>attestation: W:357-365; White's category: non_singular</note>
+				<note>attestation: W:357-365; W19:225,235; White's category: non_singular</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14233,7 +14296,7 @@
 				<category>mensural_classifier</category>
 				<function>classifier</function>
 				<classifies form="dej">water</classifies>
-				<note>attestation: W:340; White's category: container</note>
+				<note>attestation: W:340; W19:228; White's category: container</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14265,7 +14328,7 @@
 				<classifies form="kev">road, way</classifies>
 				<classifies form="xyoo">year</classifies>
 				<classifies form="lus">side of the story</classifies>
-				<note>attestation: W:350-353, 382; White's category: locational</note>
+				<note>attestation: W:350-353, 382; W19:232; White's category: locational</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14282,13 +14345,14 @@
 		<lemma>
 			<form>tsev</form>
 			<dialect>GM</dialect>
+			<variant>tse</variant>
 			<sense>
 				<meaning>a container classifier of arrangement, for a houseful of people, hence a family or household</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
 				<classifies form="neeg">human being</classifies>
 				<classifies form="tuab_neeg">human being</classifies>
-				<note>attestation: W:339-340; White's category: container</note>
+				<note>attestation: W:339-340; W19:233; White's category: container</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14308,7 +14372,7 @@
 				<classifies form="zaub">vegetables</classifies>
 				<classifies form="txiv">fruit</classifies>
 				<classifies form="dib">melon, gourd</classifies>
-				<note>attestation: W:333, 337; White's category: mensural</note>
+				<note>attestation: W:333, 337; W19:228; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14321,7 +14385,7 @@
 				<classifies form="ceg">leg</classifies>
 				<classifies form="tes">hand</classifies>
 				<classifies form="khau">shoe</classifies>
-				<note>attestation: W:322-323; White's category: sortal</note>
+				<note>attestation: W:322-323; W19:227; White's category: sortal</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14357,11 +14421,12 @@
 		<lemma>
 			<form>xyoo</form>
 			<dialect>GM</dialect>
+			<variant>xyoos</variant>
 			<sense>
 				<meaning>a time classifier for a year</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:345-346; White's category: time</note>
+				<note>attestation: W:345-346; W19:226; W19:233; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14372,7 +14437,7 @@
 				<category>sortal_classifier</category>
 				<function>classifier</function>
 				<classifies form="Hmoob_Tsab">Chang clan man</classifies>
-				<note>attestation: W:329-332; White's category: subordinate_sortal</note>
+				<note>attestation: W:329-332; W19:234; White's category: subordinate_sortal</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14388,7 +14453,7 @@
 				<classifies form="Hmoob">Hmong</classifies>
 				<classifies form="Co">Mien</classifies>
 				<classifies form="Pub_Thawj">Khmu</classifies>
-				<note>attestation: W:340-342; White's category: collective</note>
+				<note>attestation: W:340-342; W19:225,236; White's category: collective</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -14398,7 +14463,7 @@
 				<meaning>a time classifier counting occasions or repetitions of an event</meaning>
 				<category>mensural_classifier</category>
 				<function>classifier</function>
-				<note>attestation: W:409 (corrected), 216, 465; White's category: time; p. 409 misprints this as zaus (N. White, errata)</note>
+				<note>attestation: W:409 (corrected), 216, 465; NW:p.c.; White's category: time; p. 409 misprints this as zaus (N. White, errata)</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15916,7 +15981,7 @@
 				<meaning>a classifier counting times or multiples</meaning>
 				<category>event_classifier</category>
 				<function>classifier</function>
-				<note>attestation: L; W:675</note>
+				<note>attestation: L; W:675; White's category: time</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -15936,7 +16001,457 @@
 				<meaning>a measure word: a traditional rice measure, based on a container</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
+				<note>attestation: W:367; W19:225; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>cuam</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'time' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:445; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>dlav</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a container classifier glossed 'spoon' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:593; White's category: container</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>dos_las</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'dollar' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:411; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>feeb</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'minute, second' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:591,612; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>feeb</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'minute, second' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:591,612; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>feem</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'part, portion' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:385,392,395,407; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>feem</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'part, portion' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:385,392,395,407; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>haiv</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'nationality' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:135; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>hoob</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'room' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:159; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>hoob</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'room' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:159; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>laij</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word glossed '600m2' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
 				<note>attestation: W:367; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>lauj_kaub</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a container classifier glossed 'pot' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W19:233; White's category: container</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>lav</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word glossed 'kilometer' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:367; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>mev</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word glossed 'meter' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:302,367; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>miles</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a measure word glossed 'miles' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W19:234; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>moos</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'hour' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:244; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>moos</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'hour' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:244; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>niaj</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'time' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:649; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>npaug</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'times' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:675; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>npib</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'coin denomination' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W19:234; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>nti</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'finger' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:525; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>nti</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'finger' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:525; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>ntiv</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word glossed 'finger-width' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:302,367; NW:p.c.; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>ntsis</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'bit' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:247; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>pluas</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'serving' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:334,337baseformcorrected; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>poom</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a container classifier glossed 'can' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:592; White's category: container</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>poom</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a container classifier glossed 'can' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:592; White's category: container</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>riag</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a verbal action classifier glossed 'strike with knife' by White</meaning>
+				<category>event_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:402; White's category: verbal_action</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>taag_kis</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'morning' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:345; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>teem</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'drop' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:151; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>teem</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'drop' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:151; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>teg</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'handful' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>theem</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'level' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:668; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>theem</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'level' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:668; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>tshim</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word glossed 'cubit' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:367; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>tsoom</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'crowd' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:671; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>tsoom</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'crowd' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:671; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>txhia</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a mensural classifier glossed 'some count' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:158,159,277; White's category: mensural</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>vuag</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'times' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:680; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>xib</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word glossed 'hand width' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:367; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>yaav</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a mensural classifier of time glossed 'period' by White</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:486; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>dlaag</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: the span of the outstretched arms, fingertip to fingertip; Green Mong form of White Hmong daj</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>taus</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: the width of one fist</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>noos</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: the distance from the tip of the thumb to the tip of the extended first finger</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>kaug</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a verbal action classifier glossed 'bite' by White</meaning>
+				<category>event_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:538; White's category: verbal_action</note>
 			</sense>
 		</lemma>
 	</word_set>

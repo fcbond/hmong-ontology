@@ -656,6 +656,65 @@ def test_dedupe_collapses_across_entries_and_keeps_the_ilis_own_pos() -> None:
     assert "also analysed as v" in adj_entry.senses[0].note
 
 
+def adjective(form: str, gloss: str, ili: str) -> m.OntSense:
+    """A sense a wordlist classes as an adjective, as read_cldf makes it."""
+    sense = m.OntSense(-1, form, [gloss], "Property", pos_override="a",
+                       source="TEST")
+    sense.wordlist_adjective = True
+    sense.ili = ili
+    return sense
+
+
+def test_restate_adjectives_joins_the_verb_entry() -> None:
+    """kim 'expensive' is a stative verb: it joins kim's verb entry, and the
+    emptied adjective entry goes."""
+    verb = m.OntSense(0, "kim", ["be expensive"], "verb.stative")
+    adj_entry = m.Entry("kim", "a", senses=[adjective("kim", "expensive", "i5")],
+                        sources=["TEST"])
+    verb_entry = m.Entry("kim", "v", senses=[verb])
+    entries = [verb_entry, adj_entry]
+    assert m.restate_adjectives(entries) == 1
+    assert entries == [verb_entry]
+    assert [s.pos for s in verb_entry.senses] == ["v", "v"]
+    assert verb_entry.sources == ["TEST"]
+
+
+def test_restate_adjectives_retypes_an_entry_with_no_verb() -> None:
+    entry = m.Entry("ntev", "a", senses=[adjective("ntev", "long", "i7833")])
+    assert m.restate_adjectives([entry]) == 1
+    assert (entry.pos, entry.senses[0].pos) == ("v", "v")
+
+
+def test_restate_adjectives_keeps_a_speakers_adjective_and_the_numerals() -> None:
+    """A speaker's `a` keeps a true adjective; a numeral typed as an adjective
+    by its concept set is no wordlist adjective, unless a speaker says `v`."""
+    zoo = adjective("zoo", "good, auspicious", "i1")
+    zoo.speaker_pos = "a"
+    five = m.OntSense(-1, "tsib", ["five"], "Quantity", pos_override="a")
+    many = m.OntSense(-1, "coob", ["many"], "Quantity", pos_override="a")
+    many.speaker_pos = "v"
+    entries = [m.Entry("zoo", "a", senses=[zoo]), m.Entry("tsib", "a", senses=[five]),
+               m.Entry("coob", "a", senses=[many])]
+    assert m.restate_adjectives(entries) == 1
+    assert [e.pos for e in entries] == ["a", "a", "v"]
+
+
+def test_withhold_drops_a_form_from_every_source_and_empties_its_entry() -> None:
+    """npawg goes whether the ontology or WOLD gave it; npaws 'fever' and the
+    Green Mong form stay unless listed."""
+    ontology = m.OntSense(0, "npawg", ["nonpaternal cousin"], "consanguineal_relation")
+    wold = m.OntSense(-1, "npawg", ["cousin"], "Kinship", source="WOLD")
+    fever = m.OntSense(-1, "npaws", ["fever"], "The body", source="WOLD")
+    gm = m.OntSense(0, "npawg", ["cousin"], "consanguineal_relation", dialect="GM")
+    senses = [ontology, wold, fever, gm]
+    entries = [m.Entry("npawg", "n", senses=[ontology, wold]),
+               m.Entry("npaws", "n", senses=[fever]),
+               m.Entry("npawg", "n", dialect="GM", senses=[gm])]
+    assert m.withhold(entries, senses, {("npawg", "WH")}) == 2
+    assert senses == [fever, gm]
+    assert [(e.form, e.dialect) for e in entries] == [("npaws", "WH"), ("npawg", "GM")]
+
+
 # --- DBnary sense-anchored translations --------------------------------------
 
 
@@ -1157,14 +1216,135 @@ def test_kinship_alias_merges_duplicate_senses() -> None:
     assert [s.kindiv for s in entry.senses] == ["o;Br", "o;Fa;Br;So"]
 
 
+def test_cross_entry_merge_drops_the_emptied_entry_and_keeps_its_data() -> None:
+    verb = m.OntSense(0, "kim", ["be expensive"], "verb.stative")
+    verb.ili, verb.method = "i5", "intersection"
+    adjective = m.OntSense(-1, "kim", ["expensive"], "Possession", pos_override="a")
+    adjective.ili, adjective.method = "i5", "concepticon-id"
+    verb_entry = m.Entry("kim", "v", senses=[verb], sources=["Chinese"],
+                         variants=["kiem"])
+    adj_entry = m.Entry("kim", "a", senses=[adjective], sources=["WOLD"])
+    entries = [verb_entry, adj_entry]
+    assert m.dedupe_senses(entries, {"i5": "a"}) == 1
+    assert entries == [adj_entry]
+    assert adj_entry.sources == ["WOLD", "Chinese"]
+    assert adj_entry.variants == ["kiem"]
+
+
+def test_speakers_part_of_speech_decides_which_entry_keeps_the_sense() -> None:
+    verb = m.OntSense(0, "liab", ["be red"], "verb.stative")
+    adjective = m.OntSense(-1, "liab", ["red"], "Sense perception", pos_override="a")
+    verdicts = [{"FORM": "liab", "DIALECT": "WH", "GLOSS": gloss, "ILI": "i2130",
+                 "BY": "a speaker", "NOTE": "a stative verb", "POS": "v"}
+                for gloss in ("red", "be red")]
+    m.apply_adjudications([verb, adjective], verdicts)
+    verb_entry = m.Entry("liab", "v", senses=[verb])
+    adj_entry = m.Entry("liab", "a", senses=[adjective], sources=["WOLD"])
+    entries = [adj_entry, verb_entry]
+    # English gives the synset as a (satellite) adjective; the speaker says verb
+    assert m.dedupe_senses(entries, {"i2130": "s"}) == 1
+    assert entries == [verb_entry]
+    assert verb_entry.senses[0].glosses == ["be red", "red"]
+    assert verb_entry.sources == ["WOLD"]
+
+
+def test_english_satellite_counts_as_adjective_without_a_speaker() -> None:
+    verb = m.OntSense(0, "liab", ["be red"], "verb.stative")
+    verb.ili, verb.method = "i2130", "intersection"
+    adjective = m.OntSense(-1, "liab", ["red"], "Sense perception", pos_override="a")
+    adjective.ili, adjective.method = "i2130", "concepticon-id"
+    verb_entry = m.Entry("liab", "v", senses=[verb])
+    adj_entry = m.Entry("liab", "a", senses=[adjective])
+    entries = [verb_entry, adj_entry]
+    assert m.dedupe_senses(entries, {"i2130": "s"}) == 1
+    assert entries == [adj_entry]
+
+
+def test_adjudication_can_mark_a_phrase_and_keep_the_link() -> None:
+    phrase = m.OntSense(-1, "zaub mov", ["food"], "Food and drink")
+    phrase.ili, phrase.method = "i76470", "concepticon-id"
+    verdict = {"FORM": "zaub mov", "DIALECT": "WH", "GLOSS": "food", "ILI": "*",
+               "BY": "a speaker", "NOTE": "a coordinate compound",
+               "LEXICALIZED": "false"}
+    assert m.apply_adjudications([phrase], [verdict]) == []
+    assert (phrase.ili, phrase.method, phrase.lexicalized) == (
+        "i76470", "concepticon-id", False)
+
+
+def test_adjudication_without_lexicalized_column_leaves_a_word() -> None:
+    word = m.OntSense(-1, "deb", ["far"], "Spatial relations")
+    verdict = {"FORM": "deb", "DIALECT": "WH", "GLOSS": "far", "ILI": "i18771",
+               "BY": "a speaker", "NOTE": "spatial"}
+    m.apply_adjudications([word], [verdict])
+    assert (word.ili, word.method, word.lexicalized) == ("i18771", "adjudicated", True)
+
+
 def test_weak_link_yields_to_hand_made_link_for_same_gloss() -> None:
     weak = m.OntSense(0, "txiv", ["fruit"], "three_dimensional_object")
     weak.ili, weak.method = "i61322", "monosemous+category"
+    # before the category filter, 'fruit' could also reach the fruit of a plant
+    weak.candidate_notes = {"i61322": "an amount of a product",
+                            "i105676": "the ripened reproductive body of a seed plant"}
     strong = m.OntSense(-1, "txiv", ["fruit"], "Food and drink")
     strong.ili, strong.method = "i105676", "concepticon-id"
     entry = m.Entry("txiv", "n", senses=[weak, strong])
+    assert m.defer_weak_links([entry]) == 1
     assert m.dedupe_senses([entry]) == 1
     assert [s.ili for s in entry.senses] == ["i105676"]
+
+
+def test_weak_link_keeps_its_ili_when_the_gloss_only_differs_in_case() -> None:
+    # 'God' reaches only the Supreme Being; WOLD's 'god' is a deity, which the
+    # capitalised gloss could never have reached
+    weak = m.OntSense(0, "Vaj Tswv", ["God"], "religion")
+    weak.ili, weak.method = "i86771", "monosemous"
+    weak.candidate_notes = {"i86771": "the supernatural being conceived as ..."}
+    strong = m.OntSense(-1, "Vaj Tswv", ["god"], "Religion and belief")
+    strong.ili, strong.method = "i86570", "concepticon-id"
+    entry = m.Entry("Vaj Tswv", "n", senses=[weak, strong])
+    assert m.defer_weak_links([entry]) == 0
+    assert m.dedupe_senses([entry]) == 0
+    assert sorted(s.ili for s in entry.senses) == ["i86570", "i86771"]
+
+
+def test_weak_link_does_not_defer_to_hand_made_links_that_disagree() -> None:
+    weak = m.OntSense(0, "txiv", ["male"], "person")
+    weak.ili, weak.method = "i8000", "monosemous"
+    weak.candidate_notes = {"i8000": "", "i8088": "", "i8089": ""}
+    person = m.OntSense(-1, "txiv", ["male"], "Kinship")
+    person.ili, person.method = "i8089", "concepticon-id"
+    animal = m.OntSense(-1, "txiv", ["male"], "Animals")
+    animal.ili, animal.method = "i8088", "concepticon-id"
+    entry = m.Entry("txiv", "n", senses=[weak, person, animal])
+    assert m.defer_weak_links([entry]) == 0
+    assert weak.ili == "i8000"
+
+
+def test_function_word_takes_its_concept_sets_part_of_speech() -> None:
+    five = m.OntSense(-1, "tsib", ["five"], "Quantity", pos_override="x",
+                      concepticon="493")
+    unmapped = m.OntSense(-1, "los", ["or"], "Grammar", pos_override="x",
+                          concepticon="999")
+    retyped = m.type_function_words([five, unmapped], {"493": ("i12006", "a")})
+    assert retyped == 1
+    assert (five.pos, unmapped.pos) == ("a", "x")
+    m.link_senses([five], None, False, False, concepticon_by_id={"493": ("i12006", "a")})
+    assert (five.ili, five.method) == ("i12006", "concepticon-id")
+
+
+def test_function_words_are_not_classifiers(ontology_file) -> None:
+    senses, _, entries = m.read_ontology(ontology_file, "WH")
+    pronoun = m.OntSense(-1, "kuv", ["I"], "Grammar", pos_override="x")
+    m.merge_into_entries(entries, [pronoun])
+    senses.append(pronoun)
+    synset_of = {id(sense): key for key, members in m.build_synsets(senses).items()
+                 for sense in members}
+    relations = m.synset_relations(entries, synset_of, "concept")
+    pronoun_relations = relations.get(synset_of[id(pronoun)], set())
+    assert not any(rel == "exemplifies" for rel, _, _ in pronoun_relations)
+    exemplifies = sum(1 for rs in relations.values() for rel, _, _ in rs
+                      if rel == "exemplifies")
+    assert exemplifies == len({synset_of[id(s)] for s in senses if s.is_classifier})
 
 
 def test_two_hand_made_links_for_one_gloss_stay_apart() -> None:

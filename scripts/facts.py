@@ -33,6 +33,7 @@ from wn.morphy import Morphy
 
 import conflicts
 import hmong2lmf as m
+import merge_nw_classifiers
 
 
 #: First column of each header row in a file that holds several tables one after
@@ -107,6 +108,8 @@ def main() -> int:
     parser.add_argument("--pivots", type=Path, default=Path("data/dbnary-pivots.tsv"))
     parser.add_argument("--adjudications", type=Path,
                         default=Path("data/adjudications.tsv"))
+    parser.add_argument("--withheld", type=Path, default=Path("data/withheld.tsv"),
+                        help="forms left out of the wordnet, and so of the figures")
     parser.add_argument("--kinship-aliases", type=Path,
                         default=Path("data/kinship-aliases.tsv"))
     parser.add_argument("--ili-proposals", type=Path,
@@ -131,23 +134,45 @@ def main() -> int:
     underspec = rows_of(here / "underspecified.tsv")
     kinship = rows_of(here / "kinship.tsv")
     kindiv = rows_of(here / "kinship-kindiv.tsv")
+    # a withheld form is not in the wordnet, so it is not in the figures either
+    withheld = (m.read_withheld(args.withheld) if args.withheld.exists() else set())
+    kinship = [r for r in kinship if (r["WH"], "WH") not in withheld]
+    kindiv = [r for r in kindiv if (r["WH"], "WH") not in withheld]
+    nw_rows = merge_nw_classifiers.read_nw(here / "classifiers-nw.tsv")
+    kindiv_code = {(r["WH"], r["GLOSS"]): (r["KINDIV"], r["ORIGIN"]) for r in kindiv}
     kindiv_proposals = tables_of(here / "kindiv-proposals.tsv")
     dbnary = list(csv.DictReader(args.dbnary.open(encoding="utf8"), delimiter="\t"))
     pivots = list(csv.DictReader(args.pivots.open(encoding="utf8"), delimiter="\t"))
+
+    def white(row: dict[str, str]) -> bool:
+        """Whether a row cites White's thesis (W) or his 2019 chapter (W19)."""
+        return cites(row, "W") or cites(row, "W19")
 
     facts["classifiers"] = {
         "rows": len(classifiers),
         "wh": sum(1 for r in classifiers if r["DIALECT"] == "WH"),
         "gm": sum(1 for r in classifiers if r["DIALECT"] == "GM"),
         "bisang_only": sum(1 for r in classifiers
-                           if cites(r, "B") and not cites(r, "W")),
+                           if cites(r, "B") and not white(r)),
+        "bisang_only_measures": sum(1 for r in classifiers
+                                    if cites(r, "B") and not white(r)
+                                    and r["BISANG_CATEGORY"] == "measure"),
+        # of those, the ones White's field notes attest though his thesis does not
+        "bisang_only_measures_field_notes": sum(
+            1 for r in classifiers if cites(r, "B") and not white(r)
+            and r["BISANG_CATEGORY"] == "measure" and cites(r, "NW")),
         "white_only": sum(1 for r in classifiers
-                          if cites(r, "W") and not cites(r, "B")),
-        "both": sum(1 for r in classifiers if cites(r, "W") and cites(r, "B")),
+                          if white(r) and not cites(r, "B")),
+        "white_2019": sum(1 for r in classifiers if cites(r, "W19")),
+        # rows merge_nw_classifiers.py added from Nathan White's own inventory,
+        # whose definitions it writes as "a ... classifier glossed '...' by White"
+        "from_nw_inventory": sum(1 for r in classifiers
+                                 if r["DEFINITION"].endswith("' by White")),
+        "both": sum(1 for r in classifiers if white(r) and cites(r, "B")),
         "speaker_only": sum(1 for r in classifiers if cites(r, "NW")
-                            and not cites(r, "W") and not cites(r, "B")),
+                            and not white(r) and not cites(r, "B")),
         "stopword_only": sum(1 for r in classifiers
-                             if not any(cites(r, k) for k in ("W", "B", "NW"))),
+                             if not any(cites(r, k) for k in ("W", "W19", "B", "NW"))),
         "with_examples": sum(1 for r in classifiers if r["EXAMPLES"]),
         "variants": sum(1 for r in classifiers
                         if r["DISPOSITION"].startswith("variant")),
@@ -172,6 +197,13 @@ def main() -> int:
         "kindiv_mapped": len(kindiv),
         "kindiv_exact": sum(1 for r in kindiv if r["RELATION"] == "exact"),
         "kindiv_proposed": sum(1 for r in kindiv if r["RELATION"] == "proposed"),
+        # where each code comes from: Murdock's kin types, KinDiv's own additions,
+        # or our extension, which the published KinDiv does not have
+        "kindiv_origin": dict(collections.Counter(r["ORIGIN"] for r in kindiv)),
+        "no_english_lemma_in_kindiv": sum(
+            1 for r in kinship if r["ILI_STATUS"].startswith("propose")
+            and kindiv_code.get((r["WH"], r["GLOSS"]), ("", ""))[1]
+            in ("Murdock", "KinDiv")),
     }
     facts["dbnary"] = {
         "sense_anchored": len(dbnary),
@@ -215,8 +247,10 @@ def main() -> int:
         if cldf and args.cldf:
             directory, language, name = args.cldf.split(":")[:3]
             extra = m.read_cldf(Path(directory), language, name)
+            m.type_function_words(extra, id_map)
             m.merge_into_entries(entries, extra)
             senses.extend(extra)
+        m.withhold(entries, senses, withheld)
         if args.kinship_aliases.exists():
             m.apply_kinship_aliases(senses, m.read_kinship_aliases(args.kinship_aliases))
         m.link_senses(senses, english, True, True, morphy,
@@ -225,7 +259,9 @@ def main() -> int:
         if adjudicated:
             m.apply_adjudications(
                 senses, [v for v in verdicts if v["DIALECT"] == "WH"])
+        m.restate_adjectives(entries)
         m.record_ili_pos(senses, english)
+        deferred = m.defer_weak_links(entries)
         m.dedupe_senses(entries)
         senses = [s for e in entries for s in e.senses]
         linkable = [s for s in senses if not s.is_classifier]
@@ -236,7 +272,9 @@ def main() -> int:
             "pct": round(100 * len(linked) / max(len(linkable), 1), 1),
             "ilis": len({s.ili for s in linked}),
             "methods": dict(collections.Counter(s.method for s in linkable)),
+            "deferred": deferred,
             "senses": senses,
+            "entries": entries,
         }
 
     stages = {
@@ -246,6 +284,7 @@ def main() -> int:
         "everything": run(concepticon=True, cldf=True, adjudicated=True),
     }
     full = stages["everything"]["senses"]
+    full_entries = stages["everything"]["entries"]
 
     # ---- the Wiktionary candidates ---------------------------------------
     # Wiktionary's Hmong is elicited through English, so neither of its routes
@@ -275,6 +314,7 @@ def main() -> int:
     facts["adjudications"] = {
         "verdicts": len(verdicts),
         "unlinked": sum(1 for v in verdicts if not v["ILI"]),
+        "phrases": sum(1 for v in verdicts if v.get("LEXICALIZED") == "false"),
     }
     proposals = (m.read_ili_proposals(args.ili_proposals)
                  if args.ili_proposals.exists() else [])
@@ -284,6 +324,7 @@ def main() -> int:
     }
     for key, value in stages.items():
         value.pop("senses", None)
+        value.pop("entries", None)
         facts.setdefault("coverage", {})[key] = value
 
     # ---- per-source contribution ---------------------------------------
@@ -321,6 +362,11 @@ def main() -> int:
         "stopword_forms": len(set(stopwords)),
         "bisang_classifiers": sum(1 for r in classifiers if cites(r, "B")),
         "white_classifiers": sum(1 for r in classifiers if cites(r, "W")),
+        # Nathan White's own list, as he wrote it: a CO row is one form for both
+        # varieties, so this counts forms, not the per-dialect rows of the merge
+        "nw_classifiers": len(nw_rows),
+        "nw_sandhi": sum(1 for r in nw_rows if "sandhi" in r["NOTE"]),
+        "nw_cited": sum(1 for r in nw_rows if r["CITATION"]),
         # as read from the wordlist, and as many as survive deduplication
         "wold_senses_read": len(m.read_cldf(
             Path(args.cldf.split(":")[0]), args.cldf.split(":")[1],
@@ -346,12 +392,15 @@ def main() -> int:
         facts["classifiers"]["already_lemmas"] = len(added & pristine_forms)
 
     # ---- the classifier relations the markup implies ----------------------
-    senses_all, _, entries_all = m.read_ontology(args.ontology, "WH")
-    synset_of = {id(s): f"s{i}" for i, s in enumerate(senses_all)}
-    rels = m.synset_relations(entries_all, synset_of, "concept")
+    # counted in the lexicon as built, grouped into synsets as write_lmf groups
+    # them, since a relation joins synsets and two merged senses share one
+    synset_of = {id(sense): key
+                 for key, members in m.build_synsets(full).items()
+                 for sense in members}
+    rels = m.synset_relations(full_entries, synset_of, "concept")
     flat = [(src, rel, tgt) for src, rs in rels.items() for rel, tgt, _ in rs]
     facts["relations"] = {
-        "classifier_synsets": sum(1 for s in senses_all if s.is_classifier),
+        "classifier_synsets": sum(1 for s in full if s.is_classifier),
         "exemplifies": sum(1 for _, rel, _ in flat if rel == "exemplifies"),
         "classifies": sum(1 for _, rel, _ in flat if rel == "classifies"),
         "classified_by": sum(1 for _, rel, _ in flat if rel == "classified_by"),
@@ -464,6 +513,7 @@ def main() -> int:
     facts["triangulation"]["gm_candidates"] = len(gm_proposed)
     m.link_senses(gm_senses, english, True, True, morphy, gloss_map, id_map)
     m.record_ili_pos(gm_senses, english)
+    m.defer_weak_links(gm_entries)
     m.dedupe_senses(gm_entries)
     gm_all = [x for e in gm_entries for x in e.senses]
     gm_linkable = [x for x in gm_all if not x.is_classifier]

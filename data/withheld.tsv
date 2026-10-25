@@ -1,0 +1,16 @@
+FORM	DIALECT	REASON
+# Forms left out of the wordnet for now, whatever source gives them. The converter
+# drops every sense of a listed form and dialect before linking, and facts.py leaves
+# them out of the figures, so a withheld word can come back by deleting its row.
+#
+# npawg and muam npaws (2026-10-25): White (2021: 288) glosses them 'maternal male
+# cousin' and 'maternal female cousin', and Nathan White (2026-10-17) said the father's
+# sister's children are called otherwise. Heimbach (1979: 494-495, kinship charts 1
+# and 2) gives npawg and muam npaws for the children of the father's sister as well as
+# of the mother's siblings, but only for a male speaker (a woman says yaum dab and
+# vivncaus). Until he has checked again (review/review-adjectives.md, section 3),
+# neither the KinDiv mapping nor the WOLD link to 'cousin' can be trusted.
+npawg	WH	cousin terms under review: White and Heimbach disagree
+npawg	GM	cousin terms under review: White and Heimbach disagree
+muam npaws	WH	cousin terms under review: White and Heimbach disagree
+muam npawg	GM	cousin terms under review: White and Heimbach disagree

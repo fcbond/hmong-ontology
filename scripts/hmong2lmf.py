@@ -215,6 +215,12 @@ class OntSense:
     ili_definition: str = ""
     #: the proposed concept's relation to the nearest existing one, e.g. "similar i67941"
     ili_relation: str = ""
+    #: the part of speech a speaker gave the word in an adjudication; it decides
+    #: which entry keeps the sense when two parts of speech reach one ILI
+    speaker_pos: str = ""
+    #: set when a wordlist classes the word as an adjective. Hmong has few true
+    #: adjectives, so such a word is written as a stative verb once it is linked
+    wordlist_adjective: bool = False
 
     @property
     def pos(self) -> str:
@@ -556,11 +562,51 @@ def read_adjudications(path: Path) -> list[dict[str, str]]:
     """A speaker's verdicts on links, one row per sense: `adjudications.tsv`.
 
     `GLOSS` picks out the sense by one of its glosses. An empty `ILI` means the
-    sense has no good concept and must stay unlinked.
+    sense has no good concept and must stay unlinked; `*` means the verdict is
+    not about the concept, and the link the routes made stands. An optional
+    `LEXICALIZED` column set to `false` records that the speaker judged the form
+    a phrase rather than a word (`da dej` 'bathe', literally 'bathe water'), and
+    an optional `POS` gives the part of speech the speaker assigns the word
+    (`liab` 'red' is a stative verb, `v`).
     """
     with path.open(newline="", encoding="utf8") as handle:
         return [row for row in csv.DictReader(handle, delimiter="\t")
                 if row.get("FORM") and not row["FORM"].startswith("#")]
+
+
+def read_withheld(path: Path) -> set[tuple[str, str]]:
+    """Forms left out of the wordnet for now: `withheld.tsv`, as (form, dialect)."""
+    with path.open(newline="", encoding="utf8") as handle:
+        return {(normalise_form(row["FORM"]), row["DIALECT"])
+                for row in csv.DictReader(handle, delimiter="\t")
+                if row.get("FORM") and not row["FORM"].startswith("#")}
+
+
+def withhold(entries: list[Entry], senses: list[OntSense],
+             withheld: set[tuple[str, str]]) -> int:
+    """Drop every sense of a withheld form, whichever source gave it.
+
+    A word under review (`npawg`, whose meaning two descriptions disagree on)
+    must not reach the wordnet from the ontology, WOLD or the kinship table
+    while it is reviewed, and the sources themselves stay as they are. Runs
+    before linking, so nothing is linked that is then thrown away. Returns the
+    number of senses dropped.
+    """
+    if not withheld:
+        return 0
+    kept = [s for s in senses if (s.form, s.dialect) not in withheld]
+    dropped = len(senses) - len(kept)
+    senses[:] = kept
+    for entry in entries:
+        entry.senses = [s for s in entry.senses
+                        if (s.form, s.dialect) not in withheld]
+    entries[:] = [entry for entry in entries if entry.senses]
+    return dropped
+
+
+#: an adjudication's ILI that leaves the routes' link alone, for a verdict about
+#: something else, such as whether the form is a word
+KEEP_LINK = "*"
 
 
 def apply_adjudications(
@@ -580,8 +626,14 @@ def apply_adjudications(
                 and s.dialect == verdict["DIALECT"]
                 and verdict["GLOSS"] in s.glosses]
         for sense in hits:
-            sense.ili = verdict["ILI"] or None
-            sense.method = "adjudicated" if verdict["ILI"] else "adjudicated-unlinked"
+            if verdict["ILI"] != KEEP_LINK:
+                sense.ili = verdict["ILI"] or None
+                sense.method = ("adjudicated" if verdict["ILI"]
+                                else "adjudicated-unlinked")
+            if verdict.get("LEXICALIZED") == "false":
+                sense.lexicalized = False
+            if verdict.get("POS"):
+                sense.speaker_pos = verdict["POS"]
             sense.note = "; ".join(n for n in (
                 sense.note, f"adjudicated by {verdict['BY']}: {verdict['NOTE']}") if n)
         if not hits:
@@ -788,7 +840,7 @@ def open_pivots(
     wanted = set()
     with path.open(newline="", encoding="utf8") as handle:
         for row in csv.DictReader(handle, delimiter="\t"):
-            if row.get("PIVOT_LEXICON", "").startswith("omw-"):
+            if row.get("PIVOT_LEXICON"):
                 wanted.add(row["PIVOT_LEXICON"])
     available = {lexicon.id: lexicon for lexicon in wn.lexicons()}
     opened: dict[str, wn.Wordnet] = {}
@@ -891,6 +943,7 @@ def absorb(keeper: OntSense, loser: OntSense, note: str | None = None) -> None:
     # a second source attesting the form as a word outweighs a phrase reading
     keeper.lexicalized = keeper.lexicalized or loser.lexicalized
     keeper.concepticon = keeper.concepticon or loser.concepticon
+    keeper.speaker_pos = keeper.speaker_pos or loser.speaker_pos
     keeper.definition = keeper.definition or loser.definition
     keeper.candidates |= loser.candidates
     for ili, why in loser.candidate_notes.items():
@@ -927,25 +980,40 @@ def defer_weak_links(entries: list[Entry]) -> int:
     takes the hand-made ILI, and `dedupe_senses` then merges the two. Two
     hand-made links that differ are left alone: concept sets that share a gloss
     can be deliberately distinct (WOLD's 'male' of a person and of an animal).
+    For the same reason a gloss that two hand-made links disagree on defers to
+    neither.
+
+    Glosses are compared without regard to case, but the hand-made ILI must be
+    one the weak sense's own gloss could reach before the category filter. That
+    is the condition under which the weak route merely chose wrongly; otherwise
+    the two glosses only look alike. `Vaj Tswv` 'God' reaches only 'God, Supreme
+    Being', and WOLD's 'god' is a deity: the same letters, but not a candidate.
     Returns the number of links changed.
     """
     changed = 0
     for entry in entries:
-        strong: dict[str, OntSense] = {}
+        strong: dict[str, set[str]] = defaultdict(set)
+        method: dict[str, str] = {}
         for sense in entry.senses:
             if sense.ili and sense.method.startswith(HAND_MADE):
                 for gloss in sense.glosses:
-                    strong.setdefault(normalise_gloss(gloss).lower(), sense)
+                    key = normalise_gloss(gloss).lower()
+                    strong[key].add(sense.ili)
+                    method.setdefault(key, sense.method)
         for sense in entry.senses:
             if not sense.ili or not sense.method.startswith("monosemous"):
                 continue
             for gloss in sense.glosses:
-                other = strong.get(normalise_gloss(gloss).lower())
-                if other is not None and other.ili != sense.ili:
+                key = normalise_gloss(gloss).lower()
+                ilis = strong.get(key, set())
+                if len(ilis) != 1:
+                    continue
+                ili = next(iter(ilis))
+                if ili != sense.ili and ili in sense.candidate_notes:
                     sense.note = "; ".join(n for n in (
                         sense.note, f"monosemous link {sense.ili} replaced by the "
-                        f"{other.method} link for the same gloss") if n)
-                    sense.ili = other.ili
+                        f"{method[key]} link for the same gloss") if n)
+                    sense.ili = ili
                     changed += 1
                     break
     return changed
@@ -965,11 +1033,12 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
     correspond to English adjectives, so the ontology may class a word as
     `verb.stative` where a wordlist classes it as an adjective; both then reach the
     same ILI, and the merged synset would list the written form twice. One ILI is one
-    concept and so should be one synset, which rules out splitting by part of speech;
-    instead the sense whose part of speech matches the ILI's is the one kept.
+    concept and so should be one synset, which rules out splitting by part of speech.
+    An ILI has no part of speech of its own, so the kept sense is the one whose part
+    of speech a speaker gave in an adjudication (`liab` 'red' is a stative verb), or
+    failing that the part of speech of the English synset linked to the same ILI.
     """
     ili_pos = ILI_POS if ili_pos is None else ili_pos
-    defer_weak_links(entries)
     removed = 0
     for entry in entries:
         seen: dict[str, OntSense] = {}
@@ -999,16 +1068,39 @@ def dedupe_senses(entries: list[Entry], ili_pos: dict[str, str] | None = None) -
     for (_, ili), found in by_form_ili.items():
         if len(found) < 2:
             continue
-        # prefer the reading whose part of speech the ILI itself is recorded under
-        found.sort(key=lambda pair: pair[1].pos != (ili_pos.get(ili) or pair[1].pos))
-        keeper = found[0][1]
+        # a speaker's part of speech first, then the linked English synset's, with
+        # an English satellite adjective counting as an adjective
+        wanted = (next((s.speaker_pos for _, s in found if s.speaker_pos), "")
+                  or {"s": "a"}.get(ili_pos.get(ili, ""), ili_pos.get(ili, "")))
+        found.sort(key=lambda pair: pair[1].pos != (wanted or pair[1].pos))
+        keeper_entry, keeper = found[0]
         for entry, sense in found[1:]:
             absorb(keeper, sense,
                    f"also analysed as {sense.pos}"
                    + (f" by {sense.source}" if sense.source else ""))
             entry.senses.remove(sense)
             removed += 1
+            if not entry.senses:
+                fold_entry(keeper_entry, entry)
+    # an entry whose only sense moved would be written as a LexicalEntry with no
+    # Sense, which wn warns about (W201); its data has been folded into the keeper
+    entries[:] = [entry for entry in entries if entry.senses]
     return removed
+
+
+def fold_entry(keeper: Entry, loser: Entry) -> None:
+    """Carry an emptied entry's variants, sources, notes and loan flag to the keeper.
+
+    These belong to the written form rather than to a sense, so they stay true
+    when the form's only sense of one part of speech merges into another:
+    `kim`'s Chinese loan source must not vanish with its verb entry.
+    """
+    for name in ("variants", "sources", "notes"):
+        kept = getattr(keeper, name)
+        for item in getattr(loser, name):
+            if item not in kept:
+                kept.append(item)
+    keeper.foreign = keeper.foreign or loser.foreign
 
 
 def lexfiles_for(category: str) -> tuple[str, ...]:
@@ -1109,21 +1201,22 @@ def read_concepticon_ids(path: Path) -> dict[str, tuple[str, str]]:
     return mapping
 
 
-#: ILI -> part of speech. Pre-filled from the Concepticon mapping when one is
-#: given, then completed from English WordNet by `record_ili_pos`, which is the
-#: authority: the Concepticon file covers only the concepts it maps, so relying on
-#: it alone left the tie-break below undecided for most ILIs.
-#: Used only to break a tie when two entries reach the same ILI.
+#: ILI -> the part of speech of the English synset linked to it (an ILI has none
+#: of its own). Pre-filled from the Concepticon mapping when one is given, then
+#: completed from English WordNet by `record_ili_pos`, which is the authority:
+#: the Concepticon file covers only the concepts it maps, so relying on it alone
+#: left the tie-break below undecided for most ILIs. Used only to break a tie
+#: when two entries reach the same ILI and no speaker has given a part of speech.
 ILI_POS: dict[str, str] = {}
 
 
 def record_ili_pos(senses: list[OntSense], english: wn.Wordnet) -> int:
     """Record the part of speech English WordNet gives each linked ILI.
 
-    `dedupe_senses` keeps the reading whose part of speech matches the ILI's own,
-    so it needs that part of speech for every ILI two entries might share --- not
-    only for the ones a Concepticon mapping happens to cover. Returns how many
-    were added.
+    Unless a speaker has said otherwise, `dedupe_senses` keeps the reading whose
+    part of speech matches that synset's, so it needs it for every ILI two entries
+    might share --- not only for the ones a Concepticon mapping happens to cover.
+    Returns how many were added.
     """
     added = 0
     for sense in senses:
@@ -1137,8 +1230,9 @@ def record_ili_pos(senses: list[OntSense], english: wn.Wordnet) -> int:
 
 #: Semantic categories as CLDF wordlists write them, mapped onto WN-LMF parts of
 #: speech. Function words get `x`, "other", which is where WN-LMF puts anything
-#: outside the four open classes; they are still linkable, unlike the classifiers,
-#: which carry no ILI by design.
+#: outside the four open classes. Unlike the classifiers, which carry no ILI by
+#: design, they are linkable: `type_function_words` gives each the part of speech
+#: of its concept set, where that set has one.
 CLDF_POS = {"Noun": "n", "Verb": "v", "Adjective": "a", "Adverb": "r",
             "Function word": "x", "Person/Thing": "n", "Action/Process": "v",
             "Property": "a", "Other": "x", "Number": "n", "Classifier": "x"}
@@ -1213,7 +1307,93 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
                     source=source,
                 )
             )
+    for sense in senses:
+        sense.wordlist_adjective = sense.pos_override == "a"
     return merge_speaker_sex(senses)
+
+
+def restate_adjectives(entries: list[Entry]) -> int:
+    """Move the words a wordlist classes as adjectives to stative verb entries.
+
+    WOLD follows English and classes `kim` 'expensive', `ntev` 'long' and `coob`
+    'many' as adjectives, but in Hmong they are stative verbs. True adjectives are
+    a closed class of eight that precede the noun (White 2021: 144-146, agreeing
+    with Bisang 1993): `niag`, `nyuag`, `laus`, `me`, `me nyuam`, `qub`, `tuam`
+    and `zoo`. Those shared with stative verbs add the speaker's evaluation to
+    the verb's meaning (`zoo` 'good, auspicious' beside 'be good'), so WOLD's
+    'good', 'old' and 'small' are the verb readings, and the rule has no
+    exceptions among its meanings. The adjective is needed for linking, since a
+    concept set maps to an adjective synset and linking matches parts of speech,
+    so this runs after linking. A speaker's part of speech `a` in an adjudication
+    keeps an adjective, and words typed as adjectives by their concept set, like
+    the numerals, are not wordlist adjectives and stay unless a speaker's `v`
+    moves them: `coob` 'many' is a quantifier that is also a stative verb. The
+    sense joins the form's verb entry where there is one, so that `kim` has one
+    entry, not two. Returns the number of senses moved.
+    """
+    index = {(entry.form, entry.pos, entry.dialect): entry for entry in entries}
+    moved = 0
+    for entry in list(entries):
+        if entry.pos != "a":
+            continue
+        stative = [s for s in entry.senses if s.speaker_pos == "v"
+                   or (s.wordlist_adjective and s.speaker_pos != "a")]
+        if not stative:
+            continue
+        target = index.get((entry.form, "v", entry.dialect))
+        if target is None and len(stative) == len(entry.senses):
+            # the whole entry moves: retype it in place
+            entry.pos = "v"
+            index[(entry.form, "v", entry.dialect)] = entry
+            del index[(entry.form, "a", entry.dialect)]
+            for sense in stative:
+                sense.pos_override = "v"
+            moved += len(stative)
+            continue
+        if target is None:
+            target = Entry(entry.form, "v", dialect=entry.dialect)
+            index[(entry.form, "v", entry.dialect)] = target
+            entries.append(target)
+        for sense in stative:
+            sense.pos_override = "v"
+            entry.senses.remove(sense)
+            target.senses.append(sense)
+            moved += 1
+        if not entry.senses:
+            fold_entry(target, entry)
+            entries.remove(entry)
+            del index[(entry.form, "a", entry.dialect)]
+        else:
+            for source in entry.sources:
+                if source not in target.sources:
+                    target.sources.append(source)
+    return moved
+
+
+def type_function_words(
+    senses: list[OntSense], by_id: dict[str, tuple[str, str]]
+) -> int:
+    """Give a wordlist's function words the part of speech of their concept set.
+
+    WOLD classes numerals, pronouns and words such as 'up' and 'tomorrow' as
+    function words, which have no WN-LMF part of speech of their own, so they
+    arrive as `x`. Their concept sets are mapped to ILIs like any other: `tsib`
+    'five' to an adjective synset, `saum` 'up' to an adverb one. Linking requires
+    the sense's part of speech to match the mapping's, so left as `x` none of them
+    could link, and every `x` sense would be taken for a classifier when the
+    synset relations are written. This must run before the senses join entries,
+    since an entry's part of speech is fixed when it is made. Returns the number
+    of senses retyped.
+    """
+    retyped = 0
+    for sense in senses:
+        if sense.pos != "x" or sense.is_classifier or not sense.concepticon:
+            continue
+        found = by_id.get(sense.concepticon)
+        if found and found[0] and found[1]:
+            sense.pos_override = found[1]
+            retyped += 1
+    return retyped
 
 
 #: WOLD's in-law meanings are split by the speaker's sex, "the father-in-law (of a
@@ -1394,7 +1574,7 @@ def link_by_concepticon(
     A Concepticon concept set is a cross-linguistically comparable meaning that
     has already been mapped to a wordnet synset by hand, so a gloss that is also
     a Concepticon gloss resolves without the ambiguity a bare English lemma has:
-    WATER is one concept, whereas "water" is eleven English synsets.
+    WATER is one concept, whereas "water" is ten English synsets.
 
     `by_id` maps the concept set id itself, for sources such as WOLD that already
     carry one. That route is exact: it skips the gloss entirely.
@@ -1455,17 +1635,16 @@ def synset_relations(
     sense of that form is related at a confidence of 0.5, because the source does
     not say which reading it meant.
     """
+    # decided per sense, not by the entry's part of speech: a wordlist's function
+    # words without a concept-set part of speech are also `x`, and are not classifiers
     by_form: dict[str, list[tuple[str, OntSense]]] = defaultdict(list)
-    for entry in entries:
-        if entry.pos == "x":
-            continue
-        for sense in entry.senses:
-            by_form[entry.form].append((synset_of[id(sense)], sense))
     classifier_synsets: dict[str, list[str]] = defaultdict(list)
     for entry in entries:
-        if entry.pos == "x":
-            for sense in entry.senses:
+        for sense in entry.senses:
+            if sense.is_classifier:
                 classifier_synsets[entry.form].append(synset_of[id(sense)])
+            else:
+                by_form[entry.form].append((synset_of[id(sense)], sense))
 
     relations: dict[str, set[tuple[str, str, str | None]]] = defaultdict(set)
 
@@ -1474,9 +1653,9 @@ def synset_relations(
         relations[noun_id].add(("classified_by", classifier_id, confidence))
 
     for entry in entries:
-        if entry.pos != "x":
-            continue
         for sense in entry.senses:
+            if not sense.is_classifier:
+                continue
             source = synset_of[id(sense)]
             relations[source].add(("exemplifies", concept_id, None))
             for noun_form, gloss in sense.classifies:
@@ -1496,9 +1675,9 @@ def synset_relations(
 
     # the converse direction, from the class-noun members that name their classifier
     for entry in entries:
-        if entry.pos == "x":
-            continue
         for sense in entry.senses:
+            if sense.is_classifier:
+                continue
             for classifier_form in sense.classified_by:
                 for classifier_id in classifier_synsets.get(classifier_form, []):
                     relate(classifier_id, synset_of[id(sense)], "1.0")
@@ -1744,6 +1923,8 @@ def main() -> int:
     parser.add_argument("--adjudications", type=Path, metavar="FILE",
                         help="adjudications.tsv: a speaker's verdicts on links, "
                              "which overrule every route")
+    parser.add_argument("--withheld", type=Path, metavar="FILE",
+                        help="withheld.tsv: forms left out of the wordnet for now")
     parser.add_argument("--kinship-aliases", type=Path, metavar="FILE",
                         help="kinship-aliases.tsv: further glosses for KinDiv-mapped "
                              "kinship senses, so that duplicates merge")
@@ -1833,11 +2014,13 @@ def main() -> int:
             raise SystemExit(f"{directory}: no forms for language {language!r}")
         for sense in extra:
             sense.dialect = wordlist_dialect
+        retyped = type_function_words(extra, by_id)
         created = merge_into_entries(entries, extra)
         senses.extend(extra)
         print(f"read {len(extra)} {language} senses from {directory} as {name} "
               f"({wordlist_dialect}): {created} new entries, "
-              f"{len(extra) - created} on entries already present")
+              f"{len(extra) - created} on entries already present; "
+              f"{retyped} function words typed by their concept set")
 
     triangulated: set[tuple[str, str, str]] = set()
     if args.pivots:
@@ -1888,6 +2071,9 @@ def main() -> int:
             print(f"  wrote {args.dbnary_review}: {len(proposed) + len(review)} "
                   f"candidates for a speaker to choose between")
 
+    if args.withheld:
+        dropped = withhold(entries, senses, read_withheld(args.withheld))
+        print(f"withheld {dropped} senses of the forms in {args.withheld}")
     if args.kinship_aliases:
         coded = apply_kinship_aliases(senses, read_kinship_aliases(args.kinship_aliases))
         print(f"gave {coded} kinship senses a KinDiv code from {args.kinship_aliases}")
@@ -1913,7 +2099,13 @@ def main() -> int:
                   f"'{proposal['GLOSS']}' ({proposal['DIALECT']}) to propose",
                   file=sys.stderr)
 
+    restated = restate_adjectives(entries)
+    print(f"  wrote {restated} wordlist adjectives as stative verbs")
     record_ili_pos(senses, english)
+    deferred = defer_weak_links(entries)
+    if deferred:
+        print(f"  replaced {deferred} monosemous links by a hand-made link for the "
+              f"same gloss")
     merged = dedupe_senses(entries)
     if merged:
         print(f"  merged {merged} senses that two sources resolved to the same ILI")

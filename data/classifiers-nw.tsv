@@ -1,8 +1,9 @@
 # Nathan White's own classifier inventory, written by hand with citations.
 # Copied unchanged (apart from this header) from classifiers_sources.tsv in
-# https://github.com/nathanmwhite/hmong-ontology, commit of 2026-10-24 13:04 UTC.
+# https://github.com/nathanmwhite/hmong-ontology, commit of 2026-10-24 22:00 UTC (dc115c4).
 # scripts/merge_nw_classifiers.py merges it into classifiers.tsv; rerun it when
 # the list grows.
+# Licence: CC BY 4.0, as for this repository (LICENSE), with his agreement.
 #
 # COLUMNS
 #   FORM      the classifier in RPA.
@@ -14,7 +15,8 @@
 #             for forms from his field notes.
 #   NOTE      sandhi form, variant, or the source of a borrowing.
 #
-#   White, Nathan M. 2019. [chapter on Hmong classifiers -- full reference to come]
+#   White, Nathan M. 2019. Classifiers in Hmong. In Alexandra Y. Aikhenvald and
+#             Elena I. Mihas (eds), Genders and Classifiers, 222-248. Oxford: OUP.
 #   White, Nathan M. 2021. The Hmong language of North Queensland. PhD thesis,
 #             James Cook University. DOI 10.25903/f5rd-s089.
 FORM	DIALECT	GLOSS	CATEGORY	CITATION	NOTE
@@ -29,8 +31,8 @@ daim	WH	cl:2d	sortal	White 2019:227,243;White 2021:304,381
 diav	WH	cl:spoon	mensural:container		
 dlaim	GM	cl:2d	sortal	White 2021:304,381	
 dlav	GM	cl:spoon	mensural:container	White 2021:593	
-dlus	CO	mw:middle.finger.tip.to.thumb.tip	measure word	White 2021:367	
-dos	CO	mw:middle.finger.tip.to.thumb.tip	measure word	White 2021:367	
+dlus	GM	mw:middle.finger.tip.to.thumb.tip	measure word	White 2021:367	
+dos	WH	mw:middle.finger.tip.to.thumb.tip	measure word	White 2021:367	
 dos las	WH	cl:dollar	mensural	White 2021:411	
 family	CO	cl:family	mensural:collective	White 2021:342	English borrowing
 feeb	CO	cl:minute,second	mensural:time	White 2021:591,612	

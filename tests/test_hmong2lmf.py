@@ -656,6 +656,49 @@ def test_dedupe_collapses_across_entries_and_keeps_the_ilis_own_pos() -> None:
     assert "also analysed as v" in adj_entry.senses[0].note
 
 
+def adjective(form: str, gloss: str, ili: str) -> m.OntSense:
+    """A sense a wordlist classes as an adjective, as read_cldf makes it."""
+    sense = m.OntSense(-1, form, [gloss], "Property", pos_override="a",
+                       source="TEST")
+    sense.wordlist_adjective = True
+    sense.ili = ili
+    return sense
+
+
+def test_restate_adjectives_joins_the_verb_entry() -> None:
+    """kim 'expensive' is a stative verb: it joins kim's verb entry, and the
+    emptied adjective entry goes."""
+    verb = m.OntSense(0, "kim", ["be expensive"], "verb.stative")
+    adj_entry = m.Entry("kim", "a", senses=[adjective("kim", "expensive", "i5")],
+                        sources=["TEST"])
+    verb_entry = m.Entry("kim", "v", senses=[verb])
+    entries = [verb_entry, adj_entry]
+    assert m.restate_adjectives(entries) == 1
+    assert entries == [verb_entry]
+    assert [s.pos for s in verb_entry.senses] == ["v", "v"]
+    assert verb_entry.sources == ["TEST"]
+
+
+def test_restate_adjectives_retypes_an_entry_with_no_verb() -> None:
+    entry = m.Entry("ntev", "a", senses=[adjective("ntev", "long", "i7833")])
+    assert m.restate_adjectives([entry]) == 1
+    assert (entry.pos, entry.senses[0].pos) == ("v", "v")
+
+
+def test_restate_adjectives_keeps_a_speakers_adjective_and_the_numerals() -> None:
+    """A speaker's `a` keeps a true adjective; a numeral typed as an adjective
+    by its concept set is no wordlist adjective, unless a speaker says `v`."""
+    zoo = adjective("zoo", "good, auspicious", "i1")
+    zoo.speaker_pos = "a"
+    five = m.OntSense(-1, "tsib", ["five"], "Quantity", pos_override="a")
+    many = m.OntSense(-1, "coob", ["many"], "Quantity", pos_override="a")
+    many.speaker_pos = "v"
+    entries = [m.Entry("zoo", "a", senses=[zoo]), m.Entry("tsib", "a", senses=[five]),
+               m.Entry("coob", "a", senses=[many])]
+    assert m.restate_adjectives(entries) == 1
+    assert [e.pos for e in entries] == ["a", "a", "v"]
+
+
 # --- DBnary sense-anchored translations --------------------------------------
 
 

@@ -2,7 +2,7 @@
   "adjudications": {
     "phrases": 3,
     "unlinked": 2,
-    "verdicts": 25
+    "verdicts": 31
   },
   "class_nouns": {
     "heads": 28,
@@ -10,26 +10,27 @@
     "new": 98
   },
   "classifiers": {
-    "added": 279,
+    "added": 282,
     "already_lemmas": 71,
     "bisang_only": 45,
     "bisang_only_measures": 35,
+    "bisang_only_measures_field_notes": 7,
     "both": 55,
     "by_class": {
-      "event": 25,
+      "event": 26,
       "group": 24,
-      "mensural": 209,
+      "mensural": 212,
       "sortal": 38,
       "taxonomic": 6
     },
     "from_nw_inventory": 64,
-    "gm": 117,
+    "gm": 119,
     "omitted": 0,
-    "rows": 302,
-    "speaker_only": 7,
+    "rows": 306,
+    "speaker_only": 11,
     "stopword_only": 5,
-    "variants": 23,
-    "wh": 185,
+    "variants": 24,
+    "wh": 187,
     "white_2019": 62,
     "white_only": 190,
     "with_examples": 143
@@ -233,11 +234,11 @@
   "contribution": {
     "by_source": {
       "WOLD": {
-        "ilis": 1090,
-        "new": 911
+        "ilis": 1089,
+        "new": 908
       }
     },
-    "ontology_ilis": 509
+    "ontology_ilis": 511
   },
   "coverage": {
     "english_only": {
@@ -261,24 +262,24 @@
     },
     "everything": {
       "deferred": 11,
-      "ilis": 1420,
-      "linkable": 2702,
-      "linked": 1797,
+      "ilis": 1419,
+      "linkable": 2699,
+      "linked": 1796,
       "methods": {
-        "adjudicated": 18,
+        "adjudicated": 21,
         "adjudicated-unlinked": 3,
         "ambiguous": 214,
         "ambiguous+category": 206,
         "concepticon": 144,
-        "concepticon-id": 1205,
+        "concepticon-id": 1201,
         "intersection": 23,
         "intersection+category": 19,
         "monosemous": 189,
         "monosemous+category": 199,
         "no-ili": 2,
-        "no-intersection": 50,
+        "no-intersection": 49,
         "no-intersection+category": 91,
-        "nomatch": 339
+        "nomatch": 338
       },
       "pct": 66.5
     },
@@ -335,11 +336,11 @@
   },
   "gm": {
     "concepts": 4,
-    "lemmas": 124,
+    "lemmas": 126,
     "linkable": 16,
     "linked": 4,
-    "ontology_lemmas": 124,
-    "senses": 126
+    "ontology_lemmas": 126,
+    "senses": 128
   },
   "ili_proposals": {
     "concepts": 1,
@@ -369,16 +370,16 @@
   },
   "ontology": {
     "after": {
-      "gm": 124,
-      "lemmas": 1610,
-      "senses": 1841
+      "gm": 126,
+      "lemmas": 1613,
+      "senses": 1844
     },
     "before": {
       "gm": 0,
       "lemmas": 1263,
       "senses": 1404
     },
-    "lemma_growth_pct": 27.5
+    "lemma_growth_pct": 27.7
   },
   "pivots": {
     "groups": 743,
@@ -388,7 +389,7 @@
   },
   "queue": {
     "coverage_after_stage1_pct": 71.7,
-    "open": 905,
+    "open": 903,
     "review_rows": 814,
     "review_sheets": {
       "conflicts": 28,
@@ -399,15 +400,15 @@
     "stage1_binary": 140,
     "stage1_single_gloss": 403,
     "stage2_wiktionary_candidates": 731,
-    "stage4_multiword": 220,
-    "stage4_no_english_lemma": 339
+    "stage4_multiword": 219,
+    "stage4_no_english_lemma": 338
   },
   "relations": {
-    "classified_by": 487,
-    "classifier_synsets": 169,
-    "classifies": 487,
-    "exemplifies": 169,
-    "total": 1143
+    "classified_by": 483,
+    "classifier_synsets": 170,
+    "classifies": 483,
+    "exemplifies": 170,
+    "total": 1136
   },
   "settings": {
     "category_filter": true,
@@ -416,7 +417,7 @@
     "english": "oewn:2025+",
     "morphy": true,
     "ontology": "data/hmong_ontology.xml",
-    "pin_file": "/home/bond/git/hmong-ontology-nathan/etc/pivots.lock",
+    "pin_file": "/home/bond/git/hmong-ontology/etc/pivots.lock",
     "pivot_lexicons": [
       "cow:1.1",
       "omw-bg:2.0",
@@ -458,7 +459,7 @@
     "ontology_categories_now": 61,
     "stopword_forms": 82,
     "white_classifiers": 236,
-    "wold_forms": 1452,
+    "wold_forms": 1449,
     "wold_senses_read": 1470
   },
   "supersense": {
@@ -466,12 +467,12 @@
     "senses_rescued": 159
   },
   "tiers": {
-    "adjudicated by a speaker": 18,
-    "classifier (no ILI by design)": 169,
-    "concept-set or gloss intersection": 1391,
-    "linked, stronger evidence": 1409,
+    "adjudicated by a speaker": 21,
+    "classifier (no ILI by design)": 170,
+    "concept-set or gloss intersection": 1387,
+    "linked, stronger evidence": 1408,
     "single gloss, monosemous": 388,
-    "unlinked": 905
+    "unlinked": 903
   },
   "triangulation": {
     "candidate_ilis": 495,

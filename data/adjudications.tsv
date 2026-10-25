@@ -26,3 +26,9 @@ daj	WH	yellow	i2170	Nathan White	a stative verb; the abstract colour is xim 'col
 daj	WH	be yellow	i2170	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63075) is not a reading of the word; the ontology's stative verb takes the same ILI (2026-10-24)		v
 ntsuab	WH	green	i2084	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63086) is not a reading of the word (2026-10-24)		v
 ntsuab	WH	be green	i2084	Nathan White	a stative verb; the abstract colour is xim 'colour' modified by the verb in a relative clause, so the colour noun (i63086) is not a reading of the word; the ontology's stative verb takes the same ILI (2026-10-24)		v
+kev	WH	street	i58206	Nathan White	"road, route": need not be in a city, have sidewalks, be near buildings, be paved or be meant for vehicles, so neither street concept (i59671, i59672) fits; ILI chosen by Francis Bond from his description. kev also marks nominalisations (2026-10-25)		
+coob	WH	many	*	Nathan White	a stative verb, like the other words WOLD lists as adjectives (2026-10-25); also a quantifier, 'many' of animates (White 2021: 158)		v
+ntau	WH	many	*	Francis Bond	a quantifier, 'much, many' of inanimates, that is also a stative verb (White 2021: 158, 225), as Nathan White judged coob (2026-10-25)		v
+ntau	WH	be much	i8520	Francis Bond	the stative verb of the quantifier ntau 'many', which WOLD links to i8520 (White 2021: 158, 225); to confirm		v
+tsawg	WH	few	*	Francis Bond	a quantifier, 'few; how many', that is also a stative verb (White 2021: 158), as Nathan White judged coob (2026-10-25)		v
+tsawg	WH	be few in number	i8526	Francis Bond	the stative verb of the quantifier tsawg 'few', which WOLD links to i8526 (White 2021: 158); to confirm		v

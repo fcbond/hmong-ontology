@@ -151,6 +151,10 @@ def main() -> int:
         "bisang_only_measures": sum(1 for r in classifiers
                                     if cites(r, "B") and not white(r)
                                     and r["BISANG_CATEGORY"] == "measure"),
+        # of those, the ones White's field notes attest though his thesis does not
+        "bisang_only_measures_field_notes": sum(
+            1 for r in classifiers if cites(r, "B") and not white(r)
+            and r["BISANG_CATEGORY"] == "measure" and cites(r, "NW")),
         "white_only": sum(1 for r in classifiers
                           if white(r) and not cites(r, "B")),
         "white_2019": sum(1 for r in classifiers if cites(r, "W19")),

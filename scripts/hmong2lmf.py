@@ -218,6 +218,9 @@ class OntSense:
     #: the part of speech a speaker gave the word in an adjudication; it decides
     #: which entry keeps the sense when two parts of speech reach one ILI
     speaker_pos: str = ""
+    #: set when a wordlist classes the word as an adjective. Hmong has few true
+    #: adjectives, so such a word is written as a stative verb once it is linked
+    wordlist_adjective: bool = False
 
     @property
     def pos(self) -> str:
@@ -1274,7 +1277,67 @@ def read_cldf(directory: Path, language: str, source: str = "CLDF") -> list[OntS
                     source=source,
                 )
             )
+    for sense in senses:
+        sense.wordlist_adjective = sense.pos_override == "a"
     return merge_speaker_sex(senses)
+
+
+def restate_adjectives(entries: list[Entry]) -> int:
+    """Move the words a wordlist classes as adjectives to stative verb entries.
+
+    WOLD follows English and classes `kim` 'expensive', `ntev` 'long' and `coob`
+    'many' as adjectives, but in Hmong they are stative verbs. True adjectives are
+    a closed class of eight that precede the noun (White 2021: 144-146, agreeing
+    with Bisang 1993): `niag`, `nyuag`, `laus`, `me`, `me nyuam`, `qub`, `tuam`
+    and `zoo`. Those shared with stative verbs add the speaker's evaluation to
+    the verb's meaning (`zoo` 'good, auspicious' beside 'be good'), so WOLD's
+    'good', 'old' and 'small' are the verb readings, and the rule has no
+    exceptions among its meanings. The adjective is needed for linking, since a
+    concept set maps to an adjective synset and linking matches parts of speech,
+    so this runs after linking. A speaker's part of speech `a` in an adjudication
+    keeps an adjective, and words typed as adjectives by their concept set, like
+    the numerals, are not wordlist adjectives and stay unless a speaker's `v`
+    moves them: `coob` 'many' is a quantifier that is also a stative verb. The
+    sense joins the form's verb entry where there is one, so that `kim` has one
+    entry, not two. Returns the number of senses moved.
+    """
+    index = {(entry.form, entry.pos, entry.dialect): entry for entry in entries}
+    moved = 0
+    for entry in list(entries):
+        if entry.pos != "a":
+            continue
+        stative = [s for s in entry.senses if s.speaker_pos == "v"
+                   or (s.wordlist_adjective and s.speaker_pos != "a")]
+        if not stative:
+            continue
+        target = index.get((entry.form, "v", entry.dialect))
+        if target is None and len(stative) == len(entry.senses):
+            # the whole entry moves: retype it in place
+            entry.pos = "v"
+            index[(entry.form, "v", entry.dialect)] = entry
+            del index[(entry.form, "a", entry.dialect)]
+            for sense in stative:
+                sense.pos_override = "v"
+            moved += len(stative)
+            continue
+        if target is None:
+            target = Entry(entry.form, "v", dialect=entry.dialect)
+            index[(entry.form, "v", entry.dialect)] = target
+            entries.append(target)
+        for sense in stative:
+            sense.pos_override = "v"
+            entry.senses.remove(sense)
+            target.senses.append(sense)
+            moved += 1
+        if not entry.senses:
+            fold_entry(target, entry)
+            entries.remove(entry)
+            del index[(entry.form, "a", entry.dialect)]
+        else:
+            for source in entry.sources:
+                if source not in target.sources:
+                    target.sources.append(source)
+    return moved
 
 
 def type_function_words(
@@ -2001,6 +2064,8 @@ def main() -> int:
                   f"'{proposal['GLOSS']}' ({proposal['DIALECT']}) to propose",
                   file=sys.stderr)
 
+    restated = restate_adjectives(entries)
+    print(f"  wrote {restated} wordlist adjectives as stative verbs")
     record_ili_pos(senses, english)
     deferred = defer_weak_links(entries)
     if deferred:

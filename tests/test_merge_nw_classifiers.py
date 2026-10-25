@@ -55,13 +55,24 @@ def test_common_form_becomes_a_row_per_dialect_and_a_sandhi_form_a_variant() -> 
 
 
 def test_sandhi_form_needs_a_base_with_the_same_gloss() -> None:
-    table = ours(("kauj", "WH", "W:340"))
+    # an invented pair: the tone rule allows paug < pauj, but the glosses differ
+    table = ours(("pauj", "WH", "W:340"))
     added, log = m.merge(table, [
+        nw("pauj", "WH", "cl:spool", "mensural", "White 2021:340"),
+        nw("paug", "WH", "vcl:bite", "verbal action", "White 2021:538", "sandhi form"),
+    ])
+    assert added == []
+    assert any(line.startswith("SKIP   paug") for line in log)
+
+
+def test_sandhi_form_of_a_noun_is_added_with_its_base_in_the_note() -> None:
+    # kaug 'bite' is the sandhi form of the noun kaus 'tusk', not of a classifier
+    added, _ = m.merge(ours(("kauj", "WH", "W:340")), [
         nw("kauj", "WH", "cl:spool", "mensural", "White 2021:340"),
         nw("kaug", "WH", "vcl:bite", "verbal action", "White 2021:538", "sandhi form"),
     ])
-    assert added == []
-    assert any(line.startswith("SKIP   kaug") for line in log)
+    assert [(r["FORM"], r["DISPOSITION"]) for r in added] == [("kaug", "")]
+    assert "kaus 'tusk'" in added[0]["NOTE"]
 
 
 def test_green_mong_spelling_is_not_made_white_hmong() -> None:

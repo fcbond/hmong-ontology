@@ -159,11 +159,15 @@ zaj	WH	event	mensural	classifier	classifier;class_noun	an event classifier used 
 tsab	WH	sortal	mensural	classifier	classifier	a sortal classifier used with nouns denoting messages	ntawv (letter); xov (news)	B:10; W:333, 337, 381	class disagreement: Bisang's classifier gives sortal, White's mensural gives mensural	
 ntiv	WH	mensural	measure_word	measure	quantifier	a mensural classifier of length: the width of a finger		B:35; W:366-367; NW:p.c.	White (Sec. 7.6.1, pp. 366-367) treats measure words as classifier-like, with numeral-classifier syntax, measuring rather than classifying; Bisang counts them as quantifiers	
 xib	WH	mensural	measure_word	measure	quantifier	a mensural classifier of length: the width of the palm of the hand		B:35; W:366-367	White (Sec. 7.6.1, pp. 366-367) treats measure words as classifier-like, with numeral-classifier syntax, measuring rather than classifying; Bisang counts them as quantifiers	
-taus	WH	mensural		measure	quantifier	a mensural classifier of length: the width of one fist		B:35	not in White's measure-word list (pp. 366-367); Bisang alone	
-noos	WH	mensural		measure	quantifier	a mensural classifier of length: the distance between the end of the thumb and the end of the extended first finger		B:35	not in White's measure-word list (pp. 366-367); Bisang alone	
+taus	WH	mensural	measure_word	measure	quantifier	a mensural classifier of length: the width of one fist		B:35; NW:p.c.	not in White's measure-word list (pp. 366-367); attested in White's field notes from four speakers, though not in White (2021) (N. White, p.c., 2026-10-25)	
+noos	WH	mensural	measure_word	measure	quantifier	a mensural classifier of length: the distance between the end of the thumb and the end of the extended first finger		B:35; NW:p.c.	not in White's measure-word list (pp. 366-367); attested in White's field notes from four speakers, though not in White (2021) (N. White, p.c., 2026-10-25)	
 dos	WH	mensural	measure_word	measure	quantifier	a mensural classifier of length: the distance between the thumb and the extended middle finger		B:35; W:366-367	White (Sec. 7.6.1, pp. 366-367) treats measure words as classifier-like, with numeral-classifier syntax, measuring rather than classifying; Bisang counts them as quantifiers	
 tshim	WH	mensural	measure_word	measure	quantifier	a mensural classifier of length: one cubit, the distance between elbow and fingertip		B:35; W:366-367	White (Sec. 7.6.1, pp. 366-367) treats measure words as classifier-like, with numeral-classifier syntax, measuring rather than classifying; Bisang counts them as quantifiers	
-daj	WH	mensural		measure	quantifier	a mensural classifier of length: the distance from fingertip to fingertip with the arms outstretched		B:35	not in White's measure-word list (pp. 366-367); Bisang alone	
+daj	WH	mensural	measure_word	measure	quantifier	a mensural classifier of length: the distance from fingertip to fingertip with the arms outstretched		B:35; NW:p.c.	not in White's measure-word list (pp. 366-367); attested in White's field notes from four speakers, though not in White (2021) (N. White, p.c., 2026-10-25)	
+dag	WH	mensural	measure_word		classifier			NW:p.c.	tone-melody alternant of daj; attested in White's field notes from four speakers, though not in White (2021) (N. White, p.c., 2026-10-25)	variant-of:daj
+dlaag	GM	mensural	measure_word		classifier	a measure word: the span of the outstretched arms, fingertip to fingertip; Green Mong form of White Hmong daj		NW:p.c.	attested in White's field notes, though not in White (2021) (N. White, p.c., 2026-10-25)	
+taus	GM	mensural	measure_word		classifier	a measure word: the width of one fist		NW:p.c.	attested in White's field notes, though not in White (2021) (N. White, p.c., 2026-10-25)	
+noos	GM	mensural	measure_word		classifier	a measure word: the distance from the tip of the thumb to the tip of the extended first finger		NW:p.c.	attested in White's field notes, though not in White (2021) (N. White, p.c., 2026-10-25)	
 pas	WH	mensural	mensural	measure	quantifier	a mensural classifier of length: the length of a measuring rod	dej (water)	B:35; W:334, 337		
 ncua hneev	WH	mensural		measure	quantifier	a mensural classifier of length: the approximate range of a crossbow, about 50 metres		B:35		
 ncua phom	WH	mensural		measure	quantifier	a mensural classifier of length: the approximate range of a gun, about 250 metres		B:35		
@@ -188,11 +192,11 @@ tsib	WH	mensural		measure	quantifier	a mensural classifier of capacity: one jug	
 ntim	WH	mensural		measure	quantifier	a mensural classifier of capacity: one small Chinese-style rice bowl		B:35-36		
 phaj	WH	mensural		measure	quantifier	a mensural classifier of capacity: one plate		B:35-36		
 txawm	WH	mensural		measure	quantifier	a mensural classifier of capacity: one batch or brew of liquor		B:35-36		
-txaum	WH	mensural		measure	quantifier	a mensural classifier of capacity: one batch or brew of liquor		B:35-36		
+txaum	WH	mensural	mensural	measure	quantifier	a mensural classifier of capacity: one batch or brew of liquor		B:35-36; NW:p.c.	N. White (p.c., 2026-10-25): a mensural classifier that readily appears with the right noun	
 kab	WH	mensural	mensural	measure	quantifier	a mensural classifier of capacity: one pipeful	yeeb (pipeful of opium)	B:35-36; W:381-382		
 khawv	WH	mensural	mensural	measure	quantifier	a mensural classifier of capacity: one mouthful	mov (mouthful of rice)	B:35-36; W:337		
-lo	WH	mensural	mensural	measure	quantifier;classifier	a mensural classifier of capacity meaning one mouthful, used above all with lus 'speech', where it takes on almost classifier-like force	lus (word); mov (mouthful of rice); dej (mouthful of water)	B:10,22,36; W:334, 337, 382	White: a classifier, not a class noun (pp. 359-361)	
-los	WH	mensural		measure	quantifier	a variant of lo: a mensural classifier meaning one mouthful	mov (mouthful of rice); dej (mouthful of water)	B:36		
+lo	WH	mensural	mensural	measure	quantifier;classifier	a mensural classifier of capacity meaning one mouthful, used above all with lus 'speech', where it takes on almost classifier-like force	lus (word); mov (mouthful of rice); dej (mouthful of water)	B:10,22,36; W:334, 337, 382; NW:p.c.	White: a classifier, not a class noun (pp. 359-361); N. White (p.c., 2026-10-25): a mensural classifier that readily appears with the right noun	
+los	WH	mensural	mensural	measure	quantifier	a variant of lo: a mensural classifier meaning one mouthful	mov (mouthful of rice); dej (mouthful of water)	B:36; NW:p.c.	N. White (p.c., 2026-10-25): a mensural classifier that readily appears with the right noun; the tone-melody alternant of lo	
 plas	WH	mensural	mensural	measure	quantifier	a mensural classifier for a wide expanse of ground	toj (mountain slope); teb (large field)	B:36; W:337		
 thaj	WH	mensural	mensural	measure	quantifier	a mensural classifier for a patch or grove of vegetation, and for a field	chaw (piece of land); av (field of earth); nplej (field of rice); yeeb (poppy field); pob kws (field of maize); nceb (field of mushrooms)	B:36; W:333, 337		
 pliag	WH	mensural	time	measure	quantifier	a mensural classifier of time: one second		B:36; W:73		
@@ -207,7 +211,7 @@ hnub	WH	mensural	time	measure	quantifier	a mensural classifier of time: one day	
 hmos	WH	mensural		measure	quantifier	a mensural classifier of time: one night		B:36		
 lis piam	WH	mensural		measure	quantifier	a mensural classifier of time: one week		B:36		
 hlis	WH	mensural		measure	quantifier	a mensural classifier of time: one month		B:36		
-ntus	WH	mensural		measure	quantifier	a mensural classifier of time: a period of two to three months		B:36		
+ntus	WH	mensural	mensural	measure	quantifier	a mensural classifier of time: a period of two to three months		B:36; NW:p.c.	N. White (p.c., 2026-10-25): a mensural classifier that readily appears with the right noun; he pairs it with ntu as its tone-melody alternant	
 xyoo	WH	mensural	time	measure	quantifier	a mensural classifier of time: one year		B:36; W:345-346; W19:226; W19:233		
 tsob	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with bush-like plants, whose parts form one visible unit	ntoo (bush-like tree); nplej (rice plant); xyooj (bamboo plant); nroj (tuft of grass); pos (briar)	B:13,37; W:333, 337; W19:228		
 phau	WH	mensural	mensural	intrinsic_quantifier	quantifier	a mensural classifier used with piled-up or accumulated objects; with ntawv 'paper' it yields 'book' and behaves almost like a classifier	ntawv (book); ris tsho (pile of garments); nyiaj (bundle of bank notes)	B:22,37; W:333-337; W19:236	White: a classifier, not a class noun (pp. 359-361)	
@@ -324,7 +328,7 @@ ntav	WH	sortal	locational		classifier	a locational classifier referring to the m
 ntsuj	GM	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of land, for a tract of ground or forest	av (land); zoov (jungle)	W:333, 337		
 ntsuj	WH	mensural	mensural		classifier	a mensural classifier characterizing the inherent nature of land, for a tract of ground or forest	av (land); zoov (jungle)	W:333, 337		
 ntu	GM	mensural	mensural		classifier	a mensural classifier individuating a segment or stretch of an extended entity, especially a road; also glossed CL:DISTANCE	kev (road, way)	W:334-337		
-ntu	WH	mensural	mensural		classifier	a mensural classifier individuating a segment or stretch of an extended entity, especially a road; also glossed CL:DISTANCE	kev (road, way)	W:334-337		
+ntu	WH	mensural	mensural		classifier	a mensural classifier individuating a segment or stretch of an extended entity, especially a road; also glossed CL:DISTANCE	kev (road, way)	W:334-337; NW:p.c.	N. White (p.c., 2026-10-25): a mensural classifier that readily appears with the right noun	
 nub	GM	mensural	time		classifier	a time classifier for a day		W:345		
 paab	GM	group	collective		classifier	a collective classifier of quanta combined with animateness, for a group or herd of animates	tsuv (tigers); maa (wild canids); Moob (Hmong)	W:342, 409		
 pawg	GM	group	collective		classifier	a collective classifier of quanta, for a group of people or things; with mass nouns it instead means 'pile' and is glossed CL:PILE	neeg (human beings); tib neeg (human beings); Hmoob (Hmong); kwv tij (brothers, consanguineal relatives); xuab zeb (sand)	W:340-342, 371-372; W19:234		
@@ -390,7 +394,6 @@ cuam	WH	mensural	time		classifier	a mensural classifier of time glossed 'time' b
 cuam	GM	mensural	time		classifier	a mensural classifier of time glossed 'time' by White		W:445		
 diav	WH	mensural	container		classifier	a container classifier glossed 'spoon' by White		NW:p.c.		
 dlav	GM	mensural	container		classifier	a container classifier glossed 'spoon' by White		W:593		
-dos	GM	mensural	measure_word		classifier	a measure word glossed 'middle finger tip to thumb tip' by White		W:367		
 dos las	WH	mensural	mensural		classifier	a mensural classifier glossed 'dollar' by White		W:411		
 feeb	WH	mensural	time		classifier	a mensural classifier of time glossed 'minute, second' by White		W:591,612		
 feeb	GM	mensural	time		classifier	a mensural classifier of time glossed 'minute, second' by White		W:591,612		
@@ -448,3 +451,4 @@ xyoos	GM	mensural	time		classifier	a mensural classifier of time glossed 'year' 
 yaav	GM	mensural	time		classifier	a mensural classifier of time glossed 'period' by White		W:486		
 yav	WH	mensural	time		classifier	a mensural classifier of time glossed 'period' by White		W:438		
 zog	WH	mensural	container		classifier	a container classifier glossed 'village' by White		NW:p.c.	tone-melody alternant of zos	variant-of:zos
+kaug	WH	event	verbal_action		classifier	a verbal action classifier glossed 'bite' by White		W:538	sandhi form; base probably kaus 'tusk' (Green Mong kaug), to be confirmed with a speaker (N. White p.c. 2026-10-25); Heimbach (1979, App. 1) gives kaus 'fang' and tom ib kaug 'bitten once'	

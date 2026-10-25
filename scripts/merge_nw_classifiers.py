@@ -102,6 +102,17 @@ def source_keys(citation: str) -> list[str]:
     return keys or ["NW:p.c."]
 
 
+#: sandhi forms whose base is a noun rather than a classifier in his list, so the
+#: tone rule finds nothing; such a form is added as a row of its own, with the base
+#: in its note. kaug occurs only after ib 'one' and ob 'two', where sandhi applies,
+#: and an unsandhied form would need a numeral above five
+NOUN_BASES = {
+    ("kaug", "WH"): ("base probably kaus 'tusk' (Green Mong kaug), to be confirmed "
+                     "with a speaker (N. White p.c. 2026-10-25); Heimbach (1979, "
+                     "App. 1) gives kaus 'fang' and tom ib kaug 'bitten once'"),
+}
+
+
 def sandhi_bases(form: str) -> list[str]:
     """The forms the tone-melody rule could have turned into `form`."""
     head, last = form[:-1], form[-1]
@@ -158,7 +169,9 @@ def merge(ours: list[dict[str, str]], theirs: list[dict[str, str]]
             continue
         disposition = ""
         note = row["NOTE"]
-        if "sandhi" in note or note.startswith("variant of"):
+        if key in NOUN_BASES:
+            note = f"{note}; {NOUN_BASES[key]}"
+        elif "sandhi" in note or note.startswith("variant of"):
             named = re.match(r"variant of (\S+)", note)
             candidates = [named.group(1)] if named else sandhi_bases(row["FORM"])
             # the base must be his form for the same meaning: kaug 'bite' is not

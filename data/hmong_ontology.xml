@@ -4288,7 +4288,7 @@
 				<meaning>a mensural classifier of length: the width of one fist</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; NW:p.c.; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -8028,6 +8028,7 @@
 		<lemma>
 			<form>daj</form>
 			<dialect>WH</dialect>
+			<variant>dag</variant>
 			<sense>
 				<meaning>be yellow</meaning>
 				<category>verb.change</category>
@@ -8036,7 +8037,7 @@
 				<meaning>a mensural classifier of length: the distance from fingertip to fingertip with the arms outstretched</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; NW:p.c.; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -8787,7 +8788,7 @@
 				<function>quantifier</function>
 				<classifies form="mov">mouthful of rice</classifies>
 				<classifies form="dej">mouthful of water</classifies>
-				<note>attestation: B:36; Bisang's category: measure</note>
+				<note>attestation: B:36; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12618,7 +12619,7 @@
 				<meaning>a mensural classifier of length: the distance between the end of the thumb and the end of the extended first finger</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35; Bisang's category: measure</note>
+				<note>attestation: B:35; NW:p.c.; White's category: measure_word; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12778,7 +12779,7 @@
 				<meaning>a mensural classifier of capacity: one batch or brew of liquor</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:35-36; Bisang's category: measure</note>
+				<note>attestation: B:35-36; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12804,7 +12805,7 @@
 				<classifies form="lus">word</classifies>
 				<classifies form="mov">mouthful of rice</classifies>
 				<classifies form="dej">mouthful of water</classifies>
-				<note>attestation: B:10,22,36; W:334, 337, 382; White's category: mensural; Bisang's category: measure</note>
+				<note>attestation: B:10,22,36; W:334, 337, 382; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -12910,7 +12911,7 @@
 				<meaning>a mensural classifier of time: a period of two to three months</meaning>
 				<category>mensural_classifier</category>
 				<function>quantifier</function>
-				<note>attestation: B:36; Bisang's category: measure</note>
+				<note>attestation: B:36; NW:p.c.; White's category: mensural; Bisang's category: measure</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -13920,7 +13921,7 @@
 				<category>mensural_classifier</category>
 				<function>classifier</function>
 				<classifies form="kev">road, way</classifies>
-				<note>attestation: W:334-337; White's category: mensural</note>
+				<note>attestation: W:334-337; NW:p.c.; White's category: mensural</note>
 			</sense>
 		</lemma>
 		<lemma>
@@ -16024,16 +16025,6 @@
 			</sense>
 		</lemma>
 		<lemma>
-			<form>dos</form>
-			<dialect>GM</dialect>
-			<sense>
-				<meaning>a measure word glossed 'middle finger tip to thumb tip' by White</meaning>
-				<category>mensural_classifier</category>
-				<function>classifier</function>
-				<note>attestation: W:367; White's category: measure_word</note>
-			</sense>
-		</lemma>
-		<lemma>
 			<form>dos_las</form>
 			<dialect>WH</dialect>
 			<sense>
@@ -16421,6 +16412,46 @@
 				<category>mensural_classifier</category>
 				<function>classifier</function>
 				<note>attestation: W:486; White's category: time</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>dlaag</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: the span of the outstretched arms, fingertip to fingertip; Green Mong form of White Hmong daj</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>taus</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: the width of one fist</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>noos</form>
+			<dialect>GM</dialect>
+			<sense>
+				<meaning>a measure word: the distance from the tip of the thumb to the tip of the extended first finger</meaning>
+				<category>mensural_classifier</category>
+				<function>classifier</function>
+				<note>attestation: NW:p.c.; White's category: measure_word</note>
+			</sense>
+		</lemma>
+		<lemma>
+			<form>kaug</form>
+			<dialect>WH</dialect>
+			<sense>
+				<meaning>a verbal action classifier glossed 'bite' by White</meaning>
+				<category>event_classifier</category>
+				<function>classifier</function>
+				<note>attestation: W:538; White's category: verbal_action</note>
 			</sense>
 		</lemma>
 	</word_set>
